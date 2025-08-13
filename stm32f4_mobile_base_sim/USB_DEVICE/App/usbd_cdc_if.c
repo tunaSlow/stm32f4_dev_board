@@ -20,8 +20,9 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "usbd_cdc_if.h"
+
 /* USER CODE BEGIN INCLUDE */
-#include "../usb_data.h"
+
 /* USER CODE END INCLUDE */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -30,6 +31,12 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
+// usbd_cdc_if.c
+
+#define USB_RX_BUFFER_SIZE 64
+uint8_t usb_rx_buffer[USB_RX_BUFFER_SIZE];
+uint32_t usb_rx_length = 0;
+volatile uint8_t usb_data_received = 0;
 
 /* USER CODE END PV */
 
@@ -262,13 +269,15 @@ static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
 {
 	/* USER CODE BEGIN 6 */
 
+
+	usb_rx_length = *Len;
+	if (usb_rx_length <= USB_RX_BUFFER_SIZE) {
+		memcpy(usb_rx_buffer, Buf, usb_rx_length);
+		usb_data_received = 1;
+	}
+
+
 	// Copy to your own buffer (make sure it fits)
-	    if (*Len <= USB_RX_BUFFER_SIZE)
-	    {
-	        memcpy(USB_RxBuffer, Buf, *Len);
-	        USB_RxLength = *Len;
-	        USB_DataReady = 1; // Flag that new data is ready
-	    }
 
 	USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
 	USBD_CDC_ReceivePacket(&hUsbDeviceFS);
