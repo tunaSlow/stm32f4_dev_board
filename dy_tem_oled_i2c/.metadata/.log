@@ -216,3 +216,21 @@ java.lang.Exception: The project description file (.project) for 'Cammand_ROS' i
 
 !ENTRY org.eclipse.cdt.core 1 0 2025-08-13 09:09:56.905
 !MESSAGE Indexed 'Cammand_ROS' (40 sources, 179 headers) in 2.98 sec: 18,063 declarations; 73,077 references; 3 unresolved inclusions; 46 syntax errors; 266 unresolved names (0.29%)
+!SESSION 2025-08-13 22:48:27.146 -----------------------------------------------
+eclipse.buildId=Version 1.19.0
+java.version=21.0.3
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86_64
+
+!ENTRY org.eclipse.core.resources 2 10035 2025-08-13 22:48:29.095
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2025-08-13 22:48:31.732
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2025-08-13 22:48:31.732
+!MESSAGE Log4j2 initialized with config file /home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/dy_tem_oled_i2c/.metadata/.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2025-08-13 22:48:35.178
+!MESSAGE Started RMI Server, listening on port 41337
