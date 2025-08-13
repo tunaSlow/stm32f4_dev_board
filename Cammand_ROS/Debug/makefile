@@ -70,8 +70,8 @@ all: main-build
 main-build: Cammand_ROS.elf secondary-outputs
 
 # Tool invocations
-Cammand_ROS.elf Cammand_ROS.map: $(OBJS) $(USER_OBJS) /home/tuna/STM32CubeIDE/workspace_1.18.1/Cammand_ROS/STM32G474RBTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Cammand_ROS.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/home/tuna/STM32CubeIDE/workspace_1.18.1/Cammand_ROS/STM32G474RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Cammand_ROS.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Cammand_ROS.elf Cammand_ROS.map: $(OBJS) $(USER_OBJS) /home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/Cammand_ROS/STM32G474RBTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Cammand_ROS.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/Cammand_ROS/STM32G474RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Cammand_ROS.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
