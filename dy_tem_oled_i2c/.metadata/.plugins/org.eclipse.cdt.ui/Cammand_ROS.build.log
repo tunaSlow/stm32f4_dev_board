@@ -1,0 +1,10 @@
+18:48:27 **** Incremental Build of configuration Debug for project Cammand_ROS ****
+make -j16 all 
+arm-none-eabi-size  Cammand_ROS.elf 
+   text	   data	    bss	    dec	    hex	filename
+  55376	    436	   9068	  64880	   fd70	Cammand_ROS.elf
+Finished building: default.size.stdout
+ 
+
+18:48:27 Build Finished. 0 errors, 0 warnings. (took 157ms)
+

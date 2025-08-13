@@ -1,0 +1,6 @@
+../Core/Src/main.c:63:6:I2C_ScanAndDisplay	4
+../Core/Src/main.c:97:6:I2C_ScanAndFindLM75A	4
+../Core/Src/main.c:112:7:LM75A_ReadTemperature_Fine	3
+../Core/Src/main.c:148:5:main	1
+../Core/Src/main.c:232:6:SystemClock_Config	3
+../Core/Src/main.c:283:6:Error_Handler	1

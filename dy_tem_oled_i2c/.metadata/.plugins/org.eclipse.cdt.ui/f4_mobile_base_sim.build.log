@@ -1,0 +1,10 @@
+19:54:07 **** Incremental Build of configuration Debug for project f4_mobile_base_sim ****
+make -j16 all 
+arm-none-eabi-size  f4_mobile_base_sim.elf 
+   text	   data	    bss	    dec	    hex	filename
+  19264	     60	   2268	  21592	   5458	f4_mobile_base_sim.elf
+Finished building: default.size.stdout
+ 
+
+19:54:07 Build Finished. 0 errors, 0 warnings. (took 172ms)
+

@@ -1,0 +1,2 @@
+../Core/Src/Robot_movement/Robot_base_movement.c:43:6:Robot_base_movement_init	8	static
+../Core/Src/Robot_movement/Robot_base_movement.c:51:6:Robot_base_movement_start	32	static

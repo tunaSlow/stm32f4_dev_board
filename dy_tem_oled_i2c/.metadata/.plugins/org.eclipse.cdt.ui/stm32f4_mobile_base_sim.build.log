@@ -1,0 +1,12 @@
+22:05:23 **** Incremental Build of configuration Debug for project stm32f4_mobile_base_sim ****
+make -j16 all 
+arm-none-eabi-gcc -o "stm32f4_mobile_base_sim.elf" @"objects.list"   -mcpu=cortex-m4 -T"/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/stm32f4_mobile_base_sim/STM32F407ZGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="stm32f4_mobile_base_sim.map" -Wl,--gc-sections -static -u _printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+/home/tuna/st/stm32cubeide_1.18.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.linux64_1.0.0.202410170706/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/bin/ld: ./USB_DEVICE/App/usbd_cdc_if.o:/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/stm32f4_mobile_base_sim/Debug/../Core/Inc/../usb_data.h:13: multiple definition of `USB_RxBuffer'; ./Core/Src/main.o:/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/stm32f4_mobile_base_sim/Debug/../Core/Src/../usb_data.h:13: first defined here
+/home/tuna/st/stm32cubeide_1.18.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.linux64_1.0.0.202410170706/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/bin/ld: ./USB_DEVICE/App/usbd_cdc_if.o:/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/stm32f4_mobile_base_sim/Debug/../Core/Inc/../usb_data.h:14: multiple definition of `USB_RxLength'; ./Core/Src/main.o:/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/stm32f4_mobile_base_sim/Debug/../Core/Src/../usb_data.h:14: first defined here
+/home/tuna/st/stm32cubeide_1.18.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.linux64_1.0.0.202410170706/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/bin/ld: ./USB_DEVICE/App/usbd_cdc_if.o:/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/stm32f4_mobile_base_sim/Debug/../Core/Inc/../usb_data.h:15: multiple definition of `USB_DataReady'; ./Core/Src/main.o:/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/stm32f4_mobile_base_sim/Debug/../Core/Src/../usb_data.h:15: first defined here
+collect2: error: ld returned 1 exit status
+make: *** [makefile:69: stm32f4_mobile_base_sim.elf] Error 1
+"make -j16 all" terminated with exit code 2. Build might be incomplete.
+
+22:05:23 Build Failed. 4 errors, 0 warnings. (took 269ms)
+
