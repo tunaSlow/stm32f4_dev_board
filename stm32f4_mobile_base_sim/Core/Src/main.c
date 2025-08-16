@@ -51,6 +51,7 @@
 
 /* USER CODE BEGIN PV */
 
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -140,6 +141,8 @@ float LM75A_ReadTemperature_Fine(void)
 }
 
 
+extern float vx_f, vy_f, vw_f;  // Declare these as extern if defined globally
+
 /* USER CODE END 0 */
 
 /**
@@ -179,7 +182,11 @@ int main(void)
 	ssd1306_Init();
 	I2C_ScanAndFindLM75A();
 
-	char buffer[20];
+
+	char buffer[32];
+
+	char line[24];
+
 
 	/* USER CODE END 2 */
 
@@ -193,6 +200,8 @@ int main(void)
 		float voltage = adc_val * 3.3f / 4095.0f;
 
 		// Clear the display
+
+		//		SSD1306_Clear();
 		ssd1306_Fill(Black);
 
 		// Line 1: Temperature
@@ -206,29 +215,29 @@ int main(void)
 		snprintf(buffer, sizeof(buffer), "Pot: %ld (%.2fV)", adc_val, voltage);
 		ssd1306_WriteString(buffer, Font_7x10, White);
 
-		// Line 3: USB Data (if available)
-		if (usb_data_received)
-		{
-			usb_data_received = 0;
 
-			// Null-terminate safely
-			if (usb_rx_length < USB_RX_BUFFER_SIZE) {
-				usb_rx_buffer[usb_rx_length] = '\0';
-			} else {
-				usb_rx_buffer[USB_RX_BUFFER_SIZE - 1] = '\0';
-			}
-		}
-
-		// Always show last received USB message
+		//
+		// Vx
 		ssd1306_SetCursor(2, 24);
-
-		snprintf(buffer, sizeof(buffer), "Data: %s", usb_rx_buffer);
+		snprintf(buffer, sizeof(buffer), "Vx: %.3f", vx_f);
 		ssd1306_WriteString(buffer, Font_7x10, White);
+
+		// Vy
+		ssd1306_SetCursor(2, 36);
+		snprintf(buffer, sizeof(buffer), "Vy: %.3f", vy_f);
+		ssd1306_WriteString(buffer, Font_7x10, White);
+
+		// Vw
+		ssd1306_SetCursor(2, 48);
+		snprintf(buffer, sizeof(buffer), "Vw: %.3f", vw_f);
+		ssd1306_WriteString(buffer, Font_7x10, White);
+
+
 
 		// Update the display
 		ssd1306_UpdateScreen();
 
-		HAL_Delay(10);
+		HAL_Delay(50);
 	}
 	/* USER CODE END WHILE */
 

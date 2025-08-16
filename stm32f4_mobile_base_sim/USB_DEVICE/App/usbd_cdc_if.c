@@ -31,12 +31,46 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-// usbd_cdc_if.c
 
-#define USB_RX_BUFFER_SIZE 64
-uint8_t usb_rx_buffer[USB_RX_BUFFER_SIZE];
-uint32_t usb_rx_length = 0;
-volatile uint8_t usb_data_received = 0;
+#include <stdint.h>
+#include <string.h>
+
+#define HEADER_1 0xAA
+#define HEADER_2 0x55
+#define PAYLOAD_SIZE 12
+#define FRAME_SIZE (2 + PAYLOAD_SIZE + 2)
+
+typedef struct {
+    int16_t vx;
+    int16_t vy;
+    int16_t vw;
+    uint8_t seq;
+    uint8_t payload_len;
+} VelocityPacket;
+
+uint16_t crc16_ccitt(const uint8_t *data, uint16_t length) {
+    uint16_t crc = 0xFFFF;
+    for (uint16_t i = 0; i < length; i++) {
+        crc ^= (data[i] << 8);
+        for (uint8_t j = 0; j < 8; j++) {
+            crc = (crc & 0x8000) ? ((crc << 1) ^ 0x1021) : (crc << 1);
+        }
+    }
+    return crc;
+}
+
+
+float vx_f = 0.0f, vy_f = 0.0f, vw_f = 0.0f;
+
+void process_velocity(int16_t vx, int16_t vy, int16_t vw) {
+    vx_f = vx / 1000.0f;
+    vy_f = vy / 1000.0f;
+    vw_f = vw / 1000.0f;
+
+}
+
+
+
 
 /* USER CODE END PV */
 
@@ -55,6 +89,7 @@ volatile uint8_t usb_data_received = 0;
  */
 
 /* USER CODE BEGIN PRIVATE_TYPES */
+
 
 /* USER CODE END PRIVATE_TYPES */
 
@@ -81,6 +116,8 @@ volatile uint8_t usb_data_received = 0;
  */
 
 /* USER CODE BEGIN PRIVATE_MACRO */
+
+
 
 /* USER CODE END PRIVATE_MACRO */
 
@@ -269,12 +306,25 @@ static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
 {
 	/* USER CODE BEGIN 6 */
 
+	// Just enqueue bytes (ISR context), no parsing/drawing here
 
-	usb_rx_length = *Len;
-	if (usb_rx_length <= USB_RX_BUFFER_SIZE) {
-		memcpy(usb_rx_buffer, Buf, usb_rx_length);
-		usb_data_received = 1;
-	}
+	if (Len >= FRAME_SIZE && Buf[0] == HEADER_1 && Buf[1] == HEADER_2) {
+	        uint16_t received_crc = Buf[FRAME_SIZE - 2] | (Buf[FRAME_SIZE - 1] << 8);
+	        uint16_t computed_crc = crc16_ccitt(&Buf[2], PAYLOAD_SIZE);
+
+	        if (received_crc == computed_crc) {
+	            VelocityPacket packet;
+	            packet.vx = (int16_t)(Buf[6] | (Buf[7] << 8));
+	            packet.vy = (int16_t)(Buf[8] | (Buf[9] << 8));
+	            packet.vw = (int16_t)(Buf[10] | (Buf[11] << 8));
+	            packet.seq = Buf[12];
+	            packet.payload_len = Buf[13];
+
+	            process_velocity(packet.vx, packet.vy, packet.vw);
+	        }
+	    }
+
+
 
 
 	// Copy to your own buffer (make sure it fits)

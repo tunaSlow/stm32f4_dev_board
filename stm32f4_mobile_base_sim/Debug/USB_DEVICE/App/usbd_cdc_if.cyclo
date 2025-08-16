@@ -1,6 +1,8 @@
-../USB_DEVICE/App/usbd_cdc_if.c:159:15:CDC_Init_FS	1
-../USB_DEVICE/App/usbd_cdc_if.c:173:15:CDC_DeInit_FS	1
-../USB_DEVICE/App/usbd_cdc_if.c:187:15:CDC_Control_FS	1
-../USB_DEVICE/App/usbd_cdc_if.c:268:15:CDC_Receive_FS	2
-../USB_DEVICE/App/usbd_cdc_if.c:304:9:CDC_Transmit_FS	2
-../USB_DEVICE/App/usbd_cdc_if.c:330:15:CDC_TransmitCplt_FS	1
+../USB_DEVICE/App/usbd_cdc_if.c:51:10:crc16_ccitt	4
+../USB_DEVICE/App/usbd_cdc_if.c:65:6:process_velocity	1
+../USB_DEVICE/App/usbd_cdc_if.c:196:15:CDC_Init_FS	1
+../USB_DEVICE/App/usbd_cdc_if.c:210:15:CDC_DeInit_FS	1
+../USB_DEVICE/App/usbd_cdc_if.c:224:15:CDC_Control_FS	1
+../USB_DEVICE/App/usbd_cdc_if.c:305:15:CDC_Receive_FS	5
+../USB_DEVICE/App/usbd_cdc_if.c:354:9:CDC_Transmit_FS	2
+../USB_DEVICE/App/usbd_cdc_if.c:380:15:CDC_TransmitCplt_FS	1

@@ -31,10 +31,7 @@
 #include "usbd_cdc.h"
 
 /* USER CODE BEGIN INCLUDE */
-#define USB_RX_BUFFER_SIZE 64
- extern uint8_t usb_rx_buffer[];
- extern uint32_t usb_rx_length;
- extern volatile uint8_t usb_data_received;
+
 
 /* USER CODE END INCLUDE */
 
