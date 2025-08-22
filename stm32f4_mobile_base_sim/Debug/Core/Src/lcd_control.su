@@ -1,0 +1,8 @@
+../Core/Src/lcd_control.c:10:20:WR_CMD	16	static
+../Core/Src/lcd_control.c:14:6:LCD_Test_AllPixels	8	static
+../Core/Src/lcd_control.c:21:13:set_window	24	static
+../Core/Src/lcd_control.c:29:6:LCD_DrawBlock10x10	24	static
+../Core/Src/lcd_control.c:44:6:Probe_RS_and_Toggle	16	static
+../Core/Src/lcd_control.c:56:16:RD8	16	static
+../Core/Src/lcd_control.c:58:6:LCD_Read_ID_try	32	static
+../Core/Src/lcd_control.c:64:6:LCD_Test_Orientation	16	static

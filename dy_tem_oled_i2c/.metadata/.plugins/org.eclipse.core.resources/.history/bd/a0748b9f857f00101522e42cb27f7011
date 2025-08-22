@@ -1,0 +1,22 @@
+/*
+ * lcd_control.h
+ *
+ *  Created on: Aug 23, 2025
+ *      Author: tuna
+ */
+
+#ifndef INC_LCD_CONTROL_H_
+#define INC_LCD_CONTROL_H_
+
+#include "main.h"
+
+
+
+void LCD_Test_AllPixels(void);
+static void set_window(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1);
+void LCD_DrawBlock10x10(uint16_t x, uint16_t y, uint16_t color);
+void Probe_RS_and_Toggle(void);
+
+
+
+#endif /* INC_LCD_CONTROL_H_ */

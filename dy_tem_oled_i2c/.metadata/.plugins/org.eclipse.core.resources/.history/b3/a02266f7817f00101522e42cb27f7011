@@ -1,0 +1,89 @@
+/*
+ * lcd_io.c
+ *
+ *  Created on: Aug 23, 2025
+ *      Author: tuna
+ */
+
+
+// lcd_io.c
+#include "lcd_io.h"
+
+// --- Timing helpers ---
+void LCD_Delay(uint32_t ms) { HAL_Delay(ms); }
+
+// --- FMC basic init (assumes MX_FMC_Init() already set pins/clocks) ---
+void LCD_FMC_Init(void) {
+    // If you used CubeMX to init FMC NORSRAM, nothing else needed here.
+    // Keep placeholder for any runtime tweaks if necessary.
+}
+
+// --- GPIO: RESET ---
+void LCD_Reset(void) {
+    HAL_GPIO_WritePin(GPIOG, GPIO_PIN_15, GPIO_PIN_RESET);
+    LCD_Delay(10);
+    HAL_GPIO_WritePin(GPIOG, GPIO_PIN_15, GPIO_PIN_SET);
+    LCD_Delay(120);
+}
+
+// --- GPIO: BACKLIGHT ---
+void LCD_Backlight_On(uint8_t on) {
+    HAL_GPIO_WritePin(LCD_BL_GPIO_Port, LCD_BL_Pin, on ? GPIO_PIN_SET : GPIO_PIN_RESET);
+}
+
+// --- Write helpers (8080, 16-bit data bus; we send 8-bit values in low byte) ---
+void LCD_WriteCmd(uint8_t cmd)      { LCD_REG16 = (uint16_t)cmd; }
+void LCD_WriteData8(uint8_t data)   { LCD_RAM16 = (uint16_t)data; }
+void LCD_WriteData16(uint16_t data) { LCD_RAM16 = data; }
+
+void LCD_WriteDataMulti(const uint8_t* buf, uint32_t len) {
+    while (len--) LCD_WriteData8(*buf++);
+}
+
+// --- Minimal DCS wake + RGB565 + display on ---
+// Works for many NT35510/RM68120/OTM8009A designs when exposed as 8080 bus
+void LCD_DisplayOn_Minimal(void) {
+    // Software Reset (optional, some boards require)
+    LCD_WriteCmd(0x01);    // SWRESET
+    LCD_Delay(5);
+
+    LCD_WriteCmd(0x11);    // Sleep Out
+    LCD_Delay(120);
+
+    LCD_WriteCmd(0x3A);    // COLMOD: Pixel Format Set
+    LCD_WriteData8(0x55);  // 16-bit (RGB565)
+
+    // MADCTL (optional - scan direction/orientation)
+    LCD_WriteCmd(0x36);    // Memory Access Control
+    LCD_WriteData8(0x00);  // tweak later for rotation/mirroring
+
+    LCD_WriteCmd(0x29);    // Display ON
+    LCD_Delay(20);
+}
+
+// --- Frame fill in RGB565 via 0x2C (Memory Write) ---
+static void set_window_full(void) {
+    // Column Address Set (0x2A)
+    LCD_WriteCmd(0x2A);
+    LCD_WriteData8(0x00);
+    LCD_WriteData8(0x00);                     // x0 = 0
+    LCD_WriteData8((LCD_WIDTH-1) >> 8);
+    LCD_WriteData8((LCD_WIDTH-1) & 0xFF);     // x1
+
+    // Page Address Set (0x2B)
+    LCD_WriteCmd(0x2B);
+    LCD_WriteData8(0x00);
+    LCD_WriteData8(0x00);                     // y0 = 0
+    LCD_WriteData8((LCD_HEIGHT-1) >> 8);
+    LCD_WriteData8((LCD_HEIGHT-1) & 0xFF);    // y1
+}
+
+void LCD_FillRGB565(uint16_t color) {
+    set_window_full();
+    LCD_WriteCmd(0x2C); // Memory Write
+
+    uint32_t n = (uint32_t)LCD_WIDTH * (uint32_t)LCD_HEIGHT;
+    while (n--) {
+        LCD_WriteData16(color);
+    }
+}

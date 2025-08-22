@@ -9,6 +9,7 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/stm32f4_lcd/stm32f4_lcd"/>
 			<item value="/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/dy_tem_oled_i2c/Core/Src"/>
 			<item value="/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/dy_tem_oled_i2c/Core"/>
 			<item value="/home/tuna/STM32CubeIDE/workspace_1.18.1"/>
@@ -37,6 +38,13 @@
 		<item key="TOGGLE_SELECTED" value="false"/>
 		<item key="DIALOG_WIDTH" value="650"/>
 		<item key="DIALOG_HEIGHT" value="528"/>
+		<item key="DIALOG_FONT_NAME" value="1|Ubuntu Sans|11.0|0|GTK|1|"/>
+	</section>
+	<section name="SaveAsDialogSettings">
+		<item key="DIALOG_X_ORIGIN" value="897"/>
+		<item key="DIALOG_Y_ORIGIN" value="258"/>
+		<item key="DIALOG_WIDTH" value="700"/>
+		<item key="DIALOG_HEIGHT" value="657"/>
 		<item key="DIALOG_FONT_NAME" value="1|Ubuntu Sans|11.0|0|GTK|1|"/>
 	</section>
 </section>

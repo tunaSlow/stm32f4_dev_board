@@ -1,0 +1,62 @@
+/*
+ * lcd_control.c
+ *
+ *  Created on: Aug 23, 2025
+ *      Author: tuna
+ */
+#include "lcd_control.h"
+
+static inline void WR_CMD(uint32_t reg, uint8_t c){ *(__IO uint16_t*)reg = c; }
+static inline void WR_DAT(uint32_t ram, uint16_t d){ *(__IO uint16_t*)ram = d; }
+
+// After RESET + Sleep Out (0x11) + PixelFormat (0x3A=0x55) + Display On (0x29):
+void LCD_Test_AllPixels(void) {
+	LCD_WriteCmd(0x23); // ALL PIXELS ON
+	HAL_Delay(500);
+	LCD_WriteCmd(0x22); // ALL PIXELS OFF (normal display)
+	HAL_Delay(500);
+}
+
+static void set_window(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1) {
+	LCD_WriteCmd(0x2A); // Column
+	LCD_WriteData8(x0 >> 8); LCD_WriteData8(x0 & 0xFF);
+	LCD_WriteData8(x1 >> 8); LCD_WriteData8(x1 & 0xFF);
+	LCD_WriteCmd(0x2B); // Page
+	LCD_WriteData8(y0 >> 8); LCD_WriteData8(y0 & 0xFF);
+	LCD_WriteData8(y1 >> 8); LCD_WriteData8(y1 & 0xFF);
+}
+void LCD_DrawBlock10x10(uint16_t x, uint16_t y, uint16_t color) {
+	set_window(x, y, x+9, y+9);
+	LCD_WriteCmd(0x2C); // RAMWR
+	for (int i=0; i<100; ++i) LCD_WriteData16(color);
+}
+
+
+
+static const struct { uint32_t REG, RAM; const char* name; } cand[] = {
+		{0x60000000, 0x60020000, "A16"},
+		{0x60000000, 0x60040000, "A17"},
+		{0x60000000, 0x60080000, "A18"},
+		{0x60000000, 0x60100000, "A19"},
+};
+
+void Probe_RS_and_Toggle(void){
+	for(int i=0;i<4;i++){
+		LCD_Reset();
+		WR_CMD(cand[i].REG, 0x11); HAL_Delay(150);
+		WR_CMD(cand[i].REG, 0x3A); *(__IO uint16_t*)cand[i].RAM = 0x55;
+		WR_CMD(cand[i].REG, 0x29); HAL_Delay(20);
+		// All pixels ON/OFF test:
+		WR_CMD(cand[i].REG, 0x23); HAL_Delay(400);
+		WR_CMD(cand[i].REG, 0x22); HAL_Delay(400);
+	}
+}
+
+static uint8_t RD8(uint32_t addr){ return *(__IO uint16_t*)addr & 0xFF; }
+
+bool LCD_Read_ID_try(uint32_t REG, uint32_t RAM, uint8_t id[3]){
+    WR_CMD(REG, 0x04); (void)RD8(RAM); // dummy
+    id[0] = RD8(RAM); id[1] = RD8(RAM); id[2] = RD8(RAM);
+    return (id[0]|id[1]|id[2]) != 0x00;
+}
+

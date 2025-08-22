@@ -1,0 +1,11 @@
+../Core/Src/lcd_io.c:13:6:LCD_Delay	1
+../Core/Src/lcd_io.c:16:6:LCD_FMC_Init	1
+../Core/Src/lcd_io.c:22:6:LCD_Reset	1
+../Core/Src/lcd_io.c:30:6:LCD_Backlight_On	1
+../Core/Src/lcd_io.c:35:6:LCD_WriteCmd	1
+../Core/Src/lcd_io.c:36:6:LCD_WriteData8	1
+../Core/Src/lcd_io.c:37:6:LCD_WriteData16	1
+../Core/Src/lcd_io.c:39:6:LCD_WriteDataMulti	2
+../Core/Src/lcd_io.c:45:6:LCD_DisplayOn_Minimal	1
+../Core/Src/lcd_io.c:65:13:set_window_full	1
+../Core/Src/lcd_io.c:81:6:LCD_FillRGB565	2

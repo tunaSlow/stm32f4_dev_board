@@ -29,6 +29,10 @@
 #include "ssd1306/ssd1306_fonts.h"
 #include "usbd_cdc_if.h"
 
+#include "lcd_io.h"
+#include "lcd_control.h"
+
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -143,6 +147,7 @@ float LM75A_ReadTemperature_Fine(void)
 
 extern float vx_f, vy_f, vw_f;  // Declare these as extern if defined globally
 
+
 /* USER CODE END 0 */
 
 /**
@@ -163,6 +168,8 @@ int main(void)
 	HAL_Init();
 
 	/* USER CODE BEGIN Init */
+
+
 
 	/* USER CODE END Init */
 
@@ -186,6 +193,41 @@ int main(void)
 	char buffer[32];
 
 	char line[24];
+
+
+	LCD_FMC_Init();
+	LCD_Reset();          // Hardware reset is important
+
+//	LCD_DisplayOn_Minimal();
+
+	LCD_Backlight_On(1);  // Turn on backlight after panel is out of sleep
+
+	// Ensure normal display mode + RGB565
+	LCD_WriteCmd(0x22);            // ALL PIXELS OFF (back to normal mode)
+	HAL_Delay(10);
+
+	LCD_WriteCmd(0x3A);            // COLMOD: Pixel Format
+	LCD_WriteData8(0x55);          // 16-bit RGB565
+	HAL_Delay(2);
+
+	LCD_WriteCmd(0x29);            // Display ON (in case it was off)
+	HAL_Delay(20);
+	LCD_Test_Orientation();              // Should flicker scan dir
+	LCD_DrawBlock10x10(0,   0,   0xF800); // red
+	HAL_Delay(200);
+	LCD_DrawBlock10x10(50,  50,  0x07E0); // green
+	HAL_Delay(200);
+	LCD_DrawBlock10x10(100, 100, 0x001F); // blue
+
+
+
+
+	// Test: fill with solid colors
+//	LCD_FillRGB565(0xF800); HAL_Delay(500); // Red
+//	LCD_FillRGB565(0x07E0); HAL_Delay(500); // Green
+//	//	LCD_FillRGB565(0x001F); HAL_Delay(500); // Blue
+//	LCD_FillRGB565(0xFFFF);
+
 
 
 	/* USER CODE END 2 */

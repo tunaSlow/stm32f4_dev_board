@@ -1,0 +1,8 @@
+../Core/Src/lcd_control.c:10:20:WR_CMD	1
+../Core/Src/lcd_control.c:14:6:LCD_Test_AllPixels	1
+../Core/Src/lcd_control.c:21:13:set_window	1
+../Core/Src/lcd_control.c:29:6:LCD_DrawBlock10x10	2
+../Core/Src/lcd_control.c:44:6:Probe_RS_and_Toggle	2
+../Core/Src/lcd_control.c:56:16:RD8	1
+../Core/Src/lcd_control.c:58:6:LCD_Read_ID_try	1
+../Core/Src/lcd_control.c:64:6:LCD_Test_Orientation	2

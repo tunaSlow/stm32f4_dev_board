@@ -1,7 +1,30 @@
-23:02:37 **** Incremental Build of configuration Debug for project stm32f4_mobile_base_sim ****
+01:39:57 **** Incremental Build of configuration Debug for project stm32f4_mobile_base_sim ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:195:14: warning: unused variable 'line' [-Wunused-variable]
+  195 |         char line[24];
+      |              ^~~~
+In file included from ../Core/Src/main.c:33:
+../Core/Inc/lcd_control.h: At top level:
+../Core/Inc/lcd_control.h:17:13: warning: 'set_window' declared 'static' but never defined [-Wunused-function]
+   17 | static void set_window(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1);
+      |             ^~~~~~~~~~
+arm-none-eabi-gcc -o "stm32f4_mobile_base_sim.elf" @"objects.list"   -mcpu=cortex-m4 -T"/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/stm32f4_mobile_base_sim/STM32F407ZGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="stm32f4_mobile_base_sim.map" -Wl,--gc-sections -static -u _printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: stm32f4_mobile_base_sim.elf
+ 
+arm-none-eabi-size  stm32f4_mobile_base_sim.elf 
+arm-none-eabi-objdump -h -S stm32f4_mobile_base_sim.elf  > "stm32f4_mobile_base_sim.list"
+   text	   data	    bss	    dec	    hex	filename
+  55516	    708	  10268	  66492	  103bc	stm32f4_mobile_base_sim.elf
+Finished building: default.size.stdout
+ 
+Finished building: stm32f4_mobile_base_sim.list
+ 
+01:40:00 **** Incremental Build of configuration Debug for project stm32f4_mobile_base_sim ****
 make -j16 all 
 arm-none-eabi-size  stm32f4_mobile_base_sim.elf 
    text	   data	    bss	    dec	    hex	filename
-  54556	    708	  10268	  65532	   fffc	stm32f4_mobile_base_sim.elf
+  55516	    708	  10268	  66492	  103bc	stm32f4_mobile_base_sim.elf
 Finished building: default.size.stdout
  

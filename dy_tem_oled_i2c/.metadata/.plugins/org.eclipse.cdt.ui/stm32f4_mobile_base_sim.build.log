@@ -1,10 +1,10 @@
-23:02:37 **** Incremental Build of configuration Debug for project stm32f4_mobile_base_sim ****
+01:40:00 **** Incremental Build of configuration Debug for project stm32f4_mobile_base_sim ****
 make -j16 all 
 arm-none-eabi-size  stm32f4_mobile_base_sim.elf 
    text	   data	    bss	    dec	    hex	filename
-  54556	    708	  10268	  65532	   fffc	stm32f4_mobile_base_sim.elf
+  55516	    708	  10268	  66492	  103bc	stm32f4_mobile_base_sim.elf
 Finished building: default.size.stdout
  
 
-23:02:38 Build Finished. 0 errors, 0 warnings. (took 138ms)
+01:40:00 Build Finished. 0 errors, 0 warnings. (took 161ms)
 
