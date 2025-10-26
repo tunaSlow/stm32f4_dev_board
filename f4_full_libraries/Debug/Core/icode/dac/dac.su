@@ -1,0 +1,5 @@
+../Core/icode/dac/dac.c:20:6:DAC_PLAY_WAV1	24	static
+../Core/icode/dac/dac.c:36:6:DAC_Init1	16	static
+../Core/icode/dac/dac.c:49:6:DAC_Init2	16	static
+../Core/icode/dac/dac.c:65:6:DAC_SPEAKER	16	static
+../Core/icode/dac/dac.c:71:6:DAC_Triangle	8	static

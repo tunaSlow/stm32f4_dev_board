@@ -1,0 +1,53 @@
+/*
+ * usart1.h
+ *
+ *  Created on: Oct 20, 2021
+ *      Author: Administrator
+ */
+
+#ifndef INC_USART_H_
+#define INC_USART_H_
+
+#include "stm32f4xx_hal.h" //HAL库文件声明
+#include <string.h>//用于字符串处理的库
+#include <stdarg.h>
+#include <stdlib.h>
+#include "stdio.h"
+#include "../tim/tim.h"
+
+extern UART_HandleTypeDef huart1;//声明USART1的HAL库结构体
+extern UART_HandleTypeDef huart2;//声明USART2的HAL库结构体
+extern UART_HandleTypeDef huart3;//声明USART3的HAL库结构体
+extern UART_HandleTypeDef huart4;//声明USART4的HAL库结构体
+extern UART_HandleTypeDef huart6;//声明USART4的HAL库结构体
+
+#define USART1_REC_LEN  200//定义USART1最大接收字节数
+#define USART2_REC_LEN  200//定义USART2最大接收字节数
+#define USART3_REC_LEN  200//定义USART3最大接收字节数
+#define UART4_REC_LEN  200//定义UART4最大接收字节数
+#define USART6_REC_LEN  200//定义USART3最大接收字节数
+
+extern uint8_t  USART1_RX_BUF[USART1_REC_LEN];//接收缓冲,最大USART_REC_LEN个字节.末字节为换行符
+extern uint16_t USART1_RX_STA;//接收状态标记
+extern uint8_t USART1_NewData;//当前串口中断接收的1个字节数据的缓存
+
+extern uint8_t  USART2_RX_BUF[USART2_REC_LEN];//接收缓冲,最大USART_REC_LEN个字节.末字节为换行符
+extern uint16_t USART2_RX_STA;//接收状态标记
+extern uint8_t USART2_NewData;//当前串口中断接收的1个字节数据的缓存
+
+extern uint8_t  USART3_RX_BUF[USART3_REC_LEN];//接收缓冲,最大USART_REC_LEN个字节.末字节为换行符
+extern uint16_t USART3_RX_STA;//接收状态标记
+extern uint8_t USART3_NewData;//当前串口中断接收的1个字节数据的缓存
+
+extern uint8_t  UART4_RX_BUF[UART4_REC_LEN];//接收缓冲,最大USART_REC_LEN个字节.末字节为换行符
+extern uint16_t UART4_RX_STA;//接收状态标记
+extern uint8_t UART4_NewData;//当前串口中断接收的1个字节数据的缓存
+
+extern uint8_t  USART6_RX_BUF[USART6_REC_LEN];//接收缓冲,最大USART_REC_LEN个字节.末字节为换行符
+extern uint16_t USART6_RX_STA;//接收状态标记
+extern uint8_t USART6_NewData;//当前串口中断接收的1个字节数据的缓存
+
+void USART1_printf (char *fmt, ...);
+void  HAL_UART_RxCpltCallback(UART_HandleTypeDef  *huart);//串口中断回调函数声明
+
+#endif /* INC_USART_H_ */

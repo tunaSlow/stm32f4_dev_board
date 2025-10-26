@@ -1,0 +1,2 @@
+../Core/icode/relay/relay.c:10:6:RELAY_1	16	static
+../Core/icode/relay/relay.c:15:6:RELAY_2	16	static

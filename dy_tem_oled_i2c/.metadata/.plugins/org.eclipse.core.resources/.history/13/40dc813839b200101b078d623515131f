@@ -1,0 +1,1568 @@
+/* USER CODE BEGIN Header */
+/**
+  ******************************************************************************
+  * @file           : main.c
+  * @brief          : Main program body
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2022 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
+/* USER CODE END Header */
+/* Includes ------------------------------------------------------------------*/
+#include "main.h"
+#include "fatfs.h"
+
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
+#include "../../icode/delay/delay.h"
+#include "../../icode/led/led.h"
+#include "../../icode/key/key.h"
+#include "../../icode/flash/flash.h"
+#include "../../icode/buzzer/buzzer.h"
+#include "../../icode/usart/usart.h"
+#include "../../icode/relay/relay.h"
+#include "../../icode/adc/adc.h"
+#include "../../icode/rs485/rs485.h"
+#include "../../icode/bt/bt.h"
+#include "../../icode/wifi/wifi.h"
+#include "../../icode/w25q128/w25qxx.h"
+#include "../../icode/can/can1.h"
+#include "../../icode/oled/oled.h"
+#include "../../icode/lm75a/lm75a.h"
+#include "../../icode/adc/adc.h"
+#include "../../icode/dac/dac.h"
+#include "../../icode/tim/tim.h"
+#include "../../icode/my1690/my1690.h"
+#include "../../icode/lcd/lcd.h"
+#include "../../icode/lcd/touch.h"
+#include "../../icode/bkpsram/bkpsram.h"
+#include "usb_host.h"//在MX高级设置里勾选不生成调用代码时，就需要手动加入此声明
+/* USER CODE END Includes */
+
+/* Private typedef -----------------------------------------------------------*/
+/* USER CODE BEGIN PTD */
+
+/* USER CODE END PTD */
+
+/* Private define ------------------------------------------------------------*/
+/* USER CODE BEGIN PD */
+/* USER CODE END PD */
+
+/* Private macro -------------------------------------------------------------*/
+/* USER CODE BEGIN PM */
+
+/* USER CODE END PM */
+
+/* Private variables ---------------------------------------------------------*/
+ADC_HandleTypeDef hadc1;
+ADC_HandleTypeDef hadc2;
+
+CAN_HandleTypeDef hcan1;
+
+CRC_HandleTypeDef hcrc;
+
+DAC_HandleTypeDef hdac;
+
+I2C_HandleTypeDef hi2c2;
+
+RNG_HandleTypeDef hrng;
+
+RTC_HandleTypeDef hrtc;
+
+SD_HandleTypeDef hsd;
+DMA_HandleTypeDef hdma_sdio_rx;
+DMA_HandleTypeDef hdma_sdio_tx;
+
+SPI_HandleTypeDef hspi2;
+
+TIM_HandleTypeDef htim2;
+TIM_HandleTypeDef htim4;
+
+UART_HandleTypeDef huart4;
+UART_HandleTypeDef huart1;
+UART_HandleTypeDef huart2;
+UART_HandleTypeDef huart3;
+UART_HandleTypeDef huart6;
+
+SRAM_HandleTypeDef hsram1;
+
+/* USER CODE BEGIN PV */
+RTC_DateTypeDef RtcDate;
+RTC_TimeTypeDef RtcTime;
+/* USER CODE END PV */
+
+/* Private function prototypes -----------------------------------------------*/
+void SystemClock_Config(void);
+static void MX_GPIO_Init(void);
+static void MX_ADC1_Init(void);
+static void MX_ADC2_Init(void);
+static void MX_CAN1_Init(void);
+static void MX_DAC_Init(void);
+static void MX_I2C2_Init(void);
+static void MX_SPI2_Init(void);
+static void MX_UART4_Init(void);
+static void MX_USART1_UART_Init(void);
+static void MX_USART2_UART_Init(void);
+static void MX_USART3_UART_Init(void);
+static void MX_USART6_UART_Init(void);
+static void MX_RTC_Init(void);
+static void MX_TIM2_Init(void);
+static void MX_DMA_Init(void);
+static void MX_SDIO_SD_Init(void);
+static void MX_FSMC_Init(void);
+static void MX_RNG_Init(void);
+static void MX_CRC_Init(void);
+static void MX_TIM4_Init(void);
+void MX_USB_HOST_Process(void);
+
+/* USER CODE BEGIN PFP */
+
+/* USER CODE END PFP */
+
+/* Private user code ---------------------------------------------------------*/
+/* USER CODE BEGIN 0 */
+
+/* USER CODE END 0 */
+
+/**
+  * @brief  The application entry point.
+  * @retval int
+  */
+int main(void)
+{
+  /* USER CODE BEGIN 1 */
+	  uint32_t id[3];//用于存放96位芯片ID
+	  uint32_t a=0;
+	  uint8_t buffer[3]={0};//显示温度的寄存器
+	  uint16_t ADC_BUF[3]={0};//用于临时存放ADC的12位数据
+	  uint16_t DAC_BUF;//存放DAC数据寄存器
+	  uint8_t MENU;//菜单切换
+	  uint8_t EX_FLASH_BUF[1]={0};//W25QXX芯片数据缓存数组
+	  uint8_t USB_MARK; //U盘状态标志位（0：无U盘，1：空闲，2：忙碌，3：异常）
+	  uint8_t SD_MARK; //SD卡状态标志位（0：无卡，1：有卡空闲，2：有卡忙碌，3：卡异常）
+  /* USER CODE END 1 */
+
+  /* MCU Configuration--------------------------------------------------------*/
+
+  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  HAL_Init();
+
+  /* USER CODE BEGIN Init */
+
+  /* USER CODE END Init */
+
+  /* Configure the system clock */
+  SystemClock_Config();
+
+  /* USER CODE BEGIN SysInit */
+
+  /* USER CODE END SysInit */
+
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
+  MX_ADC1_Init();
+  MX_ADC2_Init();
+  MX_CAN1_Init();
+  MX_DAC_Init();
+  MX_I2C2_Init();
+  MX_SPI2_Init();
+  MX_UART4_Init();
+  MX_USART1_UART_Init();
+  MX_USART2_UART_Init();
+  MX_USART3_UART_Init();
+  MX_USART6_UART_Init();
+  MX_RTC_Init();
+  MX_TIM2_Init();
+  MX_FATFS_Init();
+  MX_DMA_Init();
+  MX_FSMC_Init();
+  MX_RNG_Init();
+  MX_CRC_Init();
+  MX_TIM4_Init();
+  /* USER CODE BEGIN 2 */
+   BUZZER_PLAY_music2();//蜂鸣器播放MIDI音乐（开机音）
+   OLED0561_Init(); //OLED初始化
+   OLED_DISPLAY_PIC1();//显示开机LOGO图片
+   HAL_Delay(500);
+   //测试中文专用printf函数显示
+   OLED_printf_2424_CHS(11,15,"洋桃电子");//显示汉字串（不能使用转译字符）（参数：行，列，汉字串）
+   OLED_printf_1616_CHS(15,11,"洋桃");//显示汉字串（不能使用转译字符）（参数：行，列，汉字串）
+   OLED_printf_0816_ASCII(15,43,"2"); //显示字符串
+   OLED_printf_1616_CHS(15,51,"号开发板");//显示汉字串（不能使用转译字符）（参数：行，列，汉字串）
+   //开启串口中断
+   HAL_UART_Receive_IT(&huart1,(uint8_t *)&USART1_NewData,1);//开启串口1接收中断
+   HAL_UART_Receive_IT(&huart2,(uint8_t *)&USART2_NewData,1); //开启串口2接收中断
+   MENU=1;//初始菜单值（默认1）
+   //【1】串口发送测试
+   id[0] = *(__IO uint32_t *)(0x1FFF7A10); //读出3个32位芯片ID（高字节）
+   id[1] = *(__IO uint32_t *)(0x1FFF7A14); //
+   id[2] = *(__IO uint32_t *)(0x1FFF7A18); //（低字节）
+   a   = *(__IO uint16_t *)(0x1FFF7A22); //读出本芯片的FLASH容量
+   USART1_printf("\n\r\n\r\n\r++++++++++洋桃2号开发板出厂测试程序 V1.6正式版++++++++++\n\r\n\r\n\r"); //串口发送标题
+   USART1_printf("STM32F407本芯片ID: %08X %08X %08X FLAH容量：%dKB \r\n",id[0],id[1],id[2],a); //从串口输出16进制96位ID码
+
+   a = HAL_RNG_GetRandomNumber(&hrng);//读出一个硬件随时数
+   USART1_printf("随时数生成器RNG值：%08X ",a); //从串口输出
+
+   a = HAL_CRC_Calculate(&hcrc,(uint32_t *)id,3);//载入CRC数据并返回计算结果（参数2：要计算的数组，参数3：数量）开始前清除之前数据
+// a = HAL_CRC_Accumulate(&hcrc,(uint32_t *)id,3);//载入CRC数据并返回计算结果（参数2：要计算的数组，参数3：数量）开始前不清除数据
+   USART1_printf("芯片ID的3组32位数据CRC计算结果：%08X \n\r",a);//将CRC计算结果显示在超级终端
+   USART1_printf("\n\r【1】OLED测试：观察OLED屏上是否有正常的英文显示。\n\r"); //串口发送标题
+   LED_ALL(0x01);//LED1~4整组操作函数（低4位的1/0状态对应4个LED亮灭，最低位对应LED1）
+
+   //DAC音频输出到LM4871功放（语音内容：欢迎使用洋桃2号开发板）
+   DAC_PLAY_WAV1(16);//用DAC播放音频文件（参数：音量，1~16，0是静音）
+
+   //【2】蜂鸣器测试（上电时响2个单音调）
+   OLED_printf_0816_ASCII(10,0,"-YoungTalk No.2-"); //显示字符串
+   OLED_printf_0816_ASCII(2,0,"TEST1:OLED RELAY"); //显示字符串
+   OLED_printf_0816_ASCII(4,0,"  LCD LED BUZZER"); //显示字符串
+   OLED_printf_0816_ASCII(6,0,"Open the USART1 "); //显示字符串
+   USART1_printf("\n\r【2】蜂鸣器测试：观察蜂鸣器是否响高和低2个单音调。\n\r"); //串口发送标题
+
+   //【3】继电器测试（上电时吸合2次后断开）
+   USART1_printf("\n\r【3】继电器测试：观察继电器是否交替吸合，LED是否从1到4点亮。\n\r"); //串口发送标题
+   RELAY_1(1);//继电器的控制程序（c=0继电器放开，c=1继电器吸合）
+   RELAY_2(0);//继电器的控制程序（c=0继电器放开，c=1继电器吸合）
+   LED_ALL(0x03);//LED1~4整组操作函数（低4位的1/0状态对应4个LED亮灭，最低位对应LED1）
+   HAL_Delay(800);//延时
+   RELAY_1(0);//继电器的控制程序（c=0继电器放开，c=1继电器吸合）
+   RELAY_2(1);//继电器的控制程序（c=0继电器放开，c=1继电器吸合）
+   LED_ALL(0x07);//LED1~4整组操作函数（低4位的1/0状态对应4个LED亮灭，最低位对应LED1）
+   HAL_Delay(800);//延时
+   RELAY_1(0);//继电器的控制程序（c=0继电器放开，c=1继电器吸合）
+   RELAY_2(0);//继电器的控制程序（c=0继电器放开，c=1继电器吸合）
+   LED_ALL(0x0F);//LED1~4整组操作函数（低4位的1/0状态对应4个LED亮灭，最低位对应LED1）
+   LM75A_GetTemp(buffer); //读取LM75A的温度数据
+   MENU=0;//初始菜单值
+   a=0;//使计数清0
+   USB_MARK=1;//U盘状态标志位
+  /* USER CODE END 2 */
+
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
+  while (1)
+  {
+//菜单0（EX）LCD测试（不连接LCD模块时不运行此菜单）
+	  if(MENU==0){//菜单0：LCD彩色触摸屏测试
+	   //LCD和触摸屏初始化与显示部分
+	 	if(LCD_Init()){//LCD彩屏和触摸屏初始化（返回值1：初始化成功，0：初始化失败）
+			LCD_CLEAR(Red);//LCD彩屏清除内容（变成单色背景）
+			LCD_CLEAR(Green);//LCD彩屏清除内容（变成单色背景）
+			LCD_CLEAR(Blue);//LCD彩屏清除内容（变成单色背景）
+			ForeColor=White;//设置字体的颜色（在使用LCD_printf_ASCII函数之前设置）
+			LCD_DISPLAY_BMP_YoungTalkLogo(480,130);//在指定坐标显示洋桃电子LOGO
+			LCD_printf_ASCII(1,8,32,"-YoungTalk No.2-  www.doyoung.net"); //在LCD上显示字符串
+			LCD_printf_CHS(0,0,16,"洋桃电子");//显示汉字串（不能使用转译字符）（参数：行，列，汉字串）
+			LCD_printf_CHS(1,0,24,"洋桃电子");//显示汉字串（不能使用转译字符）（参数：行，列，汉字串）
+			LCD_printf_CHS(1,0,48,"洋桃");//显示汉字串（不能使用转译字符）（参数：行，列，汉字串）
+			LCD_printf_CHS(2,0,48,"电子");//显示汉字串（不能使用转译字符）（参数：行，列，汉字串）
+			LCD_printf_ASCII(4,10,32,"LCD ID:%x",LCD_ID); //在LCD上显示字符串
+			LCD_printf_ASCII(8,2,48,"LCD TEST OK!   "); //在LCD上显示字符串
+			USART1_printf("\n\r【EX】LCD初始化成功！观察LCD屏上是否有正常的英文显示（LCD ID:%x）。\n\r",LCD_ID); //串口发送标题
+			OLED_printf_0816_ASCII(10,0,"TESTEX:LCD TOUCH"); //显示字符串
+			OLED_printf_0816_ASCII(2,0,"[KEY4] to next! "); //显示字符串
+			OLED_printf_0816_ASCII(4,0,"LCD TEST OK!    "); //显示字符串
+			OLED_printf_0816_ASCII(6,0,"TOUCH TEST ?    "); //显示字符串
+			MENU=1;//初始菜单值（如有LCD连接才进入LCD测试程序）
+	 	}else{
+	 		USART1_printf("LCD初始化失败！LCD彩屏未连接或驱动芯片不是NT35510/RM68120/OTM8009A（LCD ID:%x）。\n\r",LCD_ID); //串口发送标题
+	 	    MENU=5;//没有LCD时跳到下一个测试
+	 	}
+	 	if(TOUCH_Init()){//触摸屏初始化（返回0失败，1成功）
+	 		TOUCH_Read(Landscape);//循环读取触摸屏当前状态和触发坐标（参数是横竖屏方向）
+	 		TOUCH_STA=0;//标志位清0
+			LCD_printf_ASCII(5,10,32,"TOUCH_ID:%s  ",TOUCH_ID); //在LCD上显示字符串
+			LCD_printf_CHS(6,5,32,"点击屏幕完成测试");//显示汉字串（不能使用转译字符）（参数：行，列，汉字串）
+			USART1_printf("\n\r【EX】触摸屏初始化成功！（TOUCH ID:%s）。\n\r",TOUCH_ID); //串口发送标题
+			USART1_printf("【EX】LCD彩色触摸屏测试：手指按住屏幕时坐标值会改变，最多5点触发（按【KEY4】到下一项）。\n\r");//串口发送标题
+			BUZZER_SOLO2();//提示音
+	 	}else{
+	 		LCD_printf_ASCII(4,8,32,"NO TOUCH IC(ID:%s) %x ",TOUCH_ID,TOUCH_STA); //在LCD上显示字符串
+	 		USART1_printf("触摸屏初始化失败！LCD彩屏未连接或驱动芯片不是GT9147或GT911（TOUCH ID:%s）。\n\r",TOUCH_ID); //串口发送标题
+	 	}
+	  }
+	  if(MENU==1){//菜单1：LCD彩色触摸屏测试
+		TOUCH_Read(Landscape);//循环读取触摸屏当前状态和触发坐标（参数是横竖屏方向）
+		if(TOUCH_STA&0x90){//判断有没有触摸屏触发（可在屏幕上连续触摸画图）
+			LCD_Vector_Circle(TOUCH_X[0],TOUCH_Y[0],10);//绘制矢量正圆形（参数：圆心X坐标，圆心Y坐标，半径）
+			if((TOUCH_STA&0x0F)>0 && a==0){//判断当有大于0个触摸点，则触摸测试成功
+				LCD_printf_ASCII(9,10,32,"[KEY4] to next!  "); //在LCD上显示字符串
+				LCD_printf_CHS(7,5,32,"屏幕测试完成");//显示汉字串（不能使用转译字符）（参数：行，列，汉字串）
+				LCD_printf_ASCII(8,16,48,"TOUCH TEST OK!"); //在LCD上显示字符串
+				OLED_printf_0816_ASCII(6,0,"TOUCH TEST OK!  "); //显示字符串
+				USART1_printf("【EX】LCD和触摸测试完成！\n\r"); //串口发送标题
+				BUZZER_SOLO2();//提示音
+				a=1;//不要刷新本判断
+			}
+		}
+		TOUCH_STA=0;//标志位清0
+		if(KEY_4()){//按KEY4进入下一项测试
+			BUZZER_SOLO2();//提示音
+			LCD_OFF();//退出LCD测试时关闭LCD屏
+			MENU=5;//跳到下一个测试菜单
+		}
+	  }
+//菜单5
+	  if(MENU==5){//菜单5：时间温度测试
+		USART1_printf("\n\r【4】RTC和LM75A测试：观察时间、温度值是否正常刷新/走时。\n\r"); //串口发送标题
+		OLED_printf_0816_ASCII(10,0,"TEST2:RTC&LM75A "); //显示字符串
+		OLED_printf_0816_ASCII(2,0,"[KEY1] to next! "); //显示字符串
+		OLED_printf_0816_ASCII(4,0,"Time:           "); //显示字符串
+		OLED_printf_0816_ASCII(6,0,"Temp:           "); //显示字符串
+		MENU=6;//时间温度显示刷新
+	  }
+	  if(MENU==6){//菜单6：时间温度显示刷新
+		HAL_Delay(100);//刷新延时
+		//切换菜单操作
+		if(USART1_RX_STA&0xC000){//在超级终端中按回车键设置时钟
+			BUZZER_SOLO2();//提示音
+			MENU=7; //串口1接收到回车键进入设置时间菜单。
+		}
+		if(KEY_1()){//按KEY1进入下一项测试
+			BUZZER_SOLO2();//提示音
+			MENU=10;//退出设置时间功能
+		}
+		//读取时间和温度函数
+		LM75A_GetTemp(buffer); //读取LM75A的温度数据
+		HAL_RTC_GetTime(&hrtc, &RtcTime,  RTC_FORMAT_BIN);//读出时间值
+		HAL_RTC_GetDate(&hrtc, &RtcDate,  RTC_FORMAT_BIN);//一定要先读时间后读日期
+		//USART1串口显示：时间和温度值刷新
+		USART1_printf(" 实时时间：%04d-%02d-%02d %02d:%02d:%02d ",2000+RtcDate.Year,  RtcDate.Month, RtcDate.Date,RtcTime.Hours,  RtcTime.Minutes, RtcTime.Seconds);//显示日期时间
+		if(buffer[0])USART1_printf("温度：-%d.%d℃",buffer[1],buffer[2]); //判断是负数温度时串口显示温度值
+				else USART1_printf("温度：%d.%d℃",buffer[1],buffer[2]);  //正数温度时串口显示温度值
+		USART1_printf("（回车键设置时间，按【KEY1】到下一项）\r");//只用/r可在本行刷新数据，不另起一行
+		//OLED屏显示：时分秒和温度
+		OLED_printf_0816_ASCII(4,0,"Time: %02d:%02d:%02d  ",RtcTime.Hours,RtcTime.Minutes,RtcTime.Seconds); //显示时分秒
+		if(buffer[0])OLED_printf_0816_ASCII(6,0,"Temp:-%d.%02dc   ",buffer[1],buffer[2]); //显示带负数温度
+		else OLED_printf_0816_ASCII(6,0,"Temp: %d.%02dc   ",buffer[1],buffer[2]); //显示正数温度
+	  }
+//菜单7
+	  if(MENU==7){	//设置时间界面
+		if(USART1_RX_STA&0xC000){ //如果标志位是0xC000表示收到数据串完成，可以处理。
+		   if((USART1_RX_STA&0x3FFF)==0){ //单独的回车键再显示一次欢迎词
+			   HAL_RTC_GetTime(&hrtc, &RtcTime,  RTC_FORMAT_BIN);//读出时间值
+			   HAL_RTC_GetDate(&hrtc, &RtcDate,  RTC_FORMAT_BIN);//一定要先读时间后读日期
+			   USART1_printf(" 实时时间：%04d-%02d-%02d %02d:%02d:%02d \r\n",2000+RtcDate.Year,  RtcDate.Month, RtcDate.Date,RtcTime.Hours,  RtcTime.Minutes, RtcTime.Seconds);//显示日期时间
+			   USART1_printf(" 设置时间：格式为4位年2位月日时分秒（例：20220806120000），按回车键确定！\r\n");
+		   }else  if((USART1_RX_STA&0x3FFF)==14){ //判断数据是不是14个
+			   //将超级终端发过来的数据换算并写入RTC
+			   RtcDate.Year =  (USART1_RX_BUF[2]-0x30)*10+USART1_RX_BUF[3]-0x30;
+			   RtcDate.Month =  (USART1_RX_BUF[4]-0x30)*10+USART1_RX_BUF[5]-0x30;//串口发来的是字符，减0x30后才能得到十进制0~9的数据
+			   RtcDate.Date =  (USART1_RX_BUF[6]-0x30)*10+USART1_RX_BUF[7]-0x30;
+			   RtcTime.Hours =  (USART1_RX_BUF[8]-0x30)*10+USART1_RX_BUF[9]-0x30;
+			   RtcTime.Minutes =  (USART1_RX_BUF[10]-0x30)*10+USART1_RX_BUF[11]-0x30;
+			   RtcTime.Seconds =  (USART1_RX_BUF[12]-0x30)*10+USART1_RX_BUF[13]-0x30;
+			   if (HAL_RTC_SetTime(&hrtc,  &RtcTime, RTC_FORMAT_BIN) != HAL_OK)//将数据写入RTC程序
+			   {
+				   USART1_printf("写入时间失败！        \r\n"); //显示写入失败
+				   MENU=5;//退出设置时间功能
+			   }else if (HAL_RTC_SetDate(&hrtc,  &RtcDate, RTC_FORMAT_BIN) != HAL_OK)//将数据写入RTC程序
+			   {
+				   USART1_printf("写入日期失败！        \r\n"); //显示写入失败
+				   MENU=5;//退出设置时间功能
+			   }else{
+				   USART1_printf("写入成功！       \r\n");//显示写入成功
+				   MENU=5;//退出设置时间功能
+			   }
+		   }else{ //如果以上都不是，即是错误的指令。
+			   USART1_printf("指令错误！          \r\n");  //如果不是以上正确的操作，显示指令错误！
+			   MENU=5;//退出设置时间功能
+		   }
+		   USART1_RX_STA=0; //将串口数据标志位清0
+		}
+		if(KEY_1()){//按KEY1进入下一项测试
+			BUZZER_SOLO2();//提示音
+			MENU=10;//退出设置时间功能
+		}
+	  }
+//菜单10
+	  if(MENU==10){	//ADC与DAC显示
+		   LED_1(0);//LED1灭表示当前在TEST2
+		   USART1_printf("\n\r\n\r【5】ADC和DAC测试：用手挡住光敏电阻，旋转电位器旋钮，同时观察OLED或超级终端上刷新的ADC数据是否正常，观察DAC灯是否随着电位器变化亮度。\n\r"); //串口发送标题
+		   OLED_printf_0816_ASCII(10,0,"TEST2:ADC DAC   "); //显示字符串
+		   OLED_printf_0816_ASCII(2,0,"[KEY2] to next! "); //显示字符串
+		   OLED_printf_0816_ASCII(4,0,"ADC1:           "); //显示字符串
+		   OLED_printf_0816_ASCII(6,0,"ADC2:     ----mV"); //显示字符串
+		   //DAC控制输出
+		   DAC_Triangle();//使DAC生成三角波输出（通道2）
+		   HAL_DAC_Start(&hdac, DAC_CHANNEL_1);//开启DAC功能（DAC OUT1将输出电压）
+		   HAL_Delay(1000);//延时（使三角波输出1秒后停止）
+		   SPEAKER(0);//音频放大芯片LM4871芯片使能控制函数（0为关闭，其他值为开启）
+		   HAL_DAC_Stop(&hdac, DAC_CHANNEL_2);//停止DAC功能
+		   HAL_TIM_Base_Stop(&htim2);//关定时器2
+		   MENU=11;//
+		   a=0;//使计数清0
+	  }
+	  if(MENU==11){	//ADC与DAC显示
+		HAL_Delay(10);//刷新延时（10毫秒）
+		//切换菜单操作
+		if(USART1_RX_STA&0xC000)MENU=20; //串口1接收到回车键进入设置时间菜单。
+		if(KEY_2()){//按KEY2进入下一项测试
+			BUZZER_SOLO2();//提示音
+			MENU=20;//退出设置时间功能
+			a=0;//使计数清0 直接退出延时
+		}
+		ADC_BUF[0] =  ADC_Read(&hadc1);//读出ADC1数值（光敏电阻）
+		ADC_BUF[1] =  ADC_Read(&hadc2);//读出ADC2数值（电位器）
+		ADC_BUF[2] =  ADC_to_Voltage(ADCgetavg2(ADCgetavg1(ADC_BUF[1])));//读出ADC2平均值算法后的稳定值
+		USART1_printf("光敏电阻ADC1=%04d 电位器ADC2=%04d ADC2滤波后电压值=%dmV",ADC_BUF[0],ADC_BUF[1],ADC_BUF[2]);//向USART1串口发送字符串
+		USART1_printf("（按【KEY2】到下一项）\r");//只用/r可在本行刷新数据，不另起一行
+		OLED_printf_0816_ASCII(4,0,"ADC1:%04d       ",ADC_BUF[0]); //显示字符串ADC1值
+		OLED_printf_0816_ASCII(6,0,"ADC2:%04d %04dmV",ADC_BUF[1],ADC_BUF[2]); //显示字符串ADC2值
+		//用电位器的ADC值控制DAC灯的亮度
+		DAC_BUF = ADC_BUF[1]/2+2047;//将电位器ADC值发给DAC寄存器（因红色LED启动电压是1.8V，通过/2+2047的算法使电位器旋钮正好在LED的亮度范围）
+		HAL_DAC_SetValue(&hdac, DAC_CHANNEL_1,DAC_ALIGN_12B_R,DAC_BUF);//设置DAC参数
+	  }
+//菜单20
+	  if(MENU==20){	//开启RS485和CAN总线功能（同时停止上一项的功能）
+		SPEAKER(0);//音频放大芯片LM4871芯片使能控制函数（0为关闭，其他值为开启）
+		HAL_ADC_Stop(&hadc1);//停止ADC功能
+		HAL_ADC_Stop(&hadc2);//停止ADC功能
+		HAL_DAC_Stop(&hdac, DAC_CHANNEL_1);//停止DAC功能
+		HAL_DAC_Stop(&hdac, DAC_CHANNEL_2);//停止DAC功能
+		HAL_TIM_Base_Stop(&htim2);//关定时器2
+		LED_2(0);//LED2灭表示当前在TEST3
+		USART1_printf("\n\r\n\r【6】RS485和CAN测试：按KEY1向RS485发送字符A（波特率115200），按KEY2向CAN发送字符A（波特率250M），或在超级终端输入ASCII字符即可发送。接收的最后一个ASCII字符会在OLED和超级终端中显示。\n\r"); //串口发送标题
+		OLED_printf_0816_ASCII(10,0,"TEST3:RS485 CAN "); //显示字符串
+		OLED_printf_0816_ASCII(2,0,"[KEY3] to next! "); //显示字符串
+		OLED_printf_0816_ASCII(4,0,"RS485 RX:  TX:  "); //显示字符串
+		OLED_printf_0816_ASCII(6,0,"  CAN RX:  TX:  "); //显示字符串
+		HAL_UART_Receive_IT(&huart4,(uint8_t *)&UART4_NewData, 1); //开启串口4（RS485）接收中断
+		CAN_User_Init(&hcan1);//开启CAN屏蔽器等高级设置
+		MENU=21;//
+		UART4_RX_STA=0;//标志位清0
+		CAN1_RX_STA=0;//标志位清0
+	  }
+	  if(MENU==21){	//
+		HAL_Delay(100);//刷新延时（100毫秒）
+		if(KEY_3()){//按KEY3进入下一项测试
+			BUZZER_SOLO2();//提示音
+			MENU=30;//退出设置时间功能
+		}
+		if(USART1_RX_STA!=0){//串口1判断中断接收标志位【处理超级终端输入的字符发送到RS485】
+			BUZZER_SOLO2();//蜂鸣器输出单音的报警音（样式1：HAL库的精准延时函数）
+			USART1_printf("RS485_TX&CAN_TX=%c",USART1_RX_BUF[0]);//显示发送的数据
+			USART1_printf("（按【KEY3】到下一项）\r\n");
+			RS485_printf("%c",USART1_RX_BUF[0]);//向RS485发送字符
+			OLED_DISPLAY_0816(4,14*8,USART1_RX_BUF[0]);//当数据显示在OLED指定位置
+			CAN1_printf("%c",USART1_RX_BUF[0]);//向CAN1发送字符
+			OLED_DISPLAY_0816(6,14*8,USART1_RX_BUF[0]);//当数据显示在OLED指定位置
+			USART1_RX_STA=0;
+		}
+		//RS485部分
+		if(UART4_RX_STA!=0){//当串口4标志位不为0时表示有新数据
+			BUZZER_SOLO1();//提示音
+			OLED_DISPLAY_0816(4,9*8,UART4_RX_BUF[0]);//当数据显示在OLED指定位置
+			USART1_printf("RS485_RX=%c ",UART4_RX_BUF[0]);//向USART1串口发送字符串
+			USART1_printf("（按【KEY3】到下一项）\r\n");
+			UART4_RX_STA=0;//标志位清0
+		}
+
+		if(KEY_1()){//按KEY1进入RS485发送测试
+			BUZZER_SOLO2();//提示音
+			RS485_printf("A");//发送字符
+			OLED_DISPLAY_0816(4,14*8,'A');//当数据显示在OLED指定位置
+			USART1_printf("RS485_TX=A ");//向USART1串口发送字符串
+			USART1_printf("（按【KEY3】到下一项）\r\n");
+		}
+		//CAN部分
+		if(CAN1_RX_STA!=0){//当CAN1标志位不为0时表示有新数据
+			BUZZER_SOLO1();//提示音
+			OLED_DISPLAY_0816(6,9*8,CAN1_RX_BUF[0]);//当数据显示在OLED指定位置
+			USART1_printf("CAN_RX=%c ",CAN1_RX_BUF[0]);//向USART1串口发送字符串
+			USART1_printf("（按【KEY3】到下一项）\r\n");
+			CAN1_RX_STA=0;//标志位清0
+		}
+		if(KEY_2()){//按KEY1进入RS485发送测试
+			BUZZER_SOLO2();//提示音
+			CAN1_printf("A");//发送字符
+			OLED_DISPLAY_0816(6,14*8,'A');//当数据显示在OLED指定位置
+			USART1_printf("CAN_TX=A ");//向USART1串口发送字符串
+			USART1_printf("（按【KEY3】到下一项）\r\n");
+		}
+	  }
+//菜单30
+	  if(MENU==30){	//蓝牙和WIFI模块测试（同时停止上一项的功能）
+		HAL_UART_AbortReceive_IT(&huart4);//中止串口4接收中断功能
+		HAL_CAN_Stop(&hcan1);//停止CAN功能
+		LED_3(0);//LED3灭表示当前在TEST4
+		USART1_printf("\n\r【7】蓝牙、WIFI模块测试：已向蓝牙和WIFI模块发送“AT”指令，接收到OK表示正常（按【KEY1】键重发，按【KEY4】到下一项）。\n\r"); //串口发送标题
+		OLED_printf_0816_ASCII(10,0,"TEST4:B/T WIFI  "); //显示字符串
+		OLED_printf_0816_ASCII(2,0,"[KEY4] to next! "); //显示字符串
+		OLED_printf_0816_ASCII(4,0," B/T TEST:      "); //显示字符串
+		OLED_printf_0816_ASCII(6,0,"WIFI TEST:      "); //显示字符串
+		BT_WEEKUP();//唤醒蓝牙模块
+		HAL_UART_Receive_IT(&huart2,(uint8_t *)&USART2_NewData, 1); //开启串口2（WIFI）接收中断
+		HAL_TIM_Base_Start_IT(&htim2);//为WIFI接收开启定时器2中断（必须开启才能进入中断处理回调函数）
+		HAL_UART_Receive_IT(&huart3,(uint8_t *)&USART3_NewData, 1); //开启串口3（蓝牙）接收中断
+		USART2_RX_STA=0;//标志位清0
+		USART3_RX_STA=0;//标志位清0
+		BT_printf("AT+NAMECC2541");//向蓝牙模块发送AT指令（修改模块的广播名为CC2541）
+		WIFI_printf("AT\r\n");//向WIFI模块发送AT指令
+		MENU=31;//
+	  }
+	  if(MENU==31){	//循环检测蓝牙和WIFI发来的数据
+		if(KEY_4()){//按KEY4进入下一项测试
+			BUZZER_SOLO2();//提示音
+			MENU=40;//退出设置时间功能
+		}
+		if(KEY_1()){//按下KEY1判断（重发AT指令用）
+			BUZZER_SOLO2();//提示音
+			OLED_printf_0816_ASCII(4,0," B/T TEST:      "); //显示字符串
+			OLED_printf_0816_ASCII(6,0,"WIFI TEST:      "); //显示字符串
+			BT_printf("AT+NAMECC2541");//向蓝牙模块发送AT指令（修改模块的广播名为CC2541）
+			WIFI_printf("AT\r\n");//向WIFI模块发送AT指令
+			USART1_printf("蓝牙发送：AT+NAMECC2541  WIFI发送：AT "); //串口发送
+			USART1_printf("（按【KEY1】键重发，按【KEY4】到下一项）\r\n");
+		}
+		//蓝牙模块部分（USART3）
+		if(USART3_RX_STA&0x8000){//判断中断接收标志位（蓝牙模块BT，使用USART3）
+			OLED_printf_0816_ASCII(4,0," B/T TEST:%*s      ",3,USART3_RX_BUF+1); //显示定长字符串（寄存器地址+7即定位到OK位置）
+			USART1_printf("蓝牙接收：%.*s \r\n",USART3_RX_STA&0x7FFF,USART3_RX_BUF); //显示定长字符串
+			USART3_RX_STA=0;//标志位清0，准备下次接收
+		}
+		//WIFI模块部分（USART2）
+		if(USART2_RX_STA&0x8000){//判断中断接收标志位（WIFI模块，使用USART2）
+			OLED_printf_0816_ASCII(6,0,"WIFI TEST: %.*s    ",2,USART2_RX_BUF+6); //显示定长字符串（寄存器地址+7即定位到OK位置）
+			USART1_printf("WIFI接收：%.*s \r\n",USART2_RX_STA&0x7FFF,USART2_RX_BUF); //显示定长字符串
+			USART2_RX_STA=0;//标志位清0，准备下次接收
+		}
+	  }
+//菜单40
+	  if(MENU==40){	//蓝牙和WIFI模块测试（同时停止上一项的功能）
+		BT_SLEEP();//睡眠蓝牙模块
+		HAL_UART_AbortReceive_IT(&huart2);//中止串口2接收中断功能
+		HAL_UART_AbortReceive_IT(&huart3);//中止串口3接收中断功能
+		LED_4(0);//LED4灭表示当前在TEST5
+		USART1_printf("\n\r【8】MP3芯片和FLASH芯片测试：（按【KEY1】到下一项）。\n\r"); //串口发送标题
+		OLED_printf_0816_ASCII(10,0,"TEST5:MP3 FLASH "); //显示字符串
+		OLED_printf_0816_ASCII(2,0,"[KEY1] MP3 PLAY "); //显示字符串
+		OLED_printf_0816_ASCII(4,0,"[KEY3] FLASH+1=?"); //显示字符串
+		OLED_printf_0816_ASCII(6,0,"[KEY4] to next! "); //显示字符串
+		if(W25QXX_Init()){ //FLASH芯片初始化
+			USART1_printf("W25Q128初始化错误! \n\r");//W25QXX芯片初始化（如果失败则显示错误）
+		}else{
+			USART1_printf("W25Q128初始化完成! ");//W25QXX芯片初始化
+			a=W25QXX_ReadID();//读取W25QXX芯片的ID码。W25Q128芯片十进制ID是61207（十六进制表示是0xEF17）
+			USART1_printf("芯片ID：%x ",a);//显示芯片ID
+			W25QXX_Read(EX_FLASH_BUF,EX_FLASH_ADD,1);//读出外扩FLASH芯片数据（参数：读出数据存放的数组，读取的开始地址，数量）
+			USART1_printf("读出0x00地址数据：%d（按【KEY3】数值加1，按【KEY1】到下一项）\n\r",EX_FLASH_BUF[0]);//读出数据
+			OLED_printf_0816_ASCII(4,0,"[KEY3] FLASH+1=%d",EX_FLASH_BUF[0]); //显示字符串
+		}
+		MY1690_Init();//MY1690初始化
+		MENU=41;//
+	  }
+	  if(MENU==41){	//循环检测蓝牙和WIFI发来的数据
+		if(KEY_1()){//按下KEY1判断 MP3播放/停止
+		   LED_1(1);//LED控制
+		   BUZZER_SOLO2();//提示音
+		   MY1690_PLAY();//MP3播放指令
+		   OLED_printf_0816_ASCII(2,0,"[KEY2] MP3 NEXT "); //显示字符串
+		   USART1_printf("MP3播放完成！（【KEY1】播放,【KEY2】下一曲,【KEY3】FLASH值加1,【KEY4】到下一项）\n\r",EX_FLASH_BUF[0]);//读出数据
+		}
+		if(KEY_2()){//按下KEY2判断 MP3下一曲
+			LED_2(1);//LED控制
+			BUZZER_SOLO2();//提示音
+			MY1690_NEXT();//MP3下一曲指令
+		   OLED_printf_0816_ASCII(2,0,"[KEY1] MP3 PLAY "); //显示字符串
+		   USART1_printf("MP3下一曲完成！（【KEY1】播放,【KEY2】下一曲,【KEY3】FLASH值加1,【KEY4】到下一项）\n\r",EX_FLASH_BUF[0]);//读出数据
+		}
+		if(KEY_3()){//按下KEY3判断 FLASH数值加1
+			LED_3(1);//LED控制
+			BUZZER_SOLO2();//提示音
+		   W25QXX_Read(EX_FLASH_BUF,EX_FLASH_ADD,1);//读出W25QXX芯片数据（参数：读出数据存放的数组，读取的开始地址，数量）
+		   EX_FLASH_BUF[0]++;//数据加1
+		   if(EX_FLASH_BUF[0]> 9)EX_FLASH_BUF[0]=0;//如果数值大于指定最大值则清0
+		   W25QXX_Write(EX_FLASH_BUF,EX_FLASH_ADD,1);//写入W25QXX芯片数据（参数：读出数据存放的数组，读取的开始地址，数量）
+		   OLED_printf_0816_ASCII(4,0,"[KEY3] FLASH+1=%d",EX_FLASH_BUF[0]%10); //显示字符串
+		   USART1_printf("读出0x00地址数据：%d （【KEY1】播放,【KEY2】下一曲,【KEY3】FLASH值加1,【KEY4】到下一项）\n\r",EX_FLASH_BUF[0]);//读出数据
+		}
+		if(KEY_4()){//按KEY4进入下一项测试
+			LED_4(1);//LED控制
+			BUZZER_SOLO2();//提示音
+			MENU=50;//退出设置时间功能
+		}
+	  }
+//菜单50
+	  if(MENU==50){	//U盘和TF卡测试（同时停止上一项的功能）
+		MY1690_STOP();//停止音乐（同时关LM4871功放）
+		HAL_UART_AbortReceive_IT(&huart6);//中止串口6（MP3芯片）接收中断功能
+		LED_ALL(0x0F);//LED1~4整组操作函数（低4位的1/0状态对应4个LED亮灭，最低位对应LED1）
+		USART1_printf("\n\r【9】U盘和TF卡测试：请先断开板上“音频接口跳线”的5个短路子，再插入U盘和SD(TF)卡！\n\r"); //串口发送标题
+		OLED_printf_0816_ASCII(10,0,"TEST6:USB-H SDIO"); //显示字符串
+		OLED_printf_0816_ASCII(2,0,"Insert U-Disk&SD"); //显示字符串
+		OLED_printf_0816_ASCII(4,0,"NO U-Disk!      ");//显示字符串
+		OLED_printf_0816_ASCII(6,0,"NO SD Card!     ");//显示字符串
+		MX_USB_HOST_Init();//因在上一步MY1690_Init函数中重置了相关GPIO，所以需要重新初始化
+		MX_SDIO_SD_Init();//单片机直接读取SD卡（TF卡）的初始化程序
+		USB_HOST_STA = 0;//USB HOST状态标志清0
+		USB_MARK=0;
+		MENU=51;//
+	  }
+	  if(MENU==51){	//循环检测蓝牙和WIFI发来的数据
+		HAL_Delay(10);//延时
+		//刷新U盘的插入和弹出状态并在OLED屏上显示
+		if(USB_HOST_STA==2 && USB_MARK!=1){//判断当U盘连接且标志位为“0：无U盘”时
+		   BUZZER_SOLO2();//提示音
+		   USB_MARK=1;//U盘状态标记
+		   USB_HOST_STA = 0;//USB HOST状态标志清0
+		   OLED_printf_0816_ASCII(4,0,"U-Disk test OK! ");//显示字符串
+		   USART1_printf("U盘已插入，测试成功！\n\r"); //串口发送标题   "
+		}else  if(USB_HOST_STA==1 && USB_MARK!=0){//判断当U盘断开且标志位为“1：空闲”时
+		   BUZZER_SOLO2();//提示音
+		   USB_MARK=0;//U盘状态标记
+		   USB_HOST_STA = 0;//USB HOST状态标志清0
+		   OLED_printf_0816_ASCII(4,0,"NO U-Disk!      ");//显示字符串
+		   USART1_printf("U盘已拔出！\n\r"); //串口发送标题
+		}
+		//刷新SD卡的插入和弹出状态并显示在OLED屏上
+		if(BSP_SD_Init()==0 && SD_MARK==0){//判断当卡连接且标志位为“0：无卡”时
+		   BUZZER_SOLO2();//提示音
+		   SD_MARK=1;//SD卡状态标记
+		   OLED_printf_0816_ASCII(6,0,"SD Card test OK!");//显示字符串
+		   USART1_printf("SD卡已插入，测试成功！\n\r"); //串口发送标题
+		}else if(BSP_SD_Init()==1 && SD_MARK==1){//判断当卡断开且标志位为“1：有卡空闲”时
+		   BUZZER_SOLO2();//提示音
+		   SD_MARK=0;//SD卡状态标记
+		   OLED_printf_0816_ASCII(6,0,"NO SD Card!     ");//显示字符串
+		   USART1_printf("SD卡已拔出！\n\r"); //串口发送标题
+		}
+	  }
+    /* USER CODE END WHILE */
+    MX_USB_HOST_Process();
+
+    /* USER CODE BEGIN 3 */
+  }
+  /*********************************************************************************************
+   * 洋桃电子 www.DoYoung.net
+   * 部分程序代码复制自网络开源资料 如有侵权请联系我们处理
+   * 洋桃电子原创程序代码部分均未声明版权 可自由复制使用 我们不对代码做任何担保
+  *********************************************************************************************/
+  /* USER CODE END 3 */
+}
+
+/**
+  * @brief System Clock Configuration
+  * @retval None
+  */
+void SystemClock_Config(void)
+{
+  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+
+  /** Configure the main internal regulator output voltage
+  */
+  __HAL_RCC_PWR_CLK_ENABLE();
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
+  */
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE|RCC_OSCILLATORTYPE_LSE;
+  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.LSEState = RCC_LSE_ON;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+  RCC_OscInitStruct.PLL.PLLM = 4;
+  RCC_OscInitStruct.PLL.PLLN = 72;
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+  RCC_OscInitStruct.PLL.PLLQ = 3;
+  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Initializes the CPU, AHB and APB buses clocks
+  */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+}
+
+/**
+  * @brief ADC1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_ADC1_Init(void)
+{
+
+  /* USER CODE BEGIN ADC1_Init 0 */
+
+  /* USER CODE END ADC1_Init 0 */
+
+  ADC_ChannelConfTypeDef sConfig = {0};
+
+  /* USER CODE BEGIN ADC1_Init 1 */
+
+  /* USER CODE END ADC1_Init 1 */
+  /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
+  */
+  hadc1.Instance = ADC1;
+  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
+  hadc1.Init.Resolution = ADC_RESOLUTION_12B;
+  hadc1.Init.ScanConvMode = ENABLE;
+  hadc1.Init.ContinuousConvMode = ENABLE;
+  hadc1.Init.DiscontinuousConvMode = DISABLE;
+  hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
+  hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+  hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+  hadc1.Init.NbrOfConversion = 1;
+  hadc1.Init.DMAContinuousRequests = DISABLE;
+  hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+  if (HAL_ADC_Init(&hadc1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
+  */
+  sConfig.Channel = ADC_CHANNEL_12;
+  sConfig.Rank = 1;
+  sConfig.SamplingTime = ADC_SAMPLETIME_144CYCLES;
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN ADC1_Init 2 */
+
+  /* USER CODE END ADC1_Init 2 */
+
+}
+
+/**
+  * @brief ADC2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_ADC2_Init(void)
+{
+
+  /* USER CODE BEGIN ADC2_Init 0 */
+
+  /* USER CODE END ADC2_Init 0 */
+
+  ADC_ChannelConfTypeDef sConfig = {0};
+
+  /* USER CODE BEGIN ADC2_Init 1 */
+
+  /* USER CODE END ADC2_Init 1 */
+  /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
+  */
+  hadc2.Instance = ADC2;
+  hadc2.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
+  hadc2.Init.Resolution = ADC_RESOLUTION_12B;
+  hadc2.Init.ScanConvMode = ENABLE;
+  hadc2.Init.ContinuousConvMode = ENABLE;
+  hadc2.Init.DiscontinuousConvMode = DISABLE;
+  hadc2.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
+  hadc2.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+  hadc2.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+  hadc2.Init.NbrOfConversion = 1;
+  hadc2.Init.DMAContinuousRequests = DISABLE;
+  hadc2.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+  if (HAL_ADC_Init(&hadc2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
+  */
+  sConfig.Channel = ADC_CHANNEL_13;
+  sConfig.Rank = 1;
+  sConfig.SamplingTime = ADC_SAMPLETIME_144CYCLES;
+  if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN ADC2_Init 2 */
+
+  /* USER CODE END ADC2_Init 2 */
+
+}
+
+/**
+  * @brief CAN1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_CAN1_Init(void)
+{
+
+  /* USER CODE BEGIN CAN1_Init 0 */
+
+  /* USER CODE END CAN1_Init 0 */
+
+  /* USER CODE BEGIN CAN1_Init 1 */
+
+  /* USER CODE END CAN1_Init 1 */
+  hcan1.Instance = CAN1;
+  hcan1.Init.Prescaler = 9;
+  hcan1.Init.Mode = CAN_MODE_NORMAL;
+  hcan1.Init.SyncJumpWidth = CAN_SJW_1TQ;
+  hcan1.Init.TimeSeg1 = CAN_BS1_7TQ;
+  hcan1.Init.TimeSeg2 = CAN_BS2_8TQ;
+  hcan1.Init.TimeTriggeredMode = DISABLE;
+  hcan1.Init.AutoBusOff = DISABLE;
+  hcan1.Init.AutoWakeUp = DISABLE;
+  hcan1.Init.AutoRetransmission = DISABLE;
+  hcan1.Init.ReceiveFifoLocked = DISABLE;
+  hcan1.Init.TransmitFifoPriority = DISABLE;
+  if (HAL_CAN_Init(&hcan1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN CAN1_Init 2 */
+
+  /* USER CODE END CAN1_Init 2 */
+
+}
+
+/**
+  * @brief CRC Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_CRC_Init(void)
+{
+
+  /* USER CODE BEGIN CRC_Init 0 */
+
+  /* USER CODE END CRC_Init 0 */
+
+  /* USER CODE BEGIN CRC_Init 1 */
+
+  /* USER CODE END CRC_Init 1 */
+  hcrc.Instance = CRC;
+  if (HAL_CRC_Init(&hcrc) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN CRC_Init 2 */
+
+  /* USER CODE END CRC_Init 2 */
+
+}
+
+/**
+  * @brief DAC Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_DAC_Init(void)
+{
+
+  /* USER CODE BEGIN DAC_Init 0 */
+
+  /* USER CODE END DAC_Init 0 */
+
+  DAC_ChannelConfTypeDef sConfig = {0};
+
+  /* USER CODE BEGIN DAC_Init 1 */
+
+  /* USER CODE END DAC_Init 1 */
+  /** DAC Initialization
+  */
+  hdac.Instance = DAC;
+  if (HAL_DAC_Init(&hdac) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** DAC channel OUT1 config
+  */
+  sConfig.DAC_Trigger = DAC_TRIGGER_NONE;
+  sConfig.DAC_OutputBuffer = DAC_OUTPUTBUFFER_ENABLE;
+  if (HAL_DAC_ConfigChannel(&hdac, &sConfig, DAC_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** DAC channel OUT2 config
+  */
+  sConfig.DAC_Trigger = DAC_TRIGGER_T4_TRGO;
+  if (HAL_DAC_ConfigChannel(&hdac, &sConfig, DAC_CHANNEL_2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure Triangle wave generation on DAC OUT2
+  */
+  if (HAL_DACEx_TriangleWaveGenerate(&hdac, DAC_CHANNEL_2, DAC_TRIANGLEAMPLITUDE_4095) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN DAC_Init 2 */
+
+  /* USER CODE END DAC_Init 2 */
+
+}
+
+/**
+  * @brief I2C2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_I2C2_Init(void)
+{
+
+  /* USER CODE BEGIN I2C2_Init 0 */
+
+  /* USER CODE END I2C2_Init 0 */
+
+  /* USER CODE BEGIN I2C2_Init 1 */
+
+  /* USER CODE END I2C2_Init 1 */
+  hi2c2.Instance = I2C2;
+  hi2c2.Init.ClockSpeed = 400000;
+  hi2c2.Init.DutyCycle = I2C_DUTYCYCLE_2;
+  hi2c2.Init.OwnAddress1 = 0;
+  hi2c2.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  hi2c2.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  hi2c2.Init.OwnAddress2 = 0;
+  hi2c2.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  hi2c2.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  if (HAL_I2C_Init(&hi2c2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN I2C2_Init 2 */
+
+  /* USER CODE END I2C2_Init 2 */
+
+}
+
+/**
+  * @brief RNG Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_RNG_Init(void)
+{
+
+  /* USER CODE BEGIN RNG_Init 0 */
+
+  /* USER CODE END RNG_Init 0 */
+
+  /* USER CODE BEGIN RNG_Init 1 */
+
+  /* USER CODE END RNG_Init 1 */
+  hrng.Instance = RNG;
+  if (HAL_RNG_Init(&hrng) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN RNG_Init 2 */
+
+  /* USER CODE END RNG_Init 2 */
+
+}
+
+/**
+  * @brief RTC Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_RTC_Init(void)
+{
+
+  /* USER CODE BEGIN RTC_Init 0 */
+
+  /* USER CODE END RTC_Init 0 */
+
+  RTC_TimeTypeDef sTime = {0};
+  RTC_DateTypeDef sDate = {0};
+
+  /* USER CODE BEGIN RTC_Init 1 */
+
+  /* USER CODE END RTC_Init 1 */
+  /** Initialize RTC Only
+  */
+  hrtc.Instance = RTC;
+  hrtc.Init.HourFormat = RTC_HOURFORMAT_24;
+  hrtc.Init.AsynchPrediv = 127;
+  hrtc.Init.SynchPrediv = 255;
+  hrtc.Init.OutPut = RTC_OUTPUT_DISABLE;
+  hrtc.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
+  hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
+  if (HAL_RTC_Init(&hrtc) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /* USER CODE BEGIN Check_RTC_BKUP */
+  if(HAL_RTCEx_BKUPRead(&hrtc,RTC_BKP_DR0)!=0X5050){ //判断是否首次上电
+   HAL_RTCEx_BKUPWrite(&hrtc,RTC_BKP_DR0,0X5050); //标记数值 下次不执行“首次上电”的部分
+  /* USER CODE END Check_RTC_BKUP */
+
+  /** Initialize RTC and set the Time and Date
+  */
+  sTime.Hours = 0x0;
+  sTime.Minutes = 0x0;
+  sTime.Seconds = 0x0;
+  sTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
+  sTime.StoreOperation = RTC_STOREOPERATION_RESET;
+  if (HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BCD) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sDate.WeekDay = RTC_WEEKDAY_MONDAY;
+  sDate.Month = RTC_MONTH_JANUARY;
+  sDate.Date = 0x1;
+  sDate.Year = 0x22;
+
+  if (HAL_RTC_SetDate(&hrtc, &sDate, RTC_FORMAT_BCD) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN RTC_Init 2 */
+  }
+  /* USER CODE END RTC_Init 2 */
+
+}
+
+/**
+  * @brief SDIO Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_SDIO_SD_Init(void)
+{
+
+  /* USER CODE BEGIN SDIO_Init 0 */
+
+  /* USER CODE END SDIO_Init 0 */
+
+  /* USER CODE BEGIN SDIO_Init 1 */
+
+  /* USER CODE END SDIO_Init 1 */
+  hsd.Instance = SDIO;
+  hsd.Init.ClockEdge = SDIO_CLOCK_EDGE_RISING;
+  hsd.Init.ClockBypass = SDIO_CLOCK_BYPASS_DISABLE;
+  hsd.Init.ClockPowerSave = SDIO_CLOCK_POWER_SAVE_DISABLE;
+  hsd.Init.BusWide = SDIO_BUS_WIDE_1B;
+  hsd.Init.HardwareFlowControl = SDIO_HARDWARE_FLOW_CONTROL_DISABLE;
+  hsd.Init.ClockDiv = 72;
+  /* USER CODE BEGIN SDIO_Init 2 */
+
+  /* USER CODE END SDIO_Init 2 */
+
+}
+
+/**
+  * @brief SPI2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_SPI2_Init(void)
+{
+
+  /* USER CODE BEGIN SPI2_Init 0 */
+
+  /* USER CODE END SPI2_Init 0 */
+
+  /* USER CODE BEGIN SPI2_Init 1 */
+
+  /* USER CODE END SPI2_Init 1 */
+  /* SPI2 parameter configuration*/
+  hspi2.Instance = SPI2;
+  hspi2.Init.Mode = SPI_MODE_MASTER;
+  hspi2.Init.Direction = SPI_DIRECTION_2LINES;
+  hspi2.Init.DataSize = SPI_DATASIZE_8BIT;
+  hspi2.Init.CLKPolarity = SPI_POLARITY_HIGH;
+  hspi2.Init.CLKPhase = SPI_PHASE_2EDGE;
+  hspi2.Init.NSS = SPI_NSS_SOFT;
+  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
+  hspi2.Init.FirstBit = SPI_FIRSTBIT_MSB;
+  hspi2.Init.TIMode = SPI_TIMODE_DISABLE;
+  hspi2.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+  hspi2.Init.CRCPolynomial = 10;
+  if (HAL_SPI_Init(&hspi2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN SPI2_Init 2 */
+
+  /* USER CODE END SPI2_Init 2 */
+
+}
+
+/**
+  * @brief TIM2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM2_Init(void)
+{
+
+  /* USER CODE BEGIN TIM2_Init 0 */
+
+  /* USER CODE END TIM2_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM2_Init 1 */
+
+  /* USER CODE END TIM2_Init 1 */
+  htim2.Instance = TIM2;
+  htim2.Init.Prescaler = 7199;
+  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim2.Init.Period = 999;
+  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM2_Init 2 */
+
+  /* USER CODE END TIM2_Init 2 */
+
+}
+
+/**
+  * @brief TIM4 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM4_Init(void)
+{
+
+  /* USER CODE BEGIN TIM4_Init 0 */
+
+  /* USER CODE END TIM4_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM4_Init 1 */
+
+  /* USER CODE END TIM4_Init 1 */
+  htim4.Instance = TIM4;
+  htim4.Init.Prescaler = 3;
+  htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim4.Init.Period = 6;
+  htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim4) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim4, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_UPDATE;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim4, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM4_Init 2 */
+
+  /* USER CODE END TIM4_Init 2 */
+
+}
+
+/**
+  * @brief UART4 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_UART4_Init(void)
+{
+
+  /* USER CODE BEGIN UART4_Init 0 */
+
+  /* USER CODE END UART4_Init 0 */
+
+  /* USER CODE BEGIN UART4_Init 1 */
+
+  /* USER CODE END UART4_Init 1 */
+  huart4.Instance = UART4;
+  huart4.Init.BaudRate = 115200;
+  huart4.Init.WordLength = UART_WORDLENGTH_8B;
+  huart4.Init.StopBits = UART_STOPBITS_1;
+  huart4.Init.Parity = UART_PARITY_NONE;
+  huart4.Init.Mode = UART_MODE_TX_RX;
+  huart4.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart4.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart4) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN UART4_Init 2 */
+
+  /* USER CODE END UART4_Init 2 */
+
+}
+
+/**
+  * @brief USART1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART1_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART1_Init 0 */
+
+  /* USER CODE END USART1_Init 0 */
+
+  /* USER CODE BEGIN USART1_Init 1 */
+
+  /* USER CODE END USART1_Init 1 */
+  huart1.Instance = USART1;
+  huart1.Init.BaudRate = 115200;
+  huart1.Init.WordLength = UART_WORDLENGTH_8B;
+  huart1.Init.StopBits = UART_STOPBITS_1;
+  huart1.Init.Parity = UART_PARITY_NONE;
+  huart1.Init.Mode = UART_MODE_TX_RX;
+  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART1_Init 2 */
+
+  /* USER CODE END USART1_Init 2 */
+
+}
+
+/**
+  * @brief USART2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART2_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART2_Init 0 */
+
+  /* USER CODE END USART2_Init 0 */
+
+  /* USER CODE BEGIN USART2_Init 1 */
+
+  /* USER CODE END USART2_Init 1 */
+  huart2.Instance = USART2;
+  huart2.Init.BaudRate = 115200;
+  huart2.Init.WordLength = UART_WORDLENGTH_8B;
+  huart2.Init.StopBits = UART_STOPBITS_1;
+  huart2.Init.Parity = UART_PARITY_NONE;
+  huart2.Init.Mode = UART_MODE_TX_RX;
+  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART2_Init 2 */
+
+  /* USER CODE END USART2_Init 2 */
+
+}
+
+/**
+  * @brief USART3 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART3_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART3_Init 0 */
+
+  /* USER CODE END USART3_Init 0 */
+
+  /* USER CODE BEGIN USART3_Init 1 */
+
+  /* USER CODE END USART3_Init 1 */
+  huart3.Instance = USART3;
+  huart3.Init.BaudRate = 115200;
+  huart3.Init.WordLength = UART_WORDLENGTH_8B;
+  huart3.Init.StopBits = UART_STOPBITS_1;
+  huart3.Init.Parity = UART_PARITY_NONE;
+  huart3.Init.Mode = UART_MODE_TX_RX;
+  huart3.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart3.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART3_Init 2 */
+
+  /* USER CODE END USART3_Init 2 */
+
+}
+
+/**
+  * @brief USART6 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART6_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART6_Init 0 */
+
+  /* USER CODE END USART6_Init 0 */
+
+  /* USER CODE BEGIN USART6_Init 1 */
+
+  /* USER CODE END USART6_Init 1 */
+  huart6.Instance = USART6;
+  huart6.Init.BaudRate = 9600;
+  huart6.Init.WordLength = UART_WORDLENGTH_8B;
+  huart6.Init.StopBits = UART_STOPBITS_1;
+  huart6.Init.Parity = UART_PARITY_NONE;
+  huart6.Init.Mode = UART_MODE_TX_RX;
+  huart6.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart6.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart6) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART6_Init 2 */
+
+  /* USER CODE END USART6_Init 2 */
+
+}
+
+/**
+  * Enable DMA controller clock
+  */
+static void MX_DMA_Init(void)
+{
+
+  /* DMA controller clock enable */
+  __HAL_RCC_DMA2_CLK_ENABLE();
+
+  /* DMA interrupt init */
+  /* DMA2_Stream3_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA2_Stream3_IRQn, 2, 0);
+  HAL_NVIC_EnableIRQ(DMA2_Stream3_IRQn);
+  /* DMA2_Stream6_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA2_Stream6_IRQn, 2, 0);
+  HAL_NVIC_EnableIRQ(DMA2_Stream6_IRQn);
+
+}
+
+/**
+  * @brief GPIO Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_GPIO_Init(void)
+{
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+  /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOC_CLK_ENABLE();
+  __HAL_RCC_GPIOF_CLK_ENABLE();
+  __HAL_RCC_GPIOH_CLK_ENABLE();
+  __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
+  __HAL_RCC_GPIOG_CLK_ENABLE();
+  __HAL_RCC_GPIOE_CLK_ENABLE();
+  __HAL_RCC_GPIOD_CLK_ENABLE();
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(SPEAKER_GPIO_Port, SPEAKER_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(BEEP1_GPIO_Port, BEEP1_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, LED4_Pin|W25Q128_CS_Pin|RS485_RE_Pin|USB_HOST_POWER_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOG, RELAY1_Pin|RELAY2_Pin|LED1_Pin|LED2_Pin
+                          |LED3_Pin|FLASH_WP_Pin|FLASH_HOLD_Pin|TOUTH_RST_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(BTCS_GPIO_Port, BTCS_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(LCD_BL_GPIO_Port, LCD_BL_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin : SPEAKER_Pin */
+  GPIO_InitStruct.Pin = SPEAKER_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(SPEAKER_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : BEEP1_Pin */
+  GPIO_InitStruct.Pin = BEEP1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  HAL_GPIO_Init(BEEP1_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : LED4_Pin W25Q128_CS_Pin LCD_BL_Pin RS485_RE_Pin
+                           USB_HOST_POWER_Pin */
+  GPIO_InitStruct.Pin = LED4_Pin|W25Q128_CS_Pin|LCD_BL_Pin|RS485_RE_Pin
+                          |USB_HOST_POWER_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : KEY1_Pin KEY2_Pin KEY3_Pin KEY4_Pin */
+  GPIO_InitStruct.Pin = KEY1_Pin|KEY2_Pin|KEY3_Pin|KEY4_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : RELAY1_Pin RELAY2_Pin */
+  GPIO_InitStruct.Pin = RELAY1_Pin|RELAY2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : LED1_Pin LED2_Pin LED3_Pin FLASH_WP_Pin
+                           FLASH_HOLD_Pin TOUTH_RST_Pin */
+  GPIO_InitStruct.Pin = LED1_Pin|LED2_Pin|LED3_Pin|FLASH_WP_Pin
+                          |FLASH_HOLD_Pin|TOUTH_RST_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : SD_READY_Pin TOUCH_INT_Pin */
+  GPIO_InitStruct.Pin = SD_READY_Pin|TOUCH_INT_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : BTCS_Pin */
+  GPIO_InitStruct.Pin = BTCS_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  HAL_GPIO_Init(BTCS_GPIO_Port, &GPIO_InitStruct);
+
+}
+
+/* FSMC initialization function */
+static void MX_FSMC_Init(void)
+{
+
+  /* USER CODE BEGIN FSMC_Init 0 */
+
+  /* USER CODE END FSMC_Init 0 */
+
+  FSMC_NORSRAM_TimingTypeDef Timing = {0};
+  FSMC_NORSRAM_TimingTypeDef ExtTiming = {0};
+
+  /* USER CODE BEGIN FSMC_Init 1 */
+
+  /* USER CODE END FSMC_Init 1 */
+
+  /** Perform the SRAM1 memory initialization sequence
+  */
+  hsram1.Instance = FSMC_NORSRAM_DEVICE;
+  hsram1.Extended = FSMC_NORSRAM_EXTENDED_DEVICE;
+  /* hsram1.Init */
+  hsram1.Init.NSBank = FSMC_NORSRAM_BANK1;
+  hsram1.Init.DataAddressMux = FSMC_DATA_ADDRESS_MUX_DISABLE;
+  hsram1.Init.MemoryType = FSMC_MEMORY_TYPE_SRAM;
+  hsram1.Init.MemoryDataWidth = FSMC_NORSRAM_MEM_BUS_WIDTH_16;
+  hsram1.Init.BurstAccessMode = FSMC_BURST_ACCESS_MODE_DISABLE;
+  hsram1.Init.WaitSignalPolarity = FSMC_WAIT_SIGNAL_POLARITY_LOW;
+  hsram1.Init.WrapMode = FSMC_WRAP_MODE_DISABLE;
+  hsram1.Init.WaitSignalActive = FSMC_WAIT_TIMING_BEFORE_WS;
+  hsram1.Init.WriteOperation = FSMC_WRITE_OPERATION_ENABLE;
+  hsram1.Init.WaitSignal = FSMC_WAIT_SIGNAL_DISABLE;
+  hsram1.Init.ExtendedMode = FSMC_EXTENDED_MODE_ENABLE;
+  hsram1.Init.AsynchronousWait = FSMC_ASYNCHRONOUS_WAIT_DISABLE;
+  hsram1.Init.WriteBurst = FSMC_WRITE_BURST_DISABLE;
+  hsram1.Init.PageSize = FSMC_PAGE_SIZE_NONE;
+  /* Timing */
+  Timing.AddressSetupTime = 15;
+  Timing.AddressHoldTime = 15;
+  Timing.DataSetupTime = 60;
+  Timing.BusTurnAroundDuration = 0;
+  Timing.CLKDivision = 16;
+  Timing.DataLatency = 17;
+  Timing.AccessMode = FSMC_ACCESS_MODE_A;
+  /* ExtTiming */
+  ExtTiming.AddressSetupTime = 9;
+  ExtTiming.AddressHoldTime = 15;
+  ExtTiming.DataSetupTime = 1;
+  ExtTiming.BusTurnAroundDuration = 0;
+  ExtTiming.CLKDivision = 16;
+  ExtTiming.DataLatency = 17;
+  ExtTiming.AccessMode = FSMC_ACCESS_MODE_A;
+
+  if (HAL_SRAM_Init(&hsram1, &Timing, &ExtTiming) != HAL_OK)
+  {
+    Error_Handler( );
+  }
+
+  /* USER CODE BEGIN FSMC_Init 2 */
+
+  /* USER CODE END FSMC_Init 2 */
+}
+
+/* USER CODE BEGIN 4 */
+
+/* USER CODE END 4 */
+
+/**
+  * @brief  This function is executed in case of error occurrence.
+  * @retval None
+  */
+void Error_Handler(void)
+{
+  /* USER CODE BEGIN Error_Handler_Debug */
+  /* User can add his own implementation to report the HAL error return state */
+  __disable_irq();
+  while (1)
+  {
+  }
+  /* USER CODE END Error_Handler_Debug */
+}
+
+#ifdef  USE_FULL_ASSERT
+/**
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
+void assert_failed(uint8_t *file, uint32_t line)
+{
+  /* USER CODE BEGIN 6 */
+  /* User can add his own implementation to report the file name and line number,
+     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+  /* USER CODE END 6 */
+}
+#endif /* USE_FULL_ASSERT */
+

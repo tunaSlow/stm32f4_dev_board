@@ -1,0 +1,4 @@
+../Core/icode/can/can1.c:18:6:CAN_User_Init	64	static
+../Core/icode/can/can1.c:51:7:HAL_CAN_RxFifo1MsgPendingCallback	32	static
+../Core/icode/can/can1.c:65:10:CAN1_SendNormalData	40	static
+../Core/icode/can/can1.c:99:6:CAN1_printf	216	static

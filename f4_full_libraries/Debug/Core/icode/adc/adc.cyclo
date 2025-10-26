@@ -1,0 +1,4 @@
+../Core/icode/adc/adc.c:13:10:ADC_Read	2
+../Core/icode/adc/adc.c:24:10:ADCgetavg1	10
+../Core/icode/adc/adc.c:49:10:ADCgetavg2	5
+../Core/icode/adc/adc.c:70:10:ADC_to_Voltage	1

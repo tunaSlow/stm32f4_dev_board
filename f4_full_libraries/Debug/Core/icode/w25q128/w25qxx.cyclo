@@ -1,0 +1,17 @@
+../Core/icode/w25q128/w25qxx.c:17:9:SPI2_ReadWriteByte	1
+../Core/icode/w25q128/w25qxx.c:23:6:W25QXX_CS	2
+../Core/icode/w25q128/w25qxx.c:28:9:W25QXX_Init	9
+../Core/icode/w25q128/w25qxx.c:58:9:W25QXX_ReadSR	5
+../Core/icode/w25q128/w25qxx.c:73:6:W25QXX_Write_SR	5
+../Core/icode/w25q128/w25qxx.c:87:6:W25QXX_Write_Enable	1
+../Core/icode/w25q128/w25qxx.c:93:6:W25QXX_Write_Disable	1
+../Core/icode/w25q128/w25qxx.c:105:10:W25QXX_ReadID	1
+../Core/icode/w25q128/w25qxx.c:121:6:W25QXX_Read	3
+../Core/icode/w25q128/w25qxx.c:141:6:W25QXX_Write_Page	3
+../Core/icode/w25q128/w25qxx.c:162:6:W25QXX_Write_NoCheck	4
+../Core/icode/w25q128/w25qxx.c:183:6:W25QXX_Write	8
+../Core/icode/w25q128/w25qxx.c:219:6:W25QXX_Erase_Chip	1
+../Core/icode/w25q128/w25qxx.c:229:6:W25QXX_Erase_Sector	2
+../Core/icode/w25q128/w25qxx.c:245:6:W25QXX_Wait_Busy	2
+../Core/icode/w25q128/w25qxx.c:249:6:W25QXX_PowerDown	1
+../Core/icode/w25q128/w25qxx.c:256:6:W25QXX_WAKEUP	1

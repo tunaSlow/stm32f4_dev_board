@@ -1,0 +1,3 @@
+../Core/icode/bkpsram/bkpsram.c:10:6:US_BKPSRAM_INIT	16	static
+../Core/icode/bkpsram/bkpsram.c:17:9:US_BKPSRAM_WRITE_BYTE	32	static
+../Core/icode/bkpsram/bkpsram.c:27:6:US_BKPSRAM_READ_BYTE	32	static
