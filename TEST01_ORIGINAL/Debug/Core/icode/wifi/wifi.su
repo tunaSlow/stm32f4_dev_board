@@ -1,0 +1,2 @@
+../Core/icode/wifi/wifi.c:15:6:WIFI_printf	216	static
+../Core/icode/wifi/wifi.c:29:6:WIFI_TCP_SEND	216	static

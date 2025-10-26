@@ -1,0 +1,2 @@
+../Core/icode/usart/usart.c:32:6:USART1_printf	216	static
+../Core/icode/usart/usart.c:45:7:HAL_UART_RxCpltCallback	16	static

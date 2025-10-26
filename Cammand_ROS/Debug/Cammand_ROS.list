@@ -39,13 +39,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  17 .debug_line   00019464  00000000  00000000  00058389  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000f4437  00000000  00000000  000717ed  2**0
+ 18 .debug_str    000f4484  00000000  00000000  000717ed  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  00165c24  2**0
+ 19 .comment      00000043  00000000  00000000  00165c71  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00005330  00000000  00000000  00165c68  2**2
+ 20 .debug_frame  00005330  00000000  00000000  00165cb4  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 00000063  00000000  00000000  0016af98  2**0
+ 21 .debug_line_str 00000063  00000000  00000000  0016afe4  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -1791,8 +1791,16 @@ Disassembly of section .text:
  80014a0:	400921fb 	.word	0x400921fb
 
 080014a4 <Decoding>:
+
+/* USER CODE END PFP */
+
+/* Private user code ---------------------------------------------------------*/
+/* USER CODE BEGIN 0 */
+void Decoding(){
  80014a4:	b480      	push	{r7}
  80014a6:	af00      	add	r7, sp, #0
+
+	Vx= (usb_buf_rx[2]<<8 | usb_buf_rx[3]<<0);
  80014a8:	4b14      	ldr	r3, [pc, #80]	@ (80014fc <Decoding+0x58>)
  80014aa:	789b      	ldrb	r3, [r3, #2]
  80014ac:	b21b      	sxth	r3, r3
@@ -1805,6 +1813,7 @@ Disassembly of section .text:
  80014ba:	b21a      	sxth	r2, r3
  80014bc:	4b10      	ldr	r3, [pc, #64]	@ (8001500 <Decoding+0x5c>)
  80014be:	801a      	strh	r2, [r3, #0]
+	Vy= (usb_buf_rx[4]<<8 | usb_buf_rx[5]<<0);
  80014c0:	4b0e      	ldr	r3, [pc, #56]	@ (80014fc <Decoding+0x58>)
  80014c2:	791b      	ldrb	r3, [r3, #4]
  80014c4:	b21b      	sxth	r3, r3
@@ -1817,6 +1826,7 @@ Disassembly of section .text:
  80014d2:	b21a      	sxth	r2, r3
  80014d4:	4b0b      	ldr	r3, [pc, #44]	@ (8001504 <Decoding+0x60>)
  80014d6:	801a      	strh	r2, [r3, #0]
+	Vw= (usb_buf_rx[6]<<8 | usb_buf_rx[7]<<0);
  80014d8:	4b08      	ldr	r3, [pc, #32]	@ (80014fc <Decoding+0x58>)
  80014da:	799b      	ldrb	r3, [r3, #6]
  80014dc:	b21b      	sxth	r3, r3
@@ -1829,6 +1839,8 @@ Disassembly of section .text:
  80014ea:	b21a      	sxth	r2, r3
  80014ec:	4b06      	ldr	r3, [pc, #24]	@ (8001508 <Decoding+0x64>)
  80014ee:	801a      	strh	r2, [r3, #0]
+
+}
  80014f0:	bf00      	nop
  80014f2:	46bd      	mov	sp, r7
  80014f4:	f85d 7b04 	ldr.w	r7, [sp], #4
@@ -1841,10 +1853,25 @@ Disassembly of section .text:
  800150c:	00000000 	.word	0x00000000
 
 08001510 <main>:
+/**
+  * @brief  The application entry point.
+  * @retval int
+  */
+int main(void)
+{
  8001510:	e92d 41f0 	stmdb	sp!, {r4, r5, r6, r7, r8, lr}
  8001514:	b084      	sub	sp, #16
  8001516:	af00      	add	r7, sp, #0
+  /* USER CODE END 1 */
+
+  /* MCU Configuration--------------------------------------------------------*/
+
+  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  HAL_Init();
  8001518:	f000 fee5 	bl	80022e6 <HAL_Init>
+
+  /* USER CODE BEGIN Init */
+  PID_struct_init(&Con_M1 ,POSITION_PID,maxout,intergral_limit,kp,ki,kd);
  800151c:	a3bc      	add	r3, pc, #752	@ (adr r3, 8001810 <main+0x300>)
  800151e:	e9d3 2300 	ldrd	r2, r3, [r3]
  8001522:	4610      	mov	r0, r2
@@ -1883,6 +1910,7 @@ Disassembly of section .text:
  800157c:	2103      	movs	r1, #3
  800157e:	48a9      	ldr	r0, [pc, #676]	@ (8001824 <main+0x314>)
  8001580:	f000 fd5c 	bl	800203c <PID_struct_init>
+  PID_struct_init(&Con_M2 ,POSITION_PID,maxout,intergral_limit,kp,ki,kd);
  8001584:	a3a2      	add	r3, pc, #648	@ (adr r3, 8001810 <main+0x300>)
  8001586:	e9d3 2300 	ldrd	r2, r3, [r3]
  800158a:	4610      	mov	r0, r2
@@ -1921,6 +1949,7 @@ Disassembly of section .text:
  80015e4:	2103      	movs	r1, #3
  80015e6:	4890      	ldr	r0, [pc, #576]	@ (8001828 <main+0x318>)
  80015e8:	f000 fd28 	bl	800203c <PID_struct_init>
+  PID_struct_init(&Con_M3 ,POSITION_PID,maxout,intergral_limit,kp,ki,kd);
  80015ec:	a388      	add	r3, pc, #544	@ (adr r3, 8001810 <main+0x300>)
  80015ee:	e9d3 2300 	ldrd	r2, r3, [r3]
  80015f2:	4610      	mov	r0, r2
@@ -1959,6 +1988,7 @@ Disassembly of section .text:
  800164c:	2103      	movs	r1, #3
  800164e:	4877      	ldr	r0, [pc, #476]	@ (800182c <main+0x31c>)
  8001650:	f000 fcf4 	bl	800203c <PID_struct_init>
+  PID_struct_init(&Con_M4 ,POSITION_PID,maxout,intergral_limit,kp,ki,kd);
  8001654:	a36e      	add	r3, pc, #440	@ (adr r3, 8001810 <main+0x300>)
  8001656:	e9d3 2300 	ldrd	r2, r3, [r3]
  800165a:	4610      	mov	r0, r2
@@ -1997,30 +2027,67 @@ Disassembly of section .text:
  80016b4:	2103      	movs	r1, #3
  80016b6:	485e      	ldr	r0, [pc, #376]	@ (8001830 <main+0x320>)
  80016b8:	f000 fcc0 	bl	800203c <PID_struct_init>
+  /* USER CODE END Init */
+
+  /* Configure the system clock */
+  SystemClock_Config();
  80016bc:	f000 f8ce 	bl	800185c <SystemClock_Config>
+  /* USER CODE BEGIN SysInit */
+
+  /* USER CODE END SysInit */
+
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
  80016c0:	f000 f9aa 	bl	8001a18 <MX_GPIO_Init>
+  MX_FDCAN2_Init();
  80016c4:	f000 f916 	bl	80018f4 <MX_FDCAN2_Init>
+  MX_USART1_UART_Init();
  80016c8:	f000 f95a 	bl	8001980 <MX_USART1_UART_Init>
+  MX_USB_Device_Init();
  80016cc:	f00a f9c4 	bl	800ba58 <MX_USB_Device_Init>
+  /* USER CODE BEGIN 2 */
+  UART_Init();
  80016d0:	f000 fce6 	bl	80020a0 <UART_Init>
+  CAN_INIT();
  80016d4:	f7ff fd20 	bl	8001118 <CAN_INIT>
+  Robot_base_movement_init();
  80016d8:	f7ff fd6a 	bl	80011b0 <Robot_base_movement_init>
+
+  Axis_speed_param My_robot_each_axis_speed = {
  80016dc:	f107 0308 	add.w	r3, r7, #8
  80016e0:	2200      	movs	r2, #0
  80016e2:	601a      	str	r2, [r3, #0]
  80016e4:	605a      	str	r2, [r3, #4]
+  			.VW=0,
+  			.Z_ANGLE=0
+
+  	  };
+
+  Equation_mode_param My_robot_current_mode = {
  80016e6:	2300      	movs	r3, #0
  80016e8:	713b      	strb	r3, [r7, #4]
+
+
+
+
+
+	    Decoding();
  80016ea:	f7ff fedb 	bl	80014a4 <Decoding>
+
+	    if(usb_buf_rx[1]==1){
  80016ee:	4b51      	ldr	r3, [pc, #324]	@ (8001834 <main+0x324>)
  80016f0:	785b      	ldrb	r3, [r3, #1]
  80016f2:	2b01      	cmp	r3, #1
  80016f4:	d106      	bne.n	8001704 <main+0x1f4>
+	    	HAL_UART_Transmit(&huart1, (uint8_t*)"ACT0", 4, HAL_MAX_DELAY);
  80016f6:	f04f 33ff 	mov.w	r3, #4294967295	@ 0xffffffff
  80016fa:	2204      	movs	r2, #4
  80016fc:	494e      	ldr	r1, [pc, #312]	@ (8001838 <main+0x328>)
  80016fe:	484f      	ldr	r0, [pc, #316]	@ (800183c <main+0x32c>)
  8001700:	f004 fe02 	bl	8006308 <HAL_UART_Transmit>
+	    }
+
+	    My_robot_each_axis_speed.VX = -Vy;
  8001704:	4b4e      	ldr	r3, [pc, #312]	@ (8001840 <main+0x330>)
  8001706:	f9b3 3000 	ldrsh.w	r3, [r3]
  800170a:	b29b      	uxth	r3, r3
@@ -2028,6 +2095,7 @@ Disassembly of section .text:
  800170e:	b29b      	uxth	r3, r3
  8001710:	b21b      	sxth	r3, r3
  8001712:	813b      	strh	r3, [r7, #8]
+	    My_robot_each_axis_speed.VY = -Vx;
  8001714:	4b4b      	ldr	r3, [pc, #300]	@ (8001844 <main+0x334>)
  8001716:	f9b3 3000 	ldrsh.w	r3, [r3]
  800171a:	b29b      	uxth	r3, r3
@@ -2035,9 +2103,12 @@ Disassembly of section .text:
  800171e:	b29b      	uxth	r3, r3
  8001720:	b21b      	sxth	r3, r3
  8001722:	817b      	strh	r3, [r7, #10]
+	    My_robot_each_axis_speed.VW = Vw;
  8001724:	4b48      	ldr	r3, [pc, #288]	@ (8001848 <main+0x338>)
  8001726:	f9b3 3000 	ldrsh.w	r3, [r3]
  800172a:	81bb      	strh	r3, [r7, #12]
+
+	    My_robot_each_axis_speed.Z_ANGLE = -Z_angle;
  800172c:	4b47      	ldr	r3, [pc, #284]	@ (800184c <main+0x33c>)
  800172e:	edd3 7a00 	vldr	s15, [r3]
  8001732:	eef1 7a67 	vneg.f32	s15, s15
@@ -2045,9 +2116,12 @@ Disassembly of section .text:
  800173a:	ee17 3a90 	vmov	r3, s15
  800173e:	b21b      	sxth	r3, r3
  8001740:	81fb      	strh	r3, [r7, #14]
+	    My_robot_current_mode.equation_mode=usb_buf_rx[0];
  8001742:	4b3c      	ldr	r3, [pc, #240]	@ (8001834 <main+0x324>)
  8001744:	781b      	ldrb	r3, [r3, #0]
  8001746:	713b      	strb	r3, [r7, #4]
+
+	    Set_speed_M[0] = pid_calc(&Con_M1,Speed_measure[0],Wheels_motor_speed[0]);
  8001748:	4b41      	ldr	r3, [pc, #260]	@ (8001850 <main+0x340>)
  800174a:	f9b3 3000 	ldrsh.w	r3, [r3]
  800174e:	ee07 3a90 	vmov	s15, r3
@@ -2066,6 +2140,7 @@ Disassembly of section .text:
  800177e:	b21a      	sxth	r2, r3
  8001780:	4b35      	ldr	r3, [pc, #212]	@ (8001858 <main+0x348>)
  8001782:	801a      	strh	r2, [r3, #0]
+		Set_speed_M[1] = pid_calc(&Con_M2,Speed_measure[1],Wheels_motor_speed[1]);
  8001784:	4b32      	ldr	r3, [pc, #200]	@ (8001850 <main+0x340>)
  8001786:	f9b3 3002 	ldrsh.w	r3, [r3, #2]
  800178a:	ee07 3a90 	vmov	s15, r3
@@ -2084,6 +2159,7 @@ Disassembly of section .text:
  80017ba:	b21a      	sxth	r2, r3
  80017bc:	4b26      	ldr	r3, [pc, #152]	@ (8001858 <main+0x348>)
  80017be:	805a      	strh	r2, [r3, #2]
+		Set_speed_M[2] = pid_calc(&Con_M3,Speed_measure[2],Wheels_motor_speed[2]);
  80017c0:	4b23      	ldr	r3, [pc, #140]	@ (8001850 <main+0x340>)
  80017c2:	f9b3 3004 	ldrsh.w	r3, [r3, #4]
  80017c6:	ee07 3a90 	vmov	s15, r3
@@ -2102,12 +2178,18 @@ Disassembly of section .text:
  80017f6:	b21a      	sxth	r2, r3
  80017f8:	4b17      	ldr	r3, [pc, #92]	@ (8001858 <main+0x348>)
  80017fa:	809a      	strh	r2, [r3, #4]
+
+		Robot_base_movement_start(&My_robot_each_axis_speed, &My_robot_current_mode);
  80017fc:	1d3a      	adds	r2, r7, #4
  80017fe:	f107 0308 	add.w	r3, r7, #8
  8001802:	4611      	mov	r1, r2
  8001804:	4618      	mov	r0, r3
  8001806:	f7ff fceb 	bl	80011e0 <Robot_base_movement_start>
+		//Transmitting via can bus
+
+		CAN_tran();
  800180a:	f7ff fc03 	bl	8001014 <CAN_tran>
+	    Decoding();
  800180e:	e76c      	b.n	80016ea <main+0x1da>
  8001810:	00000000 	.word	0x00000000
  8001814:	40cd4c00 	.word	0x40cd4c00
@@ -2130,14 +2212,22 @@ Disassembly of section .text:
  8001858:	20000518 	.word	0x20000518
 
 0800185c <SystemClock_Config>:
+/**
+  * @brief System Clock Configuration
+  * @retval None
+  */
+void SystemClock_Config(void)
+{
  800185c:	b580      	push	{r7, lr}
  800185e:	b094      	sub	sp, #80	@ 0x50
  8001860:	af00      	add	r7, sp, #0
+  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
  8001862:	f107 0318 	add.w	r3, r7, #24
  8001866:	2238      	movs	r2, #56	@ 0x38
  8001868:	2100      	movs	r1, #0
  800186a:	4618      	mov	r0, r3
  800186c:	f00a fdee 	bl	800c44c <memset>
+  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
  8001870:	1d3b      	adds	r3, r7, #4
  8001872:	2200      	movs	r2, #0
  8001874:	601a      	str	r2, [r3, #0]
@@ -2145,45 +2235,78 @@ Disassembly of section .text:
  8001878:	609a      	str	r2, [r3, #8]
  800187a:	60da      	str	r2, [r3, #12]
  800187c:	611a      	str	r2, [r3, #16]
+
+  /** Configure the main internal regulator output voltage
+  */
+  HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1);
  800187e:	f44f 7000 	mov.w	r0, #512	@ 0x200
  8001882:	f003 fcc1 	bl	8005208 <HAL_PWREx_ControlVoltageScaling>
+
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
+  */
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
  8001886:	2302      	movs	r3, #2
  8001888:	61bb      	str	r3, [r7, #24]
+  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
  800188a:	f44f 7380 	mov.w	r3, #256	@ 0x100
  800188e:	627b      	str	r3, [r7, #36]	@ 0x24
+  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
  8001890:	2340      	movs	r3, #64	@ 0x40
  8001892:	62bb      	str	r3, [r7, #40]	@ 0x28
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
  8001894:	2302      	movs	r3, #2
  8001896:	637b      	str	r3, [r7, #52]	@ 0x34
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
  8001898:	2302      	movs	r3, #2
  800189a:	63bb      	str	r3, [r7, #56]	@ 0x38
+  RCC_OscInitStruct.PLL.PLLM = RCC_PLLM_DIV1;
  800189c:	2301      	movs	r3, #1
  800189e:	63fb      	str	r3, [r7, #60]	@ 0x3c
+  RCC_OscInitStruct.PLL.PLLN = 18;
  80018a0:	2312      	movs	r3, #18
  80018a2:	643b      	str	r3, [r7, #64]	@ 0x40
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
  80018a4:	2302      	movs	r3, #2
  80018a6:	647b      	str	r3, [r7, #68]	@ 0x44
+  RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV6;
  80018a8:	2306      	movs	r3, #6
  80018aa:	64bb      	str	r3, [r7, #72]	@ 0x48
+  RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
  80018ac:	2302      	movs	r3, #2
  80018ae:	64fb      	str	r3, [r7, #76]	@ 0x4c
+  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
  80018b0:	f107 0318 	add.w	r3, r7, #24
  80018b4:	4618      	mov	r0, r3
  80018b6:	f003 fd5b 	bl	8005370 <HAL_RCC_OscConfig>
  80018ba:	4603      	mov	r3, r0
  80018bc:	2b00      	cmp	r3, #0
  80018be:	d001      	beq.n	80018c4 <SystemClock_Config+0x68>
+  {
+    Error_Handler();
  80018c0:	f000 f8e6 	bl	8001a90 <Error_Handler>
+  }
+
+  /** Initializes the CPU, AHB and APB buses clocks
+  */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
  80018c4:	230f      	movs	r3, #15
  80018c6:	607b      	str	r3, [r7, #4]
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
  80018c8:	2303      	movs	r3, #3
  80018ca:	60bb      	str	r3, [r7, #8]
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
  80018cc:	2300      	movs	r3, #0
  80018ce:	60fb      	str	r3, [r7, #12]
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
  80018d0:	2300      	movs	r3, #0
  80018d2:	613b      	str	r3, [r7, #16]
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
  80018d4:	2300      	movs	r3, #0
  80018d6:	617b      	str	r3, [r7, #20]
+
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
  80018d8:	1d3b      	adds	r3, r7, #4
  80018da:	2104      	movs	r1, #4
  80018dc:	4618      	mov	r0, r3
@@ -2191,151 +2314,248 @@ Disassembly of section .text:
  80018e2:	4603      	mov	r3, r0
  80018e4:	2b00      	cmp	r3, #0
  80018e6:	d001      	beq.n	80018ec <SystemClock_Config+0x90>
+  {
+    Error_Handler();
  80018e8:	f000 f8d2 	bl	8001a90 <Error_Handler>
+  }
+}
  80018ec:	bf00      	nop
  80018ee:	3750      	adds	r7, #80	@ 0x50
  80018f0:	46bd      	mov	sp, r7
  80018f2:	bd80      	pop	{r7, pc}
 
 080018f4 <MX_FDCAN2_Init>:
+  * @brief FDCAN2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_FDCAN2_Init(void)
+{
  80018f4:	b580      	push	{r7, lr}
  80018f6:	af00      	add	r7, sp, #0
+  /* USER CODE END FDCAN2_Init 0 */
+
+  /* USER CODE BEGIN FDCAN2_Init 1 */
+
+  /* USER CODE END FDCAN2_Init 1 */
+  hfdcan2.Instance = FDCAN2;
  80018f8:	4b1f      	ldr	r3, [pc, #124]	@ (8001978 <MX_FDCAN2_Init+0x84>)
  80018fa:	4a20      	ldr	r2, [pc, #128]	@ (800197c <MX_FDCAN2_Init+0x88>)
  80018fc:	601a      	str	r2, [r3, #0]
+  hfdcan2.Init.ClockDivider = FDCAN_CLOCK_DIV1;
  80018fe:	4b1e      	ldr	r3, [pc, #120]	@ (8001978 <MX_FDCAN2_Init+0x84>)
  8001900:	2200      	movs	r2, #0
  8001902:	605a      	str	r2, [r3, #4]
+  hfdcan2.Init.FrameFormat = FDCAN_FRAME_CLASSIC;
  8001904:	4b1c      	ldr	r3, [pc, #112]	@ (8001978 <MX_FDCAN2_Init+0x84>)
  8001906:	2200      	movs	r2, #0
  8001908:	609a      	str	r2, [r3, #8]
+  hfdcan2.Init.Mode = FDCAN_MODE_NORMAL;
  800190a:	4b1b      	ldr	r3, [pc, #108]	@ (8001978 <MX_FDCAN2_Init+0x84>)
  800190c:	2200      	movs	r2, #0
  800190e:	60da      	str	r2, [r3, #12]
+  hfdcan2.Init.AutoRetransmission = DISABLE;
  8001910:	4b19      	ldr	r3, [pc, #100]	@ (8001978 <MX_FDCAN2_Init+0x84>)
  8001912:	2200      	movs	r2, #0
  8001914:	741a      	strb	r2, [r3, #16]
+  hfdcan2.Init.TransmitPause = DISABLE;
  8001916:	4b18      	ldr	r3, [pc, #96]	@ (8001978 <MX_FDCAN2_Init+0x84>)
  8001918:	2200      	movs	r2, #0
  800191a:	745a      	strb	r2, [r3, #17]
+  hfdcan2.Init.ProtocolException = DISABLE;
  800191c:	4b16      	ldr	r3, [pc, #88]	@ (8001978 <MX_FDCAN2_Init+0x84>)
  800191e:	2200      	movs	r2, #0
  8001920:	749a      	strb	r2, [r3, #18]
+  hfdcan2.Init.NominalPrescaler = 16;
  8001922:	4b15      	ldr	r3, [pc, #84]	@ (8001978 <MX_FDCAN2_Init+0x84>)
  8001924:	2210      	movs	r2, #16
  8001926:	615a      	str	r2, [r3, #20]
+  hfdcan2.Init.NominalSyncJumpWidth = 1;
  8001928:	4b13      	ldr	r3, [pc, #76]	@ (8001978 <MX_FDCAN2_Init+0x84>)
  800192a:	2201      	movs	r2, #1
  800192c:	619a      	str	r2, [r3, #24]
+  hfdcan2.Init.NominalTimeSeg1 = 6;
  800192e:	4b12      	ldr	r3, [pc, #72]	@ (8001978 <MX_FDCAN2_Init+0x84>)
  8001930:	2206      	movs	r2, #6
  8001932:	61da      	str	r2, [r3, #28]
+  hfdcan2.Init.NominalTimeSeg2 = 2;
  8001934:	4b10      	ldr	r3, [pc, #64]	@ (8001978 <MX_FDCAN2_Init+0x84>)
  8001936:	2202      	movs	r2, #2
  8001938:	621a      	str	r2, [r3, #32]
+  hfdcan2.Init.DataPrescaler = 1;
  800193a:	4b0f      	ldr	r3, [pc, #60]	@ (8001978 <MX_FDCAN2_Init+0x84>)
  800193c:	2201      	movs	r2, #1
  800193e:	625a      	str	r2, [r3, #36]	@ 0x24
+  hfdcan2.Init.DataSyncJumpWidth = 1;
  8001940:	4b0d      	ldr	r3, [pc, #52]	@ (8001978 <MX_FDCAN2_Init+0x84>)
  8001942:	2201      	movs	r2, #1
  8001944:	629a      	str	r2, [r3, #40]	@ 0x28
+  hfdcan2.Init.DataTimeSeg1 = 1;
  8001946:	4b0c      	ldr	r3, [pc, #48]	@ (8001978 <MX_FDCAN2_Init+0x84>)
  8001948:	2201      	movs	r2, #1
  800194a:	62da      	str	r2, [r3, #44]	@ 0x2c
+  hfdcan2.Init.DataTimeSeg2 = 1;
  800194c:	4b0a      	ldr	r3, [pc, #40]	@ (8001978 <MX_FDCAN2_Init+0x84>)
  800194e:	2201      	movs	r2, #1
  8001950:	631a      	str	r2, [r3, #48]	@ 0x30
+  hfdcan2.Init.StdFiltersNbr = 0;
  8001952:	4b09      	ldr	r3, [pc, #36]	@ (8001978 <MX_FDCAN2_Init+0x84>)
  8001954:	2200      	movs	r2, #0
  8001956:	635a      	str	r2, [r3, #52]	@ 0x34
+  hfdcan2.Init.ExtFiltersNbr = 0;
  8001958:	4b07      	ldr	r3, [pc, #28]	@ (8001978 <MX_FDCAN2_Init+0x84>)
  800195a:	2200      	movs	r2, #0
  800195c:	639a      	str	r2, [r3, #56]	@ 0x38
+  hfdcan2.Init.TxFifoQueueMode = FDCAN_TX_FIFO_OPERATION;
  800195e:	4b06      	ldr	r3, [pc, #24]	@ (8001978 <MX_FDCAN2_Init+0x84>)
  8001960:	2200      	movs	r2, #0
  8001962:	63da      	str	r2, [r3, #60]	@ 0x3c
+  if (HAL_FDCAN_Init(&hfdcan2) != HAL_OK)
  8001964:	4804      	ldr	r0, [pc, #16]	@ (8001978 <MX_FDCAN2_Init+0x84>)
  8001966:	f000 ff21 	bl	80027ac <HAL_FDCAN_Init>
  800196a:	4603      	mov	r3, r0
  800196c:	2b00      	cmp	r3, #0
  800196e:	d001      	beq.n	8001974 <MX_FDCAN2_Init+0x80>
+  {
+    Error_Handler();
  8001970:	f000 f88e 	bl	8001a90 <Error_Handler>
+  }
+  /* USER CODE BEGIN FDCAN2_Init 2 */
+
+  /* USER CODE END FDCAN2_Init 2 */
+
+}
  8001974:	bf00      	nop
  8001976:	bd80      	pop	{r7, pc}
  8001978:	200003b0 	.word	0x200003b0
  800197c:	40006800 	.word	0x40006800
 
 08001980 <MX_USART1_UART_Init>:
+  * @brief USART1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART1_UART_Init(void)
+{
  8001980:	b580      	push	{r7, lr}
  8001982:	af00      	add	r7, sp, #0
+  /* USER CODE END USART1_Init 0 */
+
+  /* USER CODE BEGIN USART1_Init 1 */
+
+  /* USER CODE END USART1_Init 1 */
+  huart1.Instance = USART1;
  8001984:	4b22      	ldr	r3, [pc, #136]	@ (8001a10 <MX_USART1_UART_Init+0x90>)
  8001986:	4a23      	ldr	r2, [pc, #140]	@ (8001a14 <MX_USART1_UART_Init+0x94>)
  8001988:	601a      	str	r2, [r3, #0]
+  huart1.Init.BaudRate = 115200;
  800198a:	4b21      	ldr	r3, [pc, #132]	@ (8001a10 <MX_USART1_UART_Init+0x90>)
  800198c:	f44f 32e1 	mov.w	r2, #115200	@ 0x1c200
  8001990:	605a      	str	r2, [r3, #4]
+  huart1.Init.WordLength = UART_WORDLENGTH_8B;
  8001992:	4b1f      	ldr	r3, [pc, #124]	@ (8001a10 <MX_USART1_UART_Init+0x90>)
  8001994:	2200      	movs	r2, #0
  8001996:	609a      	str	r2, [r3, #8]
+  huart1.Init.StopBits = UART_STOPBITS_1;
  8001998:	4b1d      	ldr	r3, [pc, #116]	@ (8001a10 <MX_USART1_UART_Init+0x90>)
  800199a:	2200      	movs	r2, #0
  800199c:	60da      	str	r2, [r3, #12]
+  huart1.Init.Parity = UART_PARITY_NONE;
  800199e:	4b1c      	ldr	r3, [pc, #112]	@ (8001a10 <MX_USART1_UART_Init+0x90>)
  80019a0:	2200      	movs	r2, #0
  80019a2:	611a      	str	r2, [r3, #16]
+  huart1.Init.Mode = UART_MODE_TX_RX;
  80019a4:	4b1a      	ldr	r3, [pc, #104]	@ (8001a10 <MX_USART1_UART_Init+0x90>)
  80019a6:	220c      	movs	r2, #12
  80019a8:	615a      	str	r2, [r3, #20]
+  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
  80019aa:	4b19      	ldr	r3, [pc, #100]	@ (8001a10 <MX_USART1_UART_Init+0x90>)
  80019ac:	2200      	movs	r2, #0
  80019ae:	619a      	str	r2, [r3, #24]
+  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
  80019b0:	4b17      	ldr	r3, [pc, #92]	@ (8001a10 <MX_USART1_UART_Init+0x90>)
  80019b2:	2200      	movs	r2, #0
  80019b4:	61da      	str	r2, [r3, #28]
+  huart1.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
  80019b6:	4b16      	ldr	r3, [pc, #88]	@ (8001a10 <MX_USART1_UART_Init+0x90>)
  80019b8:	2200      	movs	r2, #0
  80019ba:	621a      	str	r2, [r3, #32]
+  huart1.Init.ClockPrescaler = UART_PRESCALER_DIV1;
  80019bc:	4b14      	ldr	r3, [pc, #80]	@ (8001a10 <MX_USART1_UART_Init+0x90>)
  80019be:	2200      	movs	r2, #0
  80019c0:	625a      	str	r2, [r3, #36]	@ 0x24
+  huart1.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
  80019c2:	4b13      	ldr	r3, [pc, #76]	@ (8001a10 <MX_USART1_UART_Init+0x90>)
  80019c4:	2200      	movs	r2, #0
  80019c6:	629a      	str	r2, [r3, #40]	@ 0x28
+  if (HAL_UART_Init(&huart1) != HAL_OK)
  80019c8:	4811      	ldr	r0, [pc, #68]	@ (8001a10 <MX_USART1_UART_Init+0x90>)
  80019ca:	f004 fc4d 	bl	8006268 <HAL_UART_Init>
  80019ce:	4603      	mov	r3, r0
  80019d0:	2b00      	cmp	r3, #0
  80019d2:	d001      	beq.n	80019d8 <MX_USART1_UART_Init+0x58>
+  {
+    Error_Handler();
  80019d4:	f000 f85c 	bl	8001a90 <Error_Handler>
+  }
+  if (HAL_UARTEx_SetTxFifoThreshold(&huart1, UART_TXFIFO_THRESHOLD_1_8) != HAL_OK)
  80019d8:	2100      	movs	r1, #0
  80019da:	480d      	ldr	r0, [pc, #52]	@ (8001a10 <MX_USART1_UART_Init+0x90>)
  80019dc:	f006 fcc3 	bl	8008366 <HAL_UARTEx_SetTxFifoThreshold>
  80019e0:	4603      	mov	r3, r0
  80019e2:	2b00      	cmp	r3, #0
  80019e4:	d001      	beq.n	80019ea <MX_USART1_UART_Init+0x6a>
+  {
+    Error_Handler();
  80019e6:	f000 f853 	bl	8001a90 <Error_Handler>
+  }
+  if (HAL_UARTEx_SetRxFifoThreshold(&huart1, UART_RXFIFO_THRESHOLD_1_8) != HAL_OK)
  80019ea:	2100      	movs	r1, #0
  80019ec:	4808      	ldr	r0, [pc, #32]	@ (8001a10 <MX_USART1_UART_Init+0x90>)
  80019ee:	f006 fcf8 	bl	80083e2 <HAL_UARTEx_SetRxFifoThreshold>
  80019f2:	4603      	mov	r3, r0
  80019f4:	2b00      	cmp	r3, #0
  80019f6:	d001      	beq.n	80019fc <MX_USART1_UART_Init+0x7c>
+  {
+    Error_Handler();
  80019f8:	f000 f84a 	bl	8001a90 <Error_Handler>
+  }
+  if (HAL_UARTEx_DisableFifoMode(&huart1) != HAL_OK)
  80019fc:	4804      	ldr	r0, [pc, #16]	@ (8001a10 <MX_USART1_UART_Init+0x90>)
  80019fe:	f006 fc79 	bl	80082f4 <HAL_UARTEx_DisableFifoMode>
  8001a02:	4603      	mov	r3, r0
  8001a04:	2b00      	cmp	r3, #0
  8001a06:	d001      	beq.n	8001a0c <MX_USART1_UART_Init+0x8c>
+  {
+    Error_Handler();
  8001a08:	f000 f842 	bl	8001a90 <Error_Handler>
+  }
+  /* USER CODE BEGIN USART1_Init 2 */
+
+  /* USER CODE END USART1_Init 2 */
+
+}
  8001a0c:	bf00      	nop
  8001a0e:	bd80      	pop	{r7, pc}
  8001a10:	20000414 	.word	0x20000414
  8001a14:	40013800 	.word	0x40013800
 
 08001a18 <MX_GPIO_Init>:
+  * @brief GPIO Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_GPIO_Init(void)
+{
  8001a18:	b480      	push	{r7}
  8001a1a:	b085      	sub	sp, #20
  8001a1c:	af00      	add	r7, sp, #0
+  /* USER CODE BEGIN MX_GPIO_Init_1 */
+
+  /* USER CODE END MX_GPIO_Init_1 */
+
+  /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOF_CLK_ENABLE();
  8001a1e:	4b1b      	ldr	r3, [pc, #108]	@ (8001a8c <MX_GPIO_Init+0x74>)
  8001a20:	6cdb      	ldr	r3, [r3, #76]	@ 0x4c
  8001a22:	4a1a      	ldr	r2, [pc, #104]	@ (8001a8c <MX_GPIO_Init+0x74>)
@@ -2346,6 +2566,7 @@ Disassembly of section .text:
  8001a2e:	f003 0320 	and.w	r3, r3, #32
  8001a32:	60fb      	str	r3, [r7, #12]
  8001a34:	68fb      	ldr	r3, [r7, #12]
+  __HAL_RCC_GPIOC_CLK_ENABLE();
  8001a36:	4b15      	ldr	r3, [pc, #84]	@ (8001a8c <MX_GPIO_Init+0x74>)
  8001a38:	6cdb      	ldr	r3, [r3, #76]	@ 0x4c
  8001a3a:	4a14      	ldr	r2, [pc, #80]	@ (8001a8c <MX_GPIO_Init+0x74>)
@@ -2356,6 +2577,7 @@ Disassembly of section .text:
  8001a46:	f003 0304 	and.w	r3, r3, #4
  8001a4a:	60bb      	str	r3, [r7, #8]
  8001a4c:	68bb      	ldr	r3, [r7, #8]
+  __HAL_RCC_GPIOB_CLK_ENABLE();
  8001a4e:	4b0f      	ldr	r3, [pc, #60]	@ (8001a8c <MX_GPIO_Init+0x74>)
  8001a50:	6cdb      	ldr	r3, [r3, #76]	@ 0x4c
  8001a52:	4a0e      	ldr	r2, [pc, #56]	@ (8001a8c <MX_GPIO_Init+0x74>)
@@ -2366,6 +2588,7 @@ Disassembly of section .text:
  8001a5e:	f003 0302 	and.w	r3, r3, #2
  8001a62:	607b      	str	r3, [r7, #4]
  8001a64:	687b      	ldr	r3, [r7, #4]
+  __HAL_RCC_GPIOA_CLK_ENABLE();
  8001a66:	4b09      	ldr	r3, [pc, #36]	@ (8001a8c <MX_GPIO_Init+0x74>)
  8001a68:	6cdb      	ldr	r3, [r3, #76]	@ 0x4c
  8001a6a:	4a08      	ldr	r2, [pc, #32]	@ (8001a8c <MX_GPIO_Init+0x74>)
@@ -2376,6 +2599,11 @@ Disassembly of section .text:
  8001a76:	f003 0301 	and.w	r3, r3, #1
  8001a7a:	603b      	str	r3, [r7, #0]
  8001a7c:	683b      	ldr	r3, [r7, #0]
+
+  /* USER CODE BEGIN MX_GPIO_Init_2 */
+
+  /* USER CODE END MX_GPIO_Init_2 */
+}
  8001a7e:	bf00      	nop
  8001a80:	3714      	adds	r7, #20
  8001a82:	46bd      	mov	sp, r7
@@ -2385,10 +2613,27 @@ Disassembly of section .text:
  8001a8c:	40021000 	.word	0x40021000
 
 08001a90 <Error_Handler>:
+/**
+  * @brief  This function is executed in case of error occurrence.
+  * @retval None
+  */
+void Error_Handler(void)
+{
  8001a90:	b480      	push	{r7}
  8001a92:	af00      	add	r7, sp, #0
+  \details Disables IRQ interrupts by setting the I-bit in the CPSR.
+           Can only be executed in Privileged modes.
+ */
+__STATIC_FORCEINLINE void __disable_irq(void)
+{
+  __ASM volatile ("cpsid i" : : : "memory");
  8001a94:	b672      	cpsid	i
+}
  8001a96:	bf00      	nop
+  /* USER CODE BEGIN Error_Handler_Debug */
+  /* User can add his own implementation to report the HAL error return state */
+  __disable_irq();
+  while (1)
  8001a98:	bf00      	nop
  8001a9a:	e7fd      	b.n	8001a98 <Error_Handler+0x8>
 

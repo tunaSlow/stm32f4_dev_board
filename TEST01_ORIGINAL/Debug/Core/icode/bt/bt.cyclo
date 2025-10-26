@@ -1,0 +1,3 @@
+../Core/icode/bt/bt.c:11:6:BT_WEEKUP	1
+../Core/icode/bt/bt.c:16:6:BT_SLEEP	1
+../Core/icode/bt/bt.c:23:6:BT_printf	2

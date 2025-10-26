@@ -1,0 +1,2 @@
+../Core/icode/lm75a/lm75a.c:14:6:LM75A_GetTemp	14
+../Core/icode/lm75a/lm75a.c:47:6:LM75_CONFIG	1

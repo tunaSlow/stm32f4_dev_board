@@ -1,0 +1,3 @@
+../Core/util/lcd/touch.c:40:6:GT9xxx_Write_Config	40	static
+../Core/util/lcd/touch.c:51:9:TOUCH_Init	48	static
+../Core/util/lcd/touch.c:78:6:TOUCH_Read	40	static

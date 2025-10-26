@@ -53,14 +53,16 @@ extern "C" {
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
-
+void SystemClock_Config(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define LCD_RESET_Pin_Pin GPIO_PIN_15
-#define LCD_RESET_Pin_GPIO_Port GPIOG
-#define LCD_BL_Pin_Pin GPIO_PIN_5
-#define LCD_BL_Pin_GPIO_Port GPIOB
+#define TOUCH_INT_Pin GPIO_PIN_13
+#define TOUCH_INT_GPIO_Port GPIOG
+#define TOUCH_RST_Pin GPIO_PIN_15
+#define TOUCH_RST_GPIO_Port GPIOG
+#define LCD_BL_Pin GPIO_PIN_5
+#define LCD_BL_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 

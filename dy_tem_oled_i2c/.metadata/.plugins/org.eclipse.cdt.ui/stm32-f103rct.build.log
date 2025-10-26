@@ -1,0 +1,10 @@
+07:43:16 **** Incremental Build of configuration Debug for project stm32-f103rct ****
+make -j16 all 
+arm-none-eabi-size  stm32-f103rct.elf 
+   text	   data	    bss	    dec	    hex	filename
+   4624	     12	   1572	   6208	   1840	stm32-f103rct.elf
+Finished building: default.size.stdout
+ 
+
+07:43:16 Build Finished. 0 errors, 0 warnings. (took 95ms)
+

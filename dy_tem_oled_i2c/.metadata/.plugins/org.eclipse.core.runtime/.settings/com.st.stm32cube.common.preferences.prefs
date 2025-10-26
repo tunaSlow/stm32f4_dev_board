@@ -1,3 +1,7 @@
+DebugConf.defaultGdbServer=com.st.stm32cube.ide.mcu.debug.openocd
+DeviceConfigurationTool.AskToDoCodeGenerationOnIocSave=false
+DeviceConfigurationTool.AskToDoSaveAllOnCodeGeneration=false
+DeviceConfigurationTool.AskToSwitchToCPerspectiveOnCodeGeneration=false
 DeviceConfigurationTool.AskToSwitchToCdtPerspective=false
 DeviceConfigurationTool.AskToSwitchToCubeMxPerspective=false
 DeviceConfigurationTool.SwitchToCdtPerspective=true

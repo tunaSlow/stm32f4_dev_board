@@ -9,6 +9,15 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="/home/tuna/OneDrive/PROJECTS/ACTIVE/ROBOTIC/Autonomous Robot/CODE/Cammand_ROS"/>
+			<item value="/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/Cammand_ROS"/>
+			<item value="/home/tuna/Desktop/YT32B2_DEMO_LCD_01/YT32B2_DEMO"/>
+			<item value="/home/tuna/Desktop/TFT_PART4_2_20240420"/>
+			<item value="/home/tuna/Desktop/TFT_PART5_2_20240420"/>
+			<item value="/home/tuna/Desktop/TFT_PART5_1_20240420"/>
+			<item value="/home/tuna/Desktop/YT32B2_DEMO"/>
+			<item value="/home/tuna/Desktop/TEST01"/>
+			<item value="/home/tuna/Desktop/OneDrive_1_9-7-2025/【官方源工程】洋桃2号开发板出厂测试程序 V1.6(20230926)正式版/TEST01"/>
 			<item value="/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/stm32f4_lcd/stm32f4_lcd"/>
 			<item value="/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/dy_tem_oled_i2c/Core/Src"/>
 			<item value="/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/dy_tem_oled_i2c/Core"/>
@@ -17,8 +26,8 @@
 			<item value="/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board"/>
 		</list>
 		<section name="SmartImportWizard.dialogBounds">
-			<item key="DIALOG_X_ORIGIN" value="775"/>
-			<item key="DIALOG_Y_ORIGIN" value="182"/>
+			<item key="DIALOG_X_ORIGIN" value="605"/>
+			<item key="DIALOG_Y_ORIGIN" value="80"/>
 			<item key="DIALOG_WIDTH" value="1315"/>
 			<item key="DIALOG_HEIGHT" value="992"/>
 			<item key="DIALOG_FONT_NAME" value="1|Ubuntu Sans|11.0|0|GTK|1|"/>

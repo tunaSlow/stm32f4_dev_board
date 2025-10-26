@@ -20,8 +20,10 @@
 #include "main.h"
 #include "adc.h"
 #include "i2c.h"
+#include "usart.h"
 #include "usb_device.h"
 #include "gpio.h"
+#include "fsmc.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -29,9 +31,9 @@
 #include "ssd1306/ssd1306_fonts.h"
 #include "usbd_cdc_if.h"
 
-#include "lcd_io.h"
-#include "lcd_control.h"
 
+
+//#include "lcd_probe.c"
 
 /* USER CODE END Includes */
 
@@ -44,6 +46,9 @@
 /* USER CODE BEGIN PD */
 #define LM75A_ADDR  (0x4F << 1)  // Shifted for HAL (8-bit address mode)
 #define LM75A_TEMP_REG 0x00
+
+
+/* USER CODE END PV */
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -98,7 +103,7 @@ void I2C_ScanAndDisplay(void)
 }
 
 #define LM75A_TEMP_REG  0x00
-uint8_t lm75a_addr = 0; // Will be set after scan
+uint8_t lm75a_addr = 0x4F << 1; // Will be set after scan
 
 void I2C_ScanAndFindLM75A(void)
 {
@@ -146,94 +151,65 @@ float LM75A_ReadTemperature_Fine(void)
 
 
 extern float vx_f, vy_f, vw_f;  // Declare these as extern if defined globally
+uint8_t buffer[24];
+
 
 
 /* USER CODE END 0 */
 
 /**
- * @brief  The application entry point.
- * @retval int
- */
+  * @brief  The application entry point.
+  * @retval int
+  */
 int main(void)
 {
 
-	/* USER CODE BEGIN 1 */
+  /* USER CODE BEGIN 1 */
+
+  /* USER CODE END 1 */
+
+  /* MCU Configuration--------------------------------------------------------*/
+
+  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  HAL_Init();
+
+  /* USER CODE BEGIN Init */
+
+  /* USER CODE END Init */
+
+  /* Configure the system clock */
+  SystemClock_Config();
+
+  /* USER CODE BEGIN SysInit */
+
+  /* USER CODE END SysInit */
+
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
+  MX_I2C2_Init();
+  MX_ADC1_Init();
+  MX_USB_DEVICE_Init();
+  MX_FSMC_Init();
+  MX_UART4_Init();
+  /* USER CODE BEGIN 2 */
+
+	//	I2C_ScanAndDisplay();
 
 
-	/* USER CODE END 1 */
-
-	/* MCU Configuration--------------------------------------------------------*/
-
-	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-	HAL_Init();
-
-	/* USER CODE BEGIN Init */
 
 
-
-	/* USER CODE END Init */
-
-	/* Configure the system clock */
-	SystemClock_Config();
-
-	/* USER CODE BEGIN SysInit */
-
-	/* USER CODE END SysInit */
-
-	/* Initialize all configured peripherals */
-	MX_GPIO_Init();
-	MX_I2C2_Init();
-	MX_ADC1_Init();
-	MX_USB_DEVICE_Init();
-	/* USER CODE BEGIN 2 */
-	ssd1306_Init();
 	I2C_ScanAndFindLM75A();
-
-
-	char buffer[32];
-
-	char line[24];
-
-
-	LCD_FMC_Init();
-	LCD_Reset();          // Hardware reset is important
-
-//	LCD_DisplayOn_Minimal();
-
-	LCD_Backlight_On(1);  // Turn on backlight after panel is out of sleep
-
-	// Ensure normal display mode + RGB565
-	LCD_WriteCmd(0x22);            // ALL PIXELS OFF (back to normal mode)
-	HAL_Delay(10);
-
-	LCD_WriteCmd(0x3A);            // COLMOD: Pixel Format
-	LCD_WriteData8(0x55);          // 16-bit RGB565
-	HAL_Delay(2);
-
-	LCD_WriteCmd(0x29);            // Display ON (in case it was off)
-	HAL_Delay(20);
-	LCD_Test_Orientation();              // Should flicker scan dir
-	LCD_DrawBlock10x10(0,   0,   0xF800); // red
-	HAL_Delay(200);
-	LCD_DrawBlock10x10(50,  50,  0x07E0); // green
-	HAL_Delay(200);
-	LCD_DrawBlock10x10(100, 100, 0x001F); // blue
+	//	uint8_t lm75a_addr = 0x4F << 1; // Address of LM75A shift left by 1 bit
+	ssd1306_Init();
+	// After MX_GPIO_Init(); MX_FSMC_Init(); etc.
+	//	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET); // PB5 backlight ON (temp as GPIO)
 
 
 
+  /* USER CODE END 2 */
 
-	// Test: fill with solid colors
-//	LCD_FillRGB565(0xF800); HAL_Delay(500); // Red
-//	LCD_FillRGB565(0x07E0); HAL_Delay(500); // Green
-//	//	LCD_FillRGB565(0x001F); HAL_Delay(500); // Blue
-//	LCD_FillRGB565(0xFFFF);
-
-
-
-	/* USER CODE END 2 */
-
-	/* Infinite loop */
-	/* USER CODE BEGIN WHILE */
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
 	while (1)
 	{
 
@@ -242,8 +218,6 @@ int main(void)
 		float voltage = adc_val * 3.3f / 4095.0f;
 
 		// Clear the display
-
-		//		SSD1306_Clear();
 		ssd1306_Fill(Black);
 
 		// Line 1: Temperature
@@ -260,79 +234,75 @@ int main(void)
 
 		//
 		// Vx
-		ssd1306_SetCursor(2, 24);
-		snprintf(buffer, sizeof(buffer), "Vx: %.3f", vx_f);
-		ssd1306_WriteString(buffer, Font_7x10, White);
-
-		// Vy
-		ssd1306_SetCursor(2, 36);
-		snprintf(buffer, sizeof(buffer), "Vy: %.3f", vy_f);
-		ssd1306_WriteString(buffer, Font_7x10, White);
-
-		// Vw
-		ssd1306_SetCursor(2, 48);
-		snprintf(buffer, sizeof(buffer), "Vw: %.3f", vw_f);
-		ssd1306_WriteString(buffer, Font_7x10, White);
-
-
+		//		ssd1306_SetCursor(2, 24);
+		//		snprintf(buffer, sizeof(buffer), "Vx: %.3f", vx_f);
+		//		ssd1306_WriteString(buffer, Font_7x10, White);
+		//
+		//		// Vy
+		//		ssd1306_SetCursor(2, 36);
+		//		snprintf(buffer, sizeof(buffer), "Vy: %.3f", vy_f);
+		//		ssd1306_WriteString(buffer, Font_7x10, White);
+		//
+		//		// Vw
+		//		ssd1306_SetCursor(2, 48);
+		//		snprintf(buffer, sizeof(buffer), "Vw: %.3f", vw_f);
+		//		ssd1306_WriteString(buffer, Font_7x10, White);
 
 		// Update the display
 		ssd1306_UpdateScreen();
 
 		HAL_Delay(50);
 	}
-	/* USER CODE END WHILE */
+    /* USER CODE END WHILE */
 
-	/* USER CODE BEGIN 3 */
+    /* USER CODE BEGIN 3 */
 
-	/* USER CODE END 3 */
+  /* USER CODE END 3 */
 }
 
 /**
- * @brief System Clock Configuration
- * @retval None
- */
+  * @brief System Clock Configuration
+  * @retval None
+  */
 void SystemClock_Config(void)
 {
-	RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-	RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-	/** Configure the main internal regulator output voltage
-	 */
-	__HAL_RCC_PWR_CLK_ENABLE();
-	__HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+  /** Configure the main internal regulator output voltage
+  */
+  __HAL_RCC_PWR_CLK_ENABLE();
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
 
-	/** Initializes the RCC Oscillators according to the specified parameters
-	 * in the RCC_OscInitTypeDef structure.
-	 */
-	RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_HSE;
-	RCC_OscInitStruct.HSEState = RCC_HSE_ON;
-	RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-	RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
-	RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-	RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-	RCC_OscInitStruct.PLL.PLLM = 4;
-	RCC_OscInitStruct.PLL.PLLN = 72;
-	RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
-	RCC_OscInitStruct.PLL.PLLQ = 3;
-	if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-	{
-		Error_Handler();
-	}
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
+  */
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+  RCC_OscInitStruct.PLL.PLLM = 4;
+  RCC_OscInitStruct.PLL.PLLN = 168;
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+  RCC_OscInitStruct.PLL.PLLQ = 7;
+  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
 
-	/** Initializes the CPU, AHB and APB buses clocks
-	 */
-	RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-			|RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-	RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
-	RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-	RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
-	RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+  /** Initializes the CPU, AHB and APB buses clocks
+  */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV4;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV8;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV8;
 
-	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
-	{
-		Error_Handler();
-	}
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
 }
 
 /* USER CODE BEGIN 4 */
@@ -340,32 +310,32 @@ void SystemClock_Config(void)
 /* USER CODE END 4 */
 
 /**
- * @brief  This function is executed in case of error occurrence.
- * @retval None
- */
+  * @brief  This function is executed in case of error occurrence.
+  * @retval None
+  */
 void Error_Handler(void)
 {
-	/* USER CODE BEGIN Error_Handler_Debug */
+  /* USER CODE BEGIN Error_Handler_Debug */
 	/* User can add his own implementation to report the HAL error return state */
 	__disable_irq();
 	while (1)
 	{
 	}
-	/* USER CODE END Error_Handler_Debug */
+  /* USER CODE END Error_Handler_Debug */
 }
 #ifdef USE_FULL_ASSERT
 /**
- * @brief  Reports the name of the source file and the source line number
- *         where the assert_param error has occurred.
- * @param  file: pointer to the source file name
- * @param  line: assert_param error line source number
- * @retval None
- */
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
 void assert_failed(uint8_t *file, uint32_t line)
 {
-	/* USER CODE BEGIN 6 */
+  /* USER CODE BEGIN 6 */
 	/* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-	/* USER CODE END 6 */
+  /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */

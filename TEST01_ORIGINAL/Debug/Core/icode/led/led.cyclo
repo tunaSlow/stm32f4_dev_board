@@ -1,0 +1,9 @@
+../Core/icode/led/led.c:10:6:LED_1	2
+../Core/icode/led/led.c:15:6:LED_2	2
+../Core/icode/led/led.c:20:6:LED_3	2
+../Core/icode/led/led.c:25:6:LED_4	2
+../Core/icode/led/led.c:30:6:LED_ALL	5
+../Core/icode/led/led.c:41:6:LED_1_Contrary	1
+../Core/icode/led/led.c:44:6:LED_2_Contrary	1
+../Core/icode/led/led.c:47:6:LED_3_Contrary	1
+../Core/icode/led/led.c:50:6:LED_4_Contrary	1

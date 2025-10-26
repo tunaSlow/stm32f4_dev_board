@@ -1,0 +1,14 @@
+../Core/icode/my1690/my1690.c:26:6:MY1690_printf	216	static
+../Core/icode/my1690/my1690.c:40:6:SPEAKER	16	static
+../Core/icode/my1690/my1690.c:46:9:SD_READY	8	static
+../Core/icode/my1690/my1690.c:55:6:MY1690_Init	32	static
+../Core/icode/my1690/my1690.c:84:6:MY1690_PLAY	8	static
+../Core/icode/my1690/my1690.c:88:6:MY1690_PAUSE	8	static
+../Core/icode/my1690/my1690.c:92:6:MY1690_PREV	8	static
+../Core/icode/my1690/my1690.c:96:6:MY1690_NEXT	8	static
+../Core/icode/my1690/my1690.c:100:6:MY1690_VUP	8	static
+../Core/icode/my1690/my1690.c:103:6:MY1690_VDOWN	8	static
+../Core/icode/my1690/my1690.c:106:6:MY1690_STOP	8	static
+../Core/icode/my1690/my1690.c:111:6:MY1690_CMD1	24	static
+../Core/icode/my1690/my1690.c:116:6:MY1690_CMD2	24	static
+../Core/icode/my1690/my1690.c:121:6:MY1690_CMD3	24	static

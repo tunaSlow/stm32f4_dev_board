@@ -1,0 +1,4 @@
+../Core/icode/flash/flash.c:10:9:STMFLASH_GetFlashSector	16	static
+../Core/icode/flash/flash.c:25:9:US_FLASH_WRITE_BYTE	64	static
+../Core/icode/flash/flash.c:61:6:US_FLASH_READ_BYTE	32	static
+../Core/icode/flash/flash.c:69:10:US_FLASH_READ_WORD	24	static
