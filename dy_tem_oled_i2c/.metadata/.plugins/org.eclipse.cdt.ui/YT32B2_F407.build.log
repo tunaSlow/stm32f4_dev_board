@@ -1,10 +1,10 @@
-14:52:54 **** Incremental Build of configuration Debug for project YT32B2_F407 ****
+21:47:55 **** Incremental Build of configuration Debug for project YT32B2_F407 ****
 make -j16 all 
 arm-none-eabi-size  YT32B2_F407.elf 
    text	   data	    bss	    dec	    hex	filename
- 249276	    136	  33664	 283076	  451c4	YT32B2_F407.elf
+ 100352	    104	  29360	 129816	  1fb18	YT32B2_F407.elf
 Finished building: default.size.stdout
  
 
-14:52:54 Build Finished. 0 errors, 0 warnings. (took 152ms)
+21:47:55 Build Finished. 0 errors, 0 warnings. (took 212ms)
 

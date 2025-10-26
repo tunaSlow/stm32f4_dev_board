@@ -3548,3 +3548,6 @@ java.lang.Exception: The project description file (.project) for 'YT32B2_F407' i
 
 !ENTRY org.eclipse.cdt.core 1 0 2025-10-26 14:03:50.777
 !MESSAGE Indexed 'YT32B2_F407' (86 sources, 209 headers) in 3 sec: 22,564 declarations; 133,800 references; 1 unresolved inclusions; 92 syntax errors; 240 unresolved names (0.15%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2025-10-26 21:55:08.819
+!MESSAGE Indexed 'YT32B2_DEMO' (35 sources, 154 headers) in 1.48 sec: 11,434 declarations; 63,392 references; 2 unresolved inclusions; 42 syntax errors; 145 unresolved names (0.19%)

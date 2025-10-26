@@ -1,0 +1,5 @@
+../icode/buzzer/buzzer.c:15:6:BUZZER_SOLO1	16	static
+../icode/buzzer/buzzer.c:26:6:BUZZER_SOLO2	16	static
+../icode/buzzer/buzzer.c:41:6:BUZZER_MIDI_PLAY	24	static
+../icode/buzzer/buzzer.c:56:6:BUZZER_PLAY_music1	8	static
+../icode/buzzer/buzzer.c:60:6:BUZZER_PLAY_music2	8	static

@@ -1,0 +1,4 @@
+can1.c:14:6:CAN_User_Init	64	static
+can1.c:47:7:HAL_CAN_RxFifo1MsgPendingCallback	32	static
+can1.c:61:10:CAN1_SendNormalData	40	static
+can1.c:95:6:CAN1_printf	216	static

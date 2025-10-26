@@ -1,4 +1,4 @@
-12:57:23 **** Incremental Build of configuration Debug for project YT32B2_DEMO ****
+21:55:19 **** Incremental Build of configuration Debug for project YT32B2_DEMO ****
 make -j16 all 
 arm-none-eabi-size  YT32B2_DEMO.elf 
    text	   data	    bss	    dec	    hex	filename
@@ -6,5 +6,5 @@ arm-none-eabi-size  YT32B2_DEMO.elf
 Finished building: default.size.stdout
  
 
-12:57:24 Build Finished. 0 errors, 0 warnings. (took 143ms)
+21:55:19 Build Finished. 0 errors, 0 warnings. (took 162ms)
 

@@ -1,0 +1,4 @@
+key.c:10:9:KEY_1	16	static
+key.c:26:9:KEY_2	16	static
+key.c:40:9:KEY_3	16	static
+key.c:54:9:KEY_4	16	static
