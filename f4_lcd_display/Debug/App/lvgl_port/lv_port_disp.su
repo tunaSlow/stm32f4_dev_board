@@ -1,0 +1,2 @@
+../App/lvgl_port/lv_port_disp.c:13:13:lcd_flush_cb	48	static
+../App/lvgl_port/lv_port_disp.c:34:6:lv_port_disp_init	24	static

@@ -1,0 +1,4 @@
+1761496640557	Move 2 resources to 'lvgl_port'
+1761497695549	Move 'lv_conf.h' to 'lvgl'
+1761501660067	Move 'lv_conf.h' to 'Third_Party'
+1761502080783	Move 'lv_conf.h' to 'Inc'

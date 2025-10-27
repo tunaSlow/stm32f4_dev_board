@@ -1,0 +1,4 @@
+../App/lvgl_port/lv_port_indev.c:59:13:indev_tune_period	24	static
+../App/lvgl_port/lv_port_indev.c:65:6:touch_poll_100hz	16	static
+../App/lvgl_port/lv_port_indev.c:85:13:touch_read_cb	16	static
+../App/lvgl_port/lv_port_indev.c:95:14:lv_port_indev_init	16	static

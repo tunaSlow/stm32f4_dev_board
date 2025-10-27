@@ -1,0 +1,49 @@
+/* lv_port_indev.c — LVGL v9 */
+#include "lvgl.h"
+#include "../../icode/lcd/touch.h"
+#include <stdbool.h>
+#include <stdint.h>
+
+#define LCD_HOR_RES 800
+#define LCD_VER_RES 480
+
+typedef struct {
+    uint16_t x;
+    uint16_t y;
+    bool pressed;
+} touch_state_t;
+
+static touch_state_t g_touch = {0, 0, false};
+
+// Your low-level read function
+extern bool TOUCH_Read(uint16_t *x, uint16_t *y, bool *pressed);
+
+// LVGL 9 read callback
+static bool lv_touch_read_cb(lv_indev_t * indev, lv_indev_data_t * data) {
+    (void) indev;
+
+    uint16_t x, y;
+    bool p;
+    if (TOUCH_Read(&x, &y, &p)) {
+        // Transform if needed
+        if (x >= LCD_HOR_RES) x = LCD_HOR_RES - 1;
+        if (y >= LCD_VER_RES) y = LCD_VER_RES - 1;
+
+        data->point.x = x;
+        data->point.y = y;
+        data->state = p ? LV_INDEV_STATE_PRESSED : LV_INDEV_STATE_RELEASED;
+    } else {
+        data->state = LV_INDEV_STATE_RELEASED;
+    }
+
+    return false; // No more data to read
+}
+
+void lv_port_indev_init(void) {
+    static lv_indev_drv_t indev_drv;
+    lv_indev_drv_init(&indev_drv);
+    indev_drv.type = LV_INDEV_TYPE_POINTER;
+    indev_drv.read_cb = lv_touch_read_cb;
+    lv_indev_drv_register(&indev_drv);
+}
+

@@ -1,14 +1,35 @@
-21:55:16 **** Build of configuration Debug for project YT32B2_DEMO ****
+23:28:28 **** Incremental Build of configuration Debug for project YT32B2_DEMO ****
 make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG '-DLV_CONF_PATH="lv_conf.h"' -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I"/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/f4_lcd_display/Core/Inc" -I"/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/f4_lcd_display/Middlewares/Third_Party/lvgl" -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I"/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/f4_lcd_display/Middlewares/Third_Party/lvgl/src" -I"/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/f4_lcd_display/App/lvgl_port" -I"/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/f4_lcd_display/App" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+In file included from /home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/f4_lcd_display/Middlewares/Third_Party/lvgl/src/lv_conf_internal.h:57,
+                 from /home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/f4_lcd_display/Middlewares/Third_Party/lvgl/src/lv_init.h:16,
+                 from /home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/f4_lcd_display/Middlewares/Third_Party/lvgl/lvgl.h:21,
+                 from ../Core/Src/main.c:30:
+../Core/Inc/lv_conf.h:33:1: warning: "/*" within comment [-Wcomment]
+   33 | /* Widgets you’ll likely use */
+      |  
+../Core/Src/main.c:180:13: warning: 'on_btn_clicked' defined but not used [-Wunused-function]
+  180 | static void on_btn_clicked(lv_event_t * e)
+      |             ^~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "YT32B2_DEMO.elf" @"objects.list"   -mcpu=cortex-m4 -T"/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/f4_lcd_display/STM32F407ZGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="YT32B2_DEMO.map" -Wl,--gc-sections -static -Wl,-z,noexecstack --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+/home/tuna/st/stm32cubeide_1.18.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.linux64_1.0.0.202410170706/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/bin/ld: warning: YT32B2_DEMO.elf has a LOAD segment with RWX permissions
+Finished building target: YT32B2_DEMO.elf
+ 
 arm-none-eabi-size  YT32B2_DEMO.elf 
+arm-none-eabi-objdump -h -S YT32B2_DEMO.elf  > "YT32B2_DEMO.list"
+arm-none-eabi-objcopy  -O ihex YT32B2_DEMO.elf  "YT32B2_DEMO.hex"
    text	   data	    bss	    dec	    hex	filename
-  68040	    100	   2252	  70392	  112f8	YT32B2_DEMO.elf
+ 455092	    268	  77932	 533292	  8232c	YT32B2_DEMO.elf
 Finished building: default.size.stdout
  
-21:55:19 **** Incremental Build of configuration Debug for project YT32B2_DEMO ****
+Finished building: YT32B2_DEMO.hex
+ 
+Finished building: YT32B2_DEMO.list
+ 
+23:28:32 **** Incremental Build of configuration Debug for project YT32B2_DEMO ****
 make -j16 all 
 arm-none-eabi-size  YT32B2_DEMO.elf 
    text	   data	    bss	    dec	    hex	filename
-  68040	    100	   2252	  70392	  112f8	YT32B2_DEMO.elf
+ 455092	    268	  77932	 533292	  8232c	YT32B2_DEMO.elf
 Finished building: default.size.stdout
  
