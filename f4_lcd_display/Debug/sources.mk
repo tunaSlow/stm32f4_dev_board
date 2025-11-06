@@ -27,6 +27,7 @@ App/lvgl_port \
 Core/Src \
 Core/Startup \
 Drivers/STM32F4xx_HAL_Driver/Src \
+Drivers/Touch \
 Middlewares/Third_Party/lvgl/src/core \
 Middlewares/Third_Party/lvgl/src/display \
 Middlewares/Third_Party/lvgl/src/draw/convert/helium \

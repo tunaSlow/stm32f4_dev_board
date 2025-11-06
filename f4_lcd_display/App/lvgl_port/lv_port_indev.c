@@ -6,40 +6,83 @@
 #include <stdint.h>
 
 
+/* ========= Shared Touch State =========
+   This is the minimal state LVGL needs: pressed flag + mapped point in display coordinates.
+   Your touch driver (Step 3) must update these via the weak setters below (or you can link directly).
+*/
+typedef struct {
+    bool pressed;
+    lv_point_t p;   // Already mapped to display coordinates
+} touch_state_t;
 
-//static void touch_read_cb(lv_indev_t * indev, lv_indev_data_t * data)
-//{
-//    TOUCH_Read(Landscape);
-//    static lv_coord_t last_x = 0, last_y = 0;
-//
-//    if(TOUCH_STA & 0x90) {
-//        if((TOUCH_STA & 0x0F) >= 1) {
-//            last_x = (lv_coord_t)TOUCH_X[0];
-//            last_y = (lv_coord_t)TOUCH_Y[0];
-//            data->state   = LV_INDEV_STATE_PRESSED;
-//            data->point.x = last_x;
-//            data->point.y = last_y;
-//        } else {
-//            data->state = LV_INDEV_STATE_RELEASED;
-//            data->point.x = last_x;
-//            data->point.y = last_y;
-//        }
-//    } else {
-//        data->state = LV_INDEV_STATE_RELEASED;
-//        data->point.x = last_x;
-//        data->point.y = last_y;
-//    }
-//    TOUCH_STA = 0;
-//}
-//
-//void lv_port_indev_init(void)
-//{
-//    lv_indev_t * indev = lv_indev_create();
-//    lv_indev_set_type(indev, LV_INDEV_TYPE_POINTER);
-//    lv_indev_set_read_cb(indev, touch_read_cb);
-//}
-//
-//
+static touch_state_t s_touch = { .pressed = false, .p = {0, 0} };
+
+/* ========= Weak setters for hardware layer =========
+   Implement these in your touch driver (e.g., Drivers/YourTouch/touch_driver.c):
+   - touch_port_set_point(x, y)
+   - touch_port_set_pressed(down)
+   If you prefer direct linking, you can remove 'weak' and call these functions directly.
+*/
+__attribute__((weak)) void touch_port_set_point(uint16_t x, uint16_t y)
+{
+    s_touch.p.x = (lv_coord_t)x;
+    s_touch.p.y = (lv_coord_t)y;
+}
+
+__attribute__((weak)) void touch_port_set_pressed(bool down)
+{
+    s_touch.pressed = down;
+}
+
+/* ========= LVGL read callback =========
+   This reads the latest state and returns it to LVGL.
+   IMPORTANT: Do NOT do I2C or any blocking operations here.
+*/
+static void lv_touch_read_cb(lv_indev_t *indev, lv_indev_data_t *data)
+{
+    (void)indev;
+    data->point.x = s_touch.p.x;
+    data->point.y = s_touch.p.y;
+    data->state   = s_touch.pressed ? LV_INDEV_STATE_PRESSED
+                                    : LV_INDEV_STATE_RELEASED;
+}
+
+/* ========= Public init =========
+   Call this once after lv_init() and after your display driver is created.
+   Example (in your app init):
+       lvgl_port_indev_init();
+*/
+void lvgl_port_indev_init(void)
+{
+    lv_indev_t *indev = lv_indev_create();
+    lv_indev_set_type(indev, LV_INDEV_TYPE_POINTER);
+    lv_indev_set_read_cb(indev, lv_touch_read_cb);
+}
+
+/* ========= Optional: simple trace (diagnostics) =========
+   Create a periodic LVGL timer to log pointer state (useful while bringing up).
+   Call lvgl_port_indev_trace_enable(); when you want logs.
+*/
+#if LV_USE_LOG
+static void indev_trace_task(lv_timer_t *t)
+{
+    (void)t;
+    static uint32_t last = 0;
+    uint32_t now = lv_tick_get();
+    if(now - last >= 200) {
+        last = now;
+        LV_LOG_INFO("touch: %d,%d %s\n",
+                    (int)s_touch.p.x, (int)s_touch.p.y,
+                    s_touch.pressed ? "DOWN" : "UP");
+    }
+}
+
+void lvgl_port_indev_trace_enable(void)
+{
+    lv_timer_create(indev_trace_task, 50, NULL); // ~20 Hz logs
+}
+#endif
+
 
 // --- Set this to match your display port
 #define DISP_HOR_RES   LCD_Width

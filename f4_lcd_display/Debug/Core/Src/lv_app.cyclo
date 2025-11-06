@@ -1,0 +1,3 @@
+../Core/Src/lv_app.c:5:13:my_log_cb	1
+../Core/Src/lv_app.c:7:13:on_btn_event	1
+../Core/Src/lv_app.c:16:6:lv_app_create_test_ui	1

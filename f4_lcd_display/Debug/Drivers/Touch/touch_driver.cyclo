@@ -1,0 +1,10 @@
+../Drivers/Touch/touch_driver.c:72:24:u16_clamp	3
+../Drivers/Touch/touch_driver.c:79:13:map_raw_to_disp	7
+../Drivers/Touch/touch_driver.c:122:26:tp_write_reg16	1
+../Drivers/Touch/touch_driver.c:138:26:tp_read_reg16	1
+../Drivers/Touch/touch_driver.c:151:26:tp_read_reg8	2
+../Drivers/Touch/touch_driver.c:173:13:tp_reset_seq	1
+../Drivers/Touch/touch_driver.c:182:13:tp_read_first_point	4
+../Drivers/Touch/touch_driver.c:230:6:touch_driver_init	1
+../Drivers/Touch/touch_driver.c:261:6:touch_driver_set_display_size	1
+../Drivers/Touch/touch_driver.c:268:6:touch_driver_poll	4

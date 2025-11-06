@@ -1,4 +1,4 @@
-23:28:28 **** Incremental Build of configuration Debug for project YT32B2_DEMO ****
+23:33:58 **** Incremental Build of configuration Debug for project YT32B2_DEMO ****
 make -j16 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG '-DLV_CONF_PATH="lv_conf.h"' -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I"/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/f4_lcd_display/Core/Inc" -I"/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/f4_lcd_display/Middlewares/Third_Party/lvgl" -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I"/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/f4_lcd_display/Middlewares/Third_Party/lvgl/src" -I"/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/f4_lcd_display/App/lvgl_port" -I"/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/f4_lcd_display/App" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 In file included from /home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/f4_lcd_display/Middlewares/Third_Party/lvgl/src/lv_conf_internal.h:57,
@@ -8,9 +8,20 @@ In file included from /home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board
 ../Core/Inc/lv_conf.h:33:1: warning: "/*" within comment [-Wcomment]
    33 | /* Widgets you’ll likely use */
       |  
-../Core/Src/main.c:180:13: warning: 'on_btn_clicked' defined but not used [-Wunused-function]
-  180 | static void on_btn_clicked(lv_event_t * e)
-      |             ^~~~~~~~~~~~~~
+../Core/Src/main.c: In function 'app_init':
+../Core/Src/main.c:167:5: warning: implicit declaration of function 'touch_driver_init' [-Wimplicit-function-declaration]
+  167 |     touch_driver_init(800, 480, false, false, false, 0);
+      |     ^~~~~~~~~~~~~~~~~
+../Core/Src/main.c: At top level:
+../Core/Src/main.c:180:6: warning: conflicting types for 'touch_driver_init'; have 'void(uint16_t,  uint16_t,  _Bool,  _Bool,  _Bool,  uint8_t)' {aka 'void(short unsigned int,  short unsigned int,  _Bool,  _Bool,  _Bool,  unsigned char)'}
+  180 | void touch_driver_init(uint16_t disp_w, uint16_t disp_h,
+      |      ^~~~~~~~~~~~~~~~~
+../Core/Src/main.c:167:5: note: previous implicit declaration of 'touch_driver_init' with type 'void(uint16_t,  uint16_t,  _Bool,  _Bool,  _Bool,  uint8_t)' {aka 'void(short unsigned int,  short unsigned int,  _Bool,  _Bool,  _Bool,  unsigned char)'}
+  167 |     touch_driver_init(800, 480, false, false, false, 0);
+      |     ^~~~~~~~~~~~~~~~~
+../Core/Src/main.c:108:13: warning: 'DrawApple' defined but not used [-Wunused-function]
+  108 | static void DrawApple(int16_t cx, int16_t cy, int16_t baseR) {
+      |             ^~~~~~~~~
 arm-none-eabi-gcc -o "YT32B2_DEMO.elf" @"objects.list"   -mcpu=cortex-m4 -T"/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/f4_lcd_display/STM32F407ZGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="YT32B2_DEMO.map" -Wl,--gc-sections -static -Wl,-z,noexecstack --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 /home/tuna/st/stm32cubeide_1.18.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.linux64_1.0.0.202410170706/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/bin/ld: warning: YT32B2_DEMO.elf has a LOAD segment with RWX permissions
 Finished building target: YT32B2_DEMO.elf
@@ -19,17 +30,17 @@ arm-none-eabi-size  YT32B2_DEMO.elf
 arm-none-eabi-objdump -h -S YT32B2_DEMO.elf  > "YT32B2_DEMO.list"
 arm-none-eabi-objcopy  -O ihex YT32B2_DEMO.elf  "YT32B2_DEMO.hex"
    text	   data	    bss	    dec	    hex	filename
- 455092	    268	  77932	 533292	  8232c	YT32B2_DEMO.elf
+ 460664	    292	  77932	 538888	  83908	YT32B2_DEMO.elf
 Finished building: default.size.stdout
  
 Finished building: YT32B2_DEMO.hex
  
 Finished building: YT32B2_DEMO.list
  
-23:28:32 **** Incremental Build of configuration Debug for project YT32B2_DEMO ****
+23:34:17 **** Incremental Build of configuration Debug for project YT32B2_DEMO ****
 make -j16 all 
 arm-none-eabi-size  YT32B2_DEMO.elf 
    text	   data	    bss	    dec	    hex	filename
- 455092	    268	  77932	 533292	  8232c	YT32B2_DEMO.elf
+ 460664	    292	  77932	 538888	  83908	YT32B2_DEMO.elf
 Finished building: default.size.stdout
  

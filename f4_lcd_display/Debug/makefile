@@ -163,6 +163,7 @@ RM := rm -rf
 -include Middlewares/Third_Party/lvgl/src/display/subdir.mk
 -include Middlewares/Third_Party/lvgl/src/core/subdir.mk
 -include Middlewares/Third_Party/lvgl/src/subdir.mk
+-include Drivers/Touch/subdir.mk
 -include Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk
 -include Core/Startup/subdir.mk
 -include Core/Src/subdir.mk

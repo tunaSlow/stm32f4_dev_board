@@ -43,3 +43,17 @@ void lv_port_disp_init(void)
     lv_display_set_flush_cb(disp, lcd_flush_cb);
 }
 
+
+// e.g., in lvgl_port_disp.c or lv_app.c, after lv_init()
+static void my_log_cb(const char *buf) {
+    // Route to UART/ITM/printf as you prefer
+    printf("%s", buf);
+}
+
+void lv_app_init(void) {
+    lv_init();
+    lv_log_register_print_cb(my_log_cb);
+
+    // (We’ll add display and input init in later steps.)
+}
+

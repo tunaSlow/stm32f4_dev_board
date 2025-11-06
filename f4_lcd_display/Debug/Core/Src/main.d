@@ -475,7 +475,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  /home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/f4_lcd_display/Middlewares/Third_Party/lvgl/src/lv_api_map_v9_0.h \
  /home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/f4_lcd_display/Middlewares/Third_Party/lvgl/src/lv_api_map_v9_1.h \
  /home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/f4_lcd_display/Middlewares/Third_Party/lvgl/src/lv_api_map_v9_2.h \
- /home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/f4_lcd_display/Middlewares/Third_Party/lvgl/src/lv_api_map_v9_3.h
+ /home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/f4_lcd_display/Middlewares/Third_Party/lvgl/src/lv_api_map_v9_3.h \
+ ../Core/Inc/lv_app.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -956,3 +957,4 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 /home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/f4_lcd_display/Middlewares/Third_Party/lvgl/src/lv_api_map_v9_1.h:
 /home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/f4_lcd_display/Middlewares/Third_Party/lvgl/src/lv_api_map_v9_2.h:
 /home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/f4_lcd_display/Middlewares/Third_Party/lvgl/src/lv_api_map_v9_3.h:
+../Core/Inc/lv_app.h:

@@ -90,6 +90,9 @@ void Error_Handler(void);
 #define TOUTH_RST_GPIO_Port GPIOG
 #define LCD_BL_Pin GPIO_PIN_5
 #define LCD_BL_GPIO_Port GPIOB
+
+
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

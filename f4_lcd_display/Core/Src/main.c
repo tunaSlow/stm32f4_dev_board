@@ -28,10 +28,12 @@
 #include "../../icode/lcd/lcd.h"
 #include "../../icode/lcd/touch.h"
 #include "lvgl.h"
+#include "lv_app.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
+
 
 /* USER CODE END PTD */
 
@@ -144,62 +146,40 @@ static void DrawApple(int16_t cx, int16_t cy, int16_t baseR) {
 	FillCircle(cx - (int16_t)(baseR * 0.50f), cy, (int16_t)(baseR * 0.18f), RGB565(255, 255, 255));
 }
 
-// Demo: clear and draw one apple centered on 800x480
-void DrawAppleDemo(void) {
-	LCD_CLEAR(White);
-	// If you want landscape default, your driver already uses LCD_Direction(UDRL) in init.
-	// For portrait/other orientations, call LCD_Direction(...) before drawing.
-
-	// On 800x480, center at ~ (400,240), base radius ~ 140 looks good
-	DrawApple(400, 240, 140);
-
-
-	// Optional: outline for pop (set ForeColor then use your outline functions)
-	// ForeColor = RGB565(90, 0, 0);
-	// LCD_Vector_Circle(400, 240, 140); // outline (uses your circle, not filled)
-}
-
 
 /* Prototypes from the port files */
 void lv_port_disp_init(void);
 void lv_port_indev_init(void);
 
-//static void on_btn_clicked(lv_event_t *e)
-//{
-//    /* Optional: you can get the object if needed
-//       lv_obj_t *btn = lv_event_get_target(e);
-//    */
-//    DrawAppleDemo();   /* Calls your existing demo that draws to GRAM */
-//}
+// main.c or lv_app.c
+extern void lvgl_port_indev_init(void); // Step 2
+extern void lvgl_port_indev_trace_enable(void); // optional
 
-
-// Your existing function (low-level LCD)
-extern void DrawApple(int16_t cx, int16_t cy, int16_t baseR);
-
-
-static void on_btn_clicked(lv_event_t * e)
+void app_init(void)
 {
-    if(lv_event_get_code(e) != LV_EVENT_CLICKED) return;
+    lv_init();
+    // (your display port init here) -> get width/height you passed to lv_display_create()
 
-    // Choose center and base radius (fit nicely on screen)
-    int16_t cx = LCD_Width / 2;
-    int16_t cy = LCD_Height / 2;
-    int16_t baseR = (LCD_Height < LCD_Width ? LCD_Height : LCD_Width) / 6; // ~nice size
+    lvgl_port_indev_init();
 
-    // Optional: clear before drawing again
-    // LCD_CLEAR(White);
+    // Touch init: set mapping to match your LCD orientation
+    // Example: no swap, no inversion, rotation 0:
+    touch_driver_init(800, 480, false, false, false, 0);
 
-    // Call your low-level apple renderer
-    DrawApple(cx, cy, baseR);
-
-    // If LVGL is double-buffered and will soon redraw over it,
-    // you might want to notify LVGL to refresh now (depends on your display port).
-    // Otherwise, ensure your LVGL flush doesn't overwrite the hardware-drawn apple.
+    // Optional: enable indev logs
+    lvgl_port_indev_trace_enable();
 }
 
 
+// from your ports:
+void lvgl_port_disp_init(void);       // your display init (buffers, flush)
+void lvgl_port_indev_init(void);      // Step 2
+void lvgl_port_indev_trace_enable(void); // optional
 
-
+// from touch driver:
+void touch_driver_init(uint16_t disp_w, uint16_t disp_h,
+                       bool swap_xy, bool invert_x, bool invert_y, uint8_t rotation90);
+void touch_driver_poll(void);
 
 /* USER CODE END 0 */
 
@@ -248,71 +228,49 @@ int main(void)
 
 //	/* HAL/clocks/MX_* init ... */
 //
-	lv_init();
+//	lv_init();
+////	lv_port_disp_init();      // Make sure display is registered BEFORE indev
+////	lv_port_indev_init();     // Register pointer indev (v9 style)
+////	lv_log_register_print_cb(my_log_cb);
+////
+//
+//	    // Create a label for debug output
+//	    lv_obj_t * debug_label = lv_label_create(lv_screen_active());
+//	    lv_obj_align(debug_label, LV_ALIGN_TOP_LEFT, 10, 10);
+//	    lv_label_set_text(debug_label, "Waiting for touch...");
+
+
+
+
+    lv_init();
 	lv_port_disp_init();      // Make sure display is registered BEFORE indev
-	lv_port_indev_init();     // Register pointer indev (v9 style)
-//
-//	// Label
-//	lv_obj_t * label = lv_label_create(lv_screen_active());
-//	lv_label_set_text(label, "Hello LVGL v9 (F407)");
-//	lv_obj_align(label, LV_ALIGN_TOP_MID, 0, 8);
-//
-//	// Button
-//	lv_obj_t * btn = lv_button_create(lv_screen_active());
-//	lv_obj_set_size(btn, 180, 60);
-//	lv_obj_align(btn, LV_ALIGN_CENTER, 0, 0);
-//
-//	lv_obj_t * bl = lv_label_create(btn);
-//	lv_label_set_text(bl, "Draw Apple");
-//	lv_obj_center(bl);
-//
-//	// Event binding
-//	lv_obj_add_event_cb(btn, on_btn_clicked, LV_EVENT_CLICKED, NULL);
+    lv_port_indev_init();
+//    lvgl_port_disp_init();          // must set display size correctly (e.g., 800x480)
+//    lvgl_port_indev_init();         // registers the pointer indev
 
+    // Initialize touch mapping (adjust flags later if needed)
+    touch_driver_init(800, 480, false, false, false, 0);
 
+    // Create a simple UI to confirm rendering
+    lv_app_create_test_ui();
 
-	    // Create a label for debug output
-	    lv_obj_t * debug_label = lv_label_create(lv_screen_active());
-	    lv_obj_align(debug_label, LV_ALIGN_TOP_LEFT, 10, 10);
-	    lv_label_set_text(debug_label, "Waiting for touch...");
-
-
-
-
-
-
-//	    lv_obj_t * label = lv_label_create(lv_screen_active());
-//	    lv_label_set_text(label, "Hello LVGL v9 (F407)");
-//	    lv_obj_align(label, LV_ALIGN_TOP_MID, 0, 8);
-//
-//	    lv_obj_t * btn = lv_button_create(lv_screen_active());
-//	    lv_obj_set_size(btn, 180, 60);
-//	    lv_obj_align(btn, LV_ALIGN_CENTER, 0, 0);
-//
-//	    lv_obj_t * bl = lv_label_create(btn);
-//	    lv_label_set_text(bl, "Draw Apple");
-//	    lv_obj_center(bl);
-//
-//	    /* IMPORTANT: pass a C function pointer + 4 args */
-//	    lv_obj_add_event_cb(btn, on_btn_clicked, LV_EVENT_CLICKED, NULL);
-
-
-
-
+#if LV_USE_LOG
+    lvgl_port_indev_trace_enable(); // optional touch logs
+#endif
 
 	/* Infinite loop */
 	/* USER CODE BEGIN WHILE */
 	while (1)
 	{
 
-		TOUCH_Read(Landscape); // or Portrait based on your LCD orientation
-		if (TOUCH_STA & 0x0F) {
-		    char buf[64];
-		    snprintf(buf, sizeof(buf), "Touch: X=%d Y=%d", TOUCH_X[0], TOUCH_Y[0]);
-		    lv_label_set_text(debug_label, buf);
-		} else {
-		    lv_label_set_text(debug_label, "No touch");
-		}
+//		TOUCH_Read(Landscape); // or Portrait based on your LCD orientation
+//		if (TOUCH_STA & 0x0F) {
+//		    char buf[64];
+//		    snprintf(buf, sizeof(buf), "Touch: X=%d Y=%d", TOUCH_X[0], TOUCH_Y[0]);
+//		    lv_label_set_text(debug_label, buf);
+//		} else {
+//		    lv_label_set_text(debug_label, "No touch");
+//		}
 
 
 //			  TOUCH_Read(Landscape);//¶Á³öÊÖÖžÊýÁ¿ºÍX¡¢YÖá×ø±ê£š²ÎÊýÊÇÆÁÄ»·œÏòPortrait×ÝÏò£¬LandscapeºáÏò£©
@@ -326,7 +284,7 @@ int main(void)
 //			  		else LCD_CLEAR(Red);//ÇåÆÁ£šµ¥É«±³Ÿ°£©
 //			  	}
 //			  	TOUCH_STA=0;//±êÖŸÎ»Çå0
-
+		touch_driver_poll();   // fast, non-blocking
 		lv_timer_handler();      /* still valid in v9 */
 		HAL_Delay(5);
 
