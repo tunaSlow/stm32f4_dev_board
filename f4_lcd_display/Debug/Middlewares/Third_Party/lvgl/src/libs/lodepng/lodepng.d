@@ -6,6 +6,7 @@ Middlewares/Third_Party/lvgl/src/libs/lodepng/lodepng.o: \
  ../Middlewares/Third_Party/lvgl/src/libs/lodepng/../../../src/lv_init.h \
  ../Middlewares/Third_Party/lvgl/src/libs/lodepng/../../../src/lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/libs/lodepng/../../../src/lv_conf_kconfig.h \
+ ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/libs/lodepng/../../../src/misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/libs/lodepng/../../../src/misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/libs/lodepng/../../../src/stdlib/lv_mem.h \
@@ -445,6 +446,7 @@ Middlewares/Third_Party/lvgl/src/libs/lodepng/lodepng.o: \
 ../Middlewares/Third_Party/lvgl/src/libs/lodepng/../../../src/lv_init.h:
 ../Middlewares/Third_Party/lvgl/src/libs/lodepng/../../../src/lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/libs/lodepng/../../../src/lv_conf_kconfig.h:
+../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/libs/lodepng/../../../src/misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/libs/lodepng/../../../src/misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/libs/lodepng/../../../src/stdlib/lv_mem.h:

@@ -8,6 +8,7 @@
 "./Core/Src/ui/components/ui_comp_hook.o"
 "./Core/Src/ui/screens/ui_Screen1.o"
 "./Core/Src/ui/ui.o"
+"./Core/Src/ui/ui_events.o"
 "./Core/Src/ui/ui_helpers.o"
 "./Core/Startup/startup_stm32f407zgtx.o"
 "./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o"

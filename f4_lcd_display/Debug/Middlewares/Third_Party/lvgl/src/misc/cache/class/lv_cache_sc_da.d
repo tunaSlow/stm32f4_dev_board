@@ -5,6 +5,7 @@ Middlewares/Third_Party/lvgl/src/misc/cache/class/lv_cache_sc_da.o: \
  ../Middlewares/Third_Party/lvgl/src/misc/cache/class/../../lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/misc/cache/class/../../../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/misc/cache/class/../../../lv_conf_kconfig.h \
+ ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/misc/cache/class/../../../osal/lv_os_private.h \
  ../Middlewares/Third_Party/lvgl/src/misc/cache/class/../../../osal/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/misc/cache/class/../../../osal/lv_os.h \
@@ -29,6 +30,7 @@ Middlewares/Third_Party/lvgl/src/misc/cache/class/lv_cache_sc_da.o: \
 ../Middlewares/Third_Party/lvgl/src/misc/cache/class/../../lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/misc/cache/class/../../../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/misc/cache/class/../../../lv_conf_kconfig.h:
+../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/misc/cache/class/../../../osal/lv_os_private.h:
 ../Middlewares/Third_Party/lvgl/src/misc/cache/class/../../../osal/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/misc/cache/class/../../../osal/lv_os.h:

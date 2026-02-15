@@ -5,6 +5,7 @@ Middlewares/Third_Party/lvgl/src/core/lv_obj_event.o: \
  ../Middlewares/Third_Party/lvgl/src/core/../misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/core/../misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/core/../misc/../lv_conf_kconfig.h \
+ ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/core/../misc/lv_array.h \
  ../Middlewares/Third_Party/lvgl/src/core/lv_obj_event_private.h \
  ../Middlewares/Third_Party/lvgl/src/core/lv_obj_event.h \
@@ -133,6 +134,7 @@ Middlewares/Third_Party/lvgl/src/core/lv_obj_event.o: \
 ../Middlewares/Third_Party/lvgl/src/core/../misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/core/../misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/core/../misc/../lv_conf_kconfig.h:
+../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/core/../misc/lv_array.h:
 ../Middlewares/Third_Party/lvgl/src/core/lv_obj_event_private.h:
 ../Middlewares/Third_Party/lvgl/src/core/lv_obj_event.h:

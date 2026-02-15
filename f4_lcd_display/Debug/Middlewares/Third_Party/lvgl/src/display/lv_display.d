@@ -4,6 +4,7 @@ Middlewares/Third_Party/lvgl/src/display/lv_display.o: \
  ../Middlewares/Third_Party/lvgl/src/display/../display/../misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/display/../display/../misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/display/../display/../misc/../lv_conf_kconfig.h \
+ ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/display/../display/../core/lv_obj.h \
  ../Middlewares/Third_Party/lvgl/src/display/../display/../core/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/display/../display/../core/../misc/lv_types.h \
@@ -235,6 +236,7 @@ Middlewares/Third_Party/lvgl/src/display/lv_display.o: \
 ../Middlewares/Third_Party/lvgl/src/display/../display/../misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/display/../display/../misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/display/../display/../misc/../lv_conf_kconfig.h:
+../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/display/../display/../core/lv_obj.h:
 ../Middlewares/Third_Party/lvgl/src/display/../display/../core/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/display/../display/../core/../misc/lv_types.h:

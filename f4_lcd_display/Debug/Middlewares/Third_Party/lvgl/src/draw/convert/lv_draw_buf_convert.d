@@ -4,6 +4,7 @@ Middlewares/Third_Party/lvgl/src/draw/convert/lv_draw_buf_convert.o: \
  ../Middlewares/Third_Party/lvgl/src/draw/convert/../../misc/lv_color.h \
  ../Middlewares/Third_Party/lvgl/src/draw/convert/../../misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/draw/convert/../../misc/../lv_conf_kconfig.h \
+ ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/draw/convert/../../misc/lv_assert.h \
  ../Middlewares/Third_Party/lvgl/src/draw/convert/../../misc/lv_log.h \
  ../Middlewares/Third_Party/lvgl/src/draw/convert/../../misc/lv_types.h \
@@ -26,6 +27,7 @@ Middlewares/Third_Party/lvgl/src/draw/convert/lv_draw_buf_convert.o: \
 ../Middlewares/Third_Party/lvgl/src/draw/convert/../../misc/lv_color.h:
 ../Middlewares/Third_Party/lvgl/src/draw/convert/../../misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/draw/convert/../../misc/../lv_conf_kconfig.h:
+../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/draw/convert/../../misc/lv_assert.h:
 ../Middlewares/Third_Party/lvgl/src/draw/convert/../../misc/lv_log.h:
 ../Middlewares/Third_Party/lvgl/src/draw/convert/../../misc/lv_types.h:

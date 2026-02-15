@@ -4,6 +4,7 @@ Middlewares/Third_Party/lvgl/src/layouts/lv_layout.o: \
  ../Middlewares/Third_Party/lvgl/src/layouts/lv_layout.h \
  ../Middlewares/Third_Party/lvgl/src/layouts/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/layouts/../lv_conf_kconfig.h \
+ ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/layouts/../misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/layouts/../misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/layouts/flex/lv_flex.h \
@@ -213,6 +214,7 @@ Middlewares/Third_Party/lvgl/src/layouts/lv_layout.o: \
 ../Middlewares/Third_Party/lvgl/src/layouts/lv_layout.h:
 ../Middlewares/Third_Party/lvgl/src/layouts/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/layouts/../lv_conf_kconfig.h:
+../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/layouts/../misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/layouts/../misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/layouts/flex/lv_flex.h:

@@ -6,6 +6,7 @@ Middlewares/Third_Party/lvgl/src/others/xml/lv_xml_base_types.o: \
  ../Middlewares/Third_Party/lvgl/src/others/xml/../../../src/lv_init.h \
  ../Middlewares/Third_Party/lvgl/src/others/xml/../../../src/lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/others/xml/../../../src/lv_conf_kconfig.h \
+ ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/others/xml/../../../src/misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/others/xml/../../../src/misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/others/xml/../../../src/stdlib/lv_mem.h \
@@ -446,6 +447,7 @@ Middlewares/Third_Party/lvgl/src/others/xml/lv_xml_base_types.o: \
 ../Middlewares/Third_Party/lvgl/src/others/xml/../../../src/lv_init.h:
 ../Middlewares/Third_Party/lvgl/src/others/xml/../../../src/lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/others/xml/../../../src/lv_conf_kconfig.h:
+../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/others/xml/../../../src/misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/others/xml/../../../src/misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/others/xml/../../../src/stdlib/lv_mem.h:

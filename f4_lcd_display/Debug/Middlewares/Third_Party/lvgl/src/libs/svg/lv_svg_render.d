@@ -5,6 +5,7 @@ Middlewares/Third_Party/lvgl/src/libs/svg/lv_svg_render.o: \
  ../Middlewares/Third_Party/lvgl/src/libs/svg/../../../src/lv_init.h \
  ../Middlewares/Third_Party/lvgl/src/libs/svg/../../../src/lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/libs/svg/../../../src/lv_conf_kconfig.h \
+ ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/libs/svg/../../../src/misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/libs/svg/../../../src/misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/libs/svg/../../../src/stdlib/lv_mem.h \
@@ -444,6 +445,7 @@ Middlewares/Third_Party/lvgl/src/libs/svg/lv_svg_render.o: \
 ../Middlewares/Third_Party/lvgl/src/libs/svg/../../../src/lv_init.h:
 ../Middlewares/Third_Party/lvgl/src/libs/svg/../../../src/lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/libs/svg/../../../src/lv_conf_kconfig.h:
+../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/libs/svg/../../../src/misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/libs/svg/../../../src/misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/libs/svg/../../../src/stdlib/lv_mem.h:

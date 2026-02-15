@@ -1,13 +1,13 @@
-../icode/oled/oled.c:33:6:OLED0561_Init	1
 ../icode/oled/oled.c:38:6:OLED_DISPLAY_ON	1
 ../icode/oled/oled.c:61:6:OLED_DISPLAY_OFF	1
 ../icode/oled/oled.c:68:6:OLED_DISPLAY_LIT	1
 ../icode/oled/oled.c:73:6:OLED_DISPLAY_CLEAR	3
-../icode/oled/oled.c:90:6:OLED_DISPLAY_0816	4
+../icode/oled/oled.c:33:6:OLED0561_Init	1
+../icode/oled/oled.c:90:6:OLED_DISPLAY_0816	5
 ../icode/oled/oled.c:109:6:OLED_printf_0816_ASCII	3
-../icode/oled/oled.c:128:6:OLED_DISPLAY_1616	7
+../icode/oled/oled.c:128:6:OLED_DISPLAY_1616	17
 ../icode/oled/oled.c:153:6:OLED_printf_1616_CHS	3
-../icode/oled/oled.c:174:6:OLED_DISPLAY_2424	7
+../icode/oled/oled.c:174:6:OLED_DISPLAY_2424	13
 ../icode/oled/oled.c:200:6:OLED_printf_2424_CHS	3
 ../icode/oled/oled.c:219:6:OLED_BMP_DISPLAY	3
 ../icode/oled/oled.c:234:6:OLED_DISPLAY_PIC1	1

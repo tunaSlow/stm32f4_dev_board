@@ -5,6 +5,7 @@ Middlewares/Third_Party/lvgl/src/widgets/span/lv_span.o: \
  ../Middlewares/Third_Party/lvgl/src/widgets/span/../../core/lv_obj.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/span/../../core/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/span/../../core/../lv_conf_kconfig.h \
+ ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/span/../../core/../misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/span/../../core/../misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/span/../../core/../misc/lv_style.h \
@@ -220,6 +221,7 @@ Middlewares/Third_Party/lvgl/src/widgets/span/lv_span.o: \
 ../Middlewares/Third_Party/lvgl/src/widgets/span/../../core/lv_obj.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/span/../../core/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/span/../../core/../lv_conf_kconfig.h:
+../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/span/../../core/../misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/span/../../core/../misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/span/../../core/../misc/lv_style.h:

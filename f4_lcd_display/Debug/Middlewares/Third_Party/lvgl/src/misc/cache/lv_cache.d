@@ -4,6 +4,7 @@ Middlewares/Third_Party/lvgl/src/misc/cache/lv_cache.o: \
  ../Middlewares/Third_Party/lvgl/src/misc/cache/../lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/misc/cache/../../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/misc/cache/../../lv_conf_kconfig.h \
+ ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/misc/cache/lv_cache_entry.h \
  ../Middlewares/Third_Party/lvgl/src/misc/cache/class/lv_cache_class.h \
  ../Middlewares/Third_Party/lvgl/src/misc/cache/class/lv_cache_lru_rb.h \
@@ -35,6 +36,7 @@ Middlewares/Third_Party/lvgl/src/misc/cache/lv_cache.o: \
 ../Middlewares/Third_Party/lvgl/src/misc/cache/../lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/misc/cache/../../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/misc/cache/../../lv_conf_kconfig.h:
+../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/misc/cache/lv_cache_entry.h:
 ../Middlewares/Third_Party/lvgl/src/misc/cache/class/lv_cache_class.h:
 ../Middlewares/Third_Party/lvgl/src/misc/cache/class/lv_cache_lru_rb.h:

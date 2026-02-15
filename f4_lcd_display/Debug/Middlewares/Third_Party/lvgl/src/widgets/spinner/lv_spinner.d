@@ -4,6 +4,7 @@ Middlewares/Third_Party/lvgl/src/widgets/spinner/lv_spinner.o: \
  ../Middlewares/Third_Party/lvgl/src/widgets/spinner/../../misc/lv_anim.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/spinner/../../misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/spinner/../../misc/../lv_conf_kconfig.h \
+ ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/spinner/../../misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/spinner/../../misc/lv_math.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/spinner/../../misc/lv_timer.h \
@@ -456,6 +457,7 @@ Middlewares/Third_Party/lvgl/src/widgets/spinner/lv_spinner.o: \
 ../Middlewares/Third_Party/lvgl/src/widgets/spinner/../../misc/lv_anim.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/spinner/../../misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/spinner/../../misc/../lv_conf_kconfig.h:
+../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/spinner/../../misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/spinner/../../misc/lv_math.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/spinner/../../misc/lv_timer.h:

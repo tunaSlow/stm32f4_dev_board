@@ -5,6 +5,7 @@ Middlewares/Third_Party/lvgl/src/libs/freetype/lv_freetype_outline.o: \
  ../Middlewares/Third_Party/lvgl/src/libs/freetype/../../misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/libs/freetype/../../misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/libs/freetype/../../misc/../lv_conf_kconfig.h \
+ ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/libs/freetype/../../misc/lv_array.h \
  ../Middlewares/Third_Party/lvgl/src/libs/freetype/../../lvgl.h \
  ../Middlewares/Third_Party/lvgl/src/libs/freetype/../../../lvgl.h \
@@ -449,6 +450,7 @@ Middlewares/Third_Party/lvgl/src/libs/freetype/lv_freetype_outline.o: \
 ../Middlewares/Third_Party/lvgl/src/libs/freetype/../../misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/libs/freetype/../../misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/libs/freetype/../../misc/../lv_conf_kconfig.h:
+../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/libs/freetype/../../misc/lv_array.h:
 ../Middlewares/Third_Party/lvgl/src/libs/freetype/../../lvgl.h:
 ../Middlewares/Third_Party/lvgl/src/libs/freetype/../../../lvgl.h:

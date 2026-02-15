@@ -5,6 +5,7 @@ Middlewares/Third_Party/lvgl/src/drivers/nuttx/lv_nuttx_touchscreen.o: \
  ../Middlewares/Third_Party/lvgl/src/drivers/nuttx/../../indev/../core/lv_group.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/nuttx/../../indev/../core/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/nuttx/../../indev/../core/../lv_conf_kconfig.h \
+ ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/nuttx/../../indev/../core/../misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/nuttx/../../indev/../core/../misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/nuttx/../../indev/../core/../misc/lv_ll.h \
@@ -25,6 +26,7 @@ Middlewares/Third_Party/lvgl/src/drivers/nuttx/lv_nuttx_touchscreen.o: \
 ../Middlewares/Third_Party/lvgl/src/drivers/nuttx/../../indev/../core/lv_group.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/nuttx/../../indev/../core/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/nuttx/../../indev/../core/../lv_conf_kconfig.h:
+../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/nuttx/../../indev/../core/../misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/nuttx/../../indev/../core/../misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/nuttx/../../indev/../core/../misc/lv_ll.h:

@@ -5,6 +5,7 @@ Middlewares/Third_Party/lvgl/src/themes/default/lv_theme_default.o: \
  ../Middlewares/Third_Party/lvgl/src/themes/default/../../../src/lv_init.h \
  ../Middlewares/Third_Party/lvgl/src/themes/default/../../../src/lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/themes/default/../../../src/lv_conf_kconfig.h \
+ ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/themes/default/../../../src/misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/themes/default/../../../src/misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/themes/default/../../../src/stdlib/lv_mem.h \
@@ -529,6 +530,7 @@ Middlewares/Third_Party/lvgl/src/themes/default/lv_theme_default.o: \
 ../Middlewares/Third_Party/lvgl/src/themes/default/../../../src/lv_init.h:
 ../Middlewares/Third_Party/lvgl/src/themes/default/../../../src/lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/themes/default/../../../src/lv_conf_kconfig.h:
+../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/themes/default/../../../src/misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/themes/default/../../../src/misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/themes/default/../../../src/stdlib/lv_mem.h:

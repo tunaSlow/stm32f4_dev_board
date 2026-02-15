@@ -1,3 +1,3 @@
 ../icode/lcd/touch.c:40:6:GT9xxx_Write_Config	2
-../icode/lcd/touch.c:51:9:TOUCH_Init	4
-../icode/lcd/touch.c:78:6:TOUCH_Read	10
+../icode/lcd/touch.c:51:9:TOUCH_Init	5
+../icode/lcd/touch.c:78:6:TOUCH_Read	14

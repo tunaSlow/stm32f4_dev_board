@@ -4,6 +4,7 @@ Core/Src/ui/ui.o: ../Core/Src/ui/ui.c ../Core/Src/ui/ui.h \
  C:/Users/user/Documents/GitHub/stm32f4_dev_board/f4_lcd_display/Middlewares/Third_Party/lvgl/src/../src/lv_init.h \
  C:/Users/user/Documents/GitHub/stm32f4_dev_board/f4_lcd_display/Middlewares/Third_Party/lvgl/src/../src/lv_conf_internal.h \
  C:/Users/user/Documents/GitHub/stm32f4_dev_board/f4_lcd_display/Middlewares/Third_Party/lvgl/src/../src/lv_conf_kconfig.h \
+ ../Core/Inc/lv_conf.h \
  C:/Users/user/Documents/GitHub/stm32f4_dev_board/f4_lcd_display/Middlewares/Third_Party/lvgl/src/../src/misc/lv_types.h \
  C:/Users/user/Documents/GitHub/stm32f4_dev_board/f4_lcd_display/Middlewares/Third_Party/lvgl/src/../src/misc/../lv_conf_internal.h \
  C:/Users/user/Documents/GitHub/stm32f4_dev_board/f4_lcd_display/Middlewares/Third_Party/lvgl/src/../src/stdlib/lv_mem.h \
@@ -445,6 +446,7 @@ C:/Users/user/Documents/GitHub/stm32f4_dev_board/f4_lcd_display/Middlewares/Thir
 C:/Users/user/Documents/GitHub/stm32f4_dev_board/f4_lcd_display/Middlewares/Third_Party/lvgl/src/../src/lv_init.h:
 C:/Users/user/Documents/GitHub/stm32f4_dev_board/f4_lcd_display/Middlewares/Third_Party/lvgl/src/../src/lv_conf_internal.h:
 C:/Users/user/Documents/GitHub/stm32f4_dev_board/f4_lcd_display/Middlewares/Third_Party/lvgl/src/../src/lv_conf_kconfig.h:
+../Core/Inc/lv_conf.h:
 C:/Users/user/Documents/GitHub/stm32f4_dev_board/f4_lcd_display/Middlewares/Third_Party/lvgl/src/../src/misc/lv_types.h:
 C:/Users/user/Documents/GitHub/stm32f4_dev_board/f4_lcd_display/Middlewares/Third_Party/lvgl/src/../src/misc/../lv_conf_internal.h:
 C:/Users/user/Documents/GitHub/stm32f4_dev_board/f4_lcd_display/Middlewares/Third_Party/lvgl/src/../src/stdlib/lv_mem.h:

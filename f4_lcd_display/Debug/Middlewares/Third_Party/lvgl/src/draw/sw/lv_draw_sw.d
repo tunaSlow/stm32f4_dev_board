@@ -5,6 +5,7 @@ Middlewares/Third_Party/lvgl/src/draw/sw/lv_draw_sw.o: \
  ../Middlewares/Third_Party/lvgl/src/draw/sw/../lv_draw.h \
  ../Middlewares/Third_Party/lvgl/src/draw/sw/../../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/draw/sw/../../lv_conf_kconfig.h \
+ ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/draw/sw/../../misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/draw/sw/../../misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/draw/sw/../../misc/lv_style.h \
@@ -205,6 +206,7 @@ Middlewares/Third_Party/lvgl/src/draw/sw/lv_draw_sw.o: \
 ../Middlewares/Third_Party/lvgl/src/draw/sw/../lv_draw.h:
 ../Middlewares/Third_Party/lvgl/src/draw/sw/../../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/draw/sw/../../lv_conf_kconfig.h:
+../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/draw/sw/../../misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/draw/sw/../../misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/draw/sw/../../misc/lv_style.h:

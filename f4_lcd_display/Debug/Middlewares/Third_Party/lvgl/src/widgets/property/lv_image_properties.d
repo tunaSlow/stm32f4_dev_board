@@ -3,6 +3,7 @@ Middlewares/Third_Party/lvgl/src/widgets/property/lv_image_properties.o: \
  ../Middlewares/Third_Party/lvgl/src/widgets/property/../image/lv_image.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/property/../image/../../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/property/../image/../../lv_conf_kconfig.h \
+ ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/property/../image/../../core/lv_obj.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/property/../image/../../core/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/property/../image/../../core/../misc/lv_types.h \
@@ -122,6 +123,7 @@ Middlewares/Third_Party/lvgl/src/widgets/property/lv_image_properties.o: \
 ../Middlewares/Third_Party/lvgl/src/widgets/property/../image/lv_image.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/property/../image/../../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/property/../image/../../lv_conf_kconfig.h:
+../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/property/../image/../../core/lv_obj.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/property/../image/../../core/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/property/../image/../../core/../misc/lv_types.h:

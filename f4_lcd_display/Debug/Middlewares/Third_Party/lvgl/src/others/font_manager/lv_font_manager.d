@@ -4,6 +4,7 @@ Middlewares/Third_Party/lvgl/src/others/font_manager/lv_font_manager.o: \
  ../Middlewares/Third_Party/lvgl/src/others/font_manager/../../font/lv_font.h \
  ../Middlewares/Third_Party/lvgl/src/others/font_manager/../../font/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/others/font_manager/../../font/../lv_conf_kconfig.h \
+ ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/others/font_manager/../../font/../misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/others/font_manager/../../font/../misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/others/font_manager/../../font/lv_symbol_def.h \
@@ -31,6 +32,7 @@ Middlewares/Third_Party/lvgl/src/others/font_manager/lv_font_manager.o: \
 ../Middlewares/Third_Party/lvgl/src/others/font_manager/../../font/lv_font.h:
 ../Middlewares/Third_Party/lvgl/src/others/font_manager/../../font/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/others/font_manager/../../font/../lv_conf_kconfig.h:
+../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/others/font_manager/../../font/../misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/others/font_manager/../../font/../misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/others/font_manager/../../font/lv_symbol_def.h:

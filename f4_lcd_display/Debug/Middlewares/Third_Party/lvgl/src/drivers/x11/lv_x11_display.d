@@ -5,6 +5,7 @@ Middlewares/Third_Party/lvgl/src/drivers/x11/lv_x11_display.o: \
  ../Middlewares/Third_Party/lvgl/src/drivers/x11/../../display/../misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/x11/../../display/../misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/x11/../../display/../misc/../lv_conf_kconfig.h \
+ ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/x11/../../display/../misc/lv_timer.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/x11/../../display/../misc/../tick/lv_tick.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/x11/../../display/../misc/../tick/../lv_conf_internal.h \
@@ -40,6 +41,7 @@ Middlewares/Third_Party/lvgl/src/drivers/x11/lv_x11_display.o: \
 ../Middlewares/Third_Party/lvgl/src/drivers/x11/../../display/../misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/x11/../../display/../misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/x11/../../display/../misc/../lv_conf_kconfig.h:
+../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/x11/../../display/../misc/lv_timer.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/x11/../../display/../misc/../tick/lv_tick.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/x11/../../display/../misc/../tick/../lv_conf_internal.h:

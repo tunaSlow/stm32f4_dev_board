@@ -4,6 +4,7 @@ Middlewares/Third_Party/lvgl/src/libs/gif/AnimatedGIF/src/gif.o: \
  ../Middlewares/Third_Party/lvgl/src/libs/gif/AnimatedGIF/src/../../../../misc/lv_fs.h \
  ../Middlewares/Third_Party/lvgl/src/libs/gif/AnimatedGIF/src/../../../../misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/libs/gif/AnimatedGIF/src/../../../../misc/../lv_conf_kconfig.h \
+ ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/libs/gif/AnimatedGIF/src/../../../../misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/libs/gif/AnimatedGIF/src/../../../../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/libs/gif/AnimatedGIF/src/../../../../stdlib/lv_string.h \
@@ -13,6 +14,7 @@ Middlewares/Third_Party/lvgl/src/libs/gif/AnimatedGIF/src/gif.o: \
 ../Middlewares/Third_Party/lvgl/src/libs/gif/AnimatedGIF/src/../../../../misc/lv_fs.h:
 ../Middlewares/Third_Party/lvgl/src/libs/gif/AnimatedGIF/src/../../../../misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/libs/gif/AnimatedGIF/src/../../../../misc/../lv_conf_kconfig.h:
+../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/libs/gif/AnimatedGIF/src/../../../../misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/libs/gif/AnimatedGIF/src/../../../../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/libs/gif/AnimatedGIF/src/../../../../stdlib/lv_string.h:

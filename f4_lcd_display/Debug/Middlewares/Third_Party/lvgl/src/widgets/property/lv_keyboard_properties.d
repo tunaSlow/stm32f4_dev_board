@@ -4,6 +4,7 @@ Middlewares/Third_Party/lvgl/src/widgets/property/lv_keyboard_properties.o: \
  ../Middlewares/Third_Party/lvgl/src/widgets/property/../keyboard/../buttonmatrix/lv_buttonmatrix.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/property/../keyboard/../buttonmatrix/../../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/property/../keyboard/../buttonmatrix/../../lv_conf_kconfig.h \
+ ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/property/../keyboard/../buttonmatrix/../../core/lv_obj.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/property/../keyboard/../buttonmatrix/../../core/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/property/../keyboard/../buttonmatrix/../../core/../misc/lv_types.h \
@@ -120,6 +121,7 @@ Middlewares/Third_Party/lvgl/src/widgets/property/lv_keyboard_properties.o: \
 ../Middlewares/Third_Party/lvgl/src/widgets/property/../keyboard/../buttonmatrix/lv_buttonmatrix.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/property/../keyboard/../buttonmatrix/../../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/property/../keyboard/../buttonmatrix/../../lv_conf_kconfig.h:
+../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/property/../keyboard/../buttonmatrix/../../core/lv_obj.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/property/../keyboard/../buttonmatrix/../../core/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/property/../keyboard/../buttonmatrix/../../core/../misc/lv_types.h:

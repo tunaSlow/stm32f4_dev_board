@@ -41,18 +41,33 @@ void LCD_SetWindow(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2) {
    ----------------------------------------------------------------------------- */
 void my_disp_flush(lv_display_t * disp, const lv_area_t * area, uint8_t * px_map)
 {
+    // 1. Set the drawing window (Same as before)
     LCD_SetWindow(area->x1, area->y1, area->x2, area->y2);
 
+    // 2. Calculate pixel count
     uint32_t w = (area->x2 - area->x1 + 1);
     uint32_t h = (area->y2 - area->y1 + 1);
     uint32_t px_count = w * h;
 
+    // 3. Cast pointer to 16-bit
     uint16_t * color_p = (uint16_t *)px_map;
 
-    for(uint32_t i = 0; i < px_count; i++) {
-        LCD_Write_DAT(color_p[i]);
-    }
+    // --- OPTIMIZATION STARTS HERE ---
 
+    // Instead of the 'for' loop, we send the whole block at once.
+    // We access the external memory handle (hsram1) directly.
+    // LCD_DAT is the address offset defined in your lcd.h for data writing.
+
+    // NOTE: You might need to extern hsram1 if it's not visible here
+    extern SRAM_HandleTypeDef hsram1;
+
+    // Write all pixels in one high-speed burst
+    // (Address, Data Pointer, Size)
+    HAL_SRAM_Write_16b(&hsram1, (uint32_t *)LCD_DAT, color_p, px_count);
+
+    // --- OPTIMIZATION ENDS HERE ---
+
+    // 4. Inform LVGL we are done
     lv_display_flush_ready(disp);
 }
 

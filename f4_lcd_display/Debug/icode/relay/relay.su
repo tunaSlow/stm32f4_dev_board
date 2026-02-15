@@ -1,2 +1,2 @@
-../icode/relay/relay.c:10:6:RELAY_1	16	static
-../icode/relay/relay.c:15:6:RELAY_2	16	static
+../icode/relay/relay.c:10:6:RELAY_1	0	static
+../icode/relay/relay.c:15:6:RELAY_2	0	static
