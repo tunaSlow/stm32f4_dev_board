@@ -63,6 +63,8 @@ void ui_Screen1_screen_init(void)
 {
     ui_Screen1 = lv_obj_create(NULL);
     lv_obj_remove_flag(ui_Screen1, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_Screen1, lv_color_hex(0xC2DDA7), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Screen1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Button1 = lv_button_create(ui_Screen1);
     lv_obj_set_width(ui_Button1, 168);
@@ -115,6 +117,7 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_x(ui_TextArea2, -250);
     lv_obj_set_y(ui_TextArea2, -150);
     lv_obj_set_align(ui_TextArea2, LV_ALIGN_CENTER);
+    lv_textarea_set_text(ui_TextArea2, "0");
     lv_textarea_set_placeholder_text(ui_TextArea2, "Placeholder...");
     lv_obj_set_style_text_font(ui_TextArea2, &lv_font_montserrat_20, LV_PART_MAIN | LV_STATE_DEFAULT);
 
@@ -124,6 +127,7 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_x(ui_TextArea3, -33);
     lv_obj_set_y(ui_TextArea3, -149);
     lv_obj_set_align(ui_TextArea3, LV_ALIGN_CENTER);
+    lv_textarea_set_text(ui_TextArea3, "0");
     lv_textarea_set_placeholder_text(ui_TextArea3, "Placeholder...");
     lv_obj_set_style_text_font(ui_TextArea3, &lv_font_montserrat_18, LV_PART_MAIN | LV_STATE_DEFAULT);
 

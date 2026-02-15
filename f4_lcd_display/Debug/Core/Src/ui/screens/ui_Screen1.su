@@ -3,4 +3,4 @@
 ../Core/Src/ui/screens/ui_Screen1.c:29:6:ui_event_TextArea2	8	static
 ../Core/Src/ui/screens/ui_Screen1.c:41:6:ui_event_TextArea3	8	static
 ../Core/Src/ui/screens/ui_Screen1.c:62:6:ui_Screen1_screen_init	40	static
-../Core/Src/ui/screens/ui_Screen1.c:146:6:ui_Screen1_screen_destroy	16	static
+../Core/Src/ui/screens/ui_Screen1.c:150:6:ui_Screen1_screen_destroy	16	static
