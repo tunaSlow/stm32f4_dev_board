@@ -1,0 +1,5 @@
+C:/Users/user/Documents/GitHub/stm32f4_dev_board/f4_lcd_display/Middlewares/Third_Party/lvgl/src/../src/core/lv_obj_style_gen.h:154:23:lv_obj_get_style_pad_top	1
+C:/Users/user/Documents/GitHub/stm32f4_dev_board/f4_lcd_display/Middlewares/Third_Party/lvgl/src/../src/core/lv_obj_style_gen.h:172:23:lv_obj_get_style_pad_right	1
+../Core/Src/ui/screens/ui_Screen1.c:12:6:ui_event_Button1	2
+../Core/Src/ui/screens/ui_Screen1.c:23:6:ui_Screen1_screen_init	2
+../Core/Src/ui/screens/ui_Screen1.c:53:6:ui_Screen1_screen_destroy	2

@@ -4,7 +4,6 @@ Middlewares/Third_Party/lvgl/src/widgets/scale/lv_scale.o: \
  ../Middlewares/Third_Party/lvgl/src/widgets/scale/lv_scale.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/scale/../../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/scale/../../lv_conf_kconfig.h \
- ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/scale/../../core/lv_obj.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/scale/../../core/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/scale/../../core/../misc/lv_types.h \
@@ -142,7 +141,6 @@ Middlewares/Third_Party/lvgl/src/widgets/scale/lv_scale.o: \
 ../Middlewares/Third_Party/lvgl/src/widgets/scale/lv_scale.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/scale/../../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/scale/../../lv_conf_kconfig.h:
-../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/scale/../../core/lv_obj.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/scale/../../core/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/scale/../../core/../misc/lv_types.h:

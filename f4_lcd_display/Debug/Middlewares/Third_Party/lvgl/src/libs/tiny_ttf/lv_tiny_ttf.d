@@ -6,7 +6,6 @@ Middlewares/Third_Party/lvgl/src/libs/tiny_ttf/lv_tiny_ttf.o: \
  ../Middlewares/Third_Party/lvgl/src/libs/tiny_ttf/../../../src/lv_init.h \
  ../Middlewares/Third_Party/lvgl/src/libs/tiny_ttf/../../../src/lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/libs/tiny_ttf/../../../src/lv_conf_kconfig.h \
- ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/libs/tiny_ttf/../../../src/misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/libs/tiny_ttf/../../../src/misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/libs/tiny_ttf/../../../src/stdlib/lv_mem.h \
@@ -447,7 +446,6 @@ Middlewares/Third_Party/lvgl/src/libs/tiny_ttf/lv_tiny_ttf.o: \
 ../Middlewares/Third_Party/lvgl/src/libs/tiny_ttf/../../../src/lv_init.h:
 ../Middlewares/Third_Party/lvgl/src/libs/tiny_ttf/../../../src/lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/libs/tiny_ttf/../../../src/lv_conf_kconfig.h:
-../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/libs/tiny_ttf/../../../src/misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/libs/tiny_ttf/../../../src/misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/libs/tiny_ttf/../../../src/stdlib/lv_mem.h:

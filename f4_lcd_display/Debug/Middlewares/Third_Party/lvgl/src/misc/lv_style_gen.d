@@ -4,7 +4,6 @@ Middlewares/Third_Party/lvgl/src/misc/lv_style_gen.o: \
  ../Middlewares/Third_Party/lvgl/src/misc/../font/lv_font.h \
  ../Middlewares/Third_Party/lvgl/src/misc/../font/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/misc/../font/../lv_conf_kconfig.h \
- ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/misc/../font/../misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/misc/../font/../misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/misc/../font/lv_symbol_def.h \
@@ -59,7 +58,6 @@ Middlewares/Third_Party/lvgl/src/misc/lv_style_gen.o: \
 ../Middlewares/Third_Party/lvgl/src/misc/../font/lv_font.h:
 ../Middlewares/Third_Party/lvgl/src/misc/../font/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/misc/../font/../lv_conf_kconfig.h:
-../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/misc/../font/../misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/misc/../font/../misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/misc/../font/lv_symbol_def.h:

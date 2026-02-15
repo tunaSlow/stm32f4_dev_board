@@ -5,7 +5,6 @@ Middlewares/Third_Party/lvgl/src/font/lv_font_montserrat_36.o: \
  ../Middlewares/Third_Party/lvgl/src/font/../../src/lv_init.h \
  ../Middlewares/Third_Party/lvgl/src/font/../../src/lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/font/../../src/lv_conf_kconfig.h \
- ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/font/../../src/misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/font/../../src/misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/font/../../src/stdlib/lv_mem.h \
@@ -444,7 +443,6 @@ Middlewares/Third_Party/lvgl/src/font/lv_font_montserrat_36.o: \
 ../Middlewares/Third_Party/lvgl/src/font/../../src/lv_init.h:
 ../Middlewares/Third_Party/lvgl/src/font/../../src/lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/font/../../src/lv_conf_kconfig.h:
-../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/font/../../src/misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/font/../../src/misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/font/../../src/stdlib/lv_mem.h:

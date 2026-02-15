@@ -4,7 +4,6 @@ Middlewares/Third_Party/lvgl/src/draw/vg_lite/lv_draw_vg_lite_arc.o: \
  ../Middlewares/Third_Party/lvgl/src/draw/vg_lite/../../misc/lv_area.h \
  ../Middlewares/Third_Party/lvgl/src/draw/vg_lite/../../misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/draw/vg_lite/../../misc/../lv_conf_kconfig.h \
- ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/draw/vg_lite/../../misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/draw/vg_lite/../../misc/lv_math.h \
  ../Middlewares/Third_Party/lvgl/src/draw/vg_lite/../lv_image_decoder_private.h \
@@ -85,7 +84,6 @@ Middlewares/Third_Party/lvgl/src/draw/vg_lite/lv_draw_vg_lite_arc.o: \
 ../Middlewares/Third_Party/lvgl/src/draw/vg_lite/../../misc/lv_area.h:
 ../Middlewares/Third_Party/lvgl/src/draw/vg_lite/../../misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/draw/vg_lite/../../misc/../lv_conf_kconfig.h:
-../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/draw/vg_lite/../../misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/draw/vg_lite/../../misc/lv_math.h:
 ../Middlewares/Third_Party/lvgl/src/draw/vg_lite/../lv_image_decoder_private.h:

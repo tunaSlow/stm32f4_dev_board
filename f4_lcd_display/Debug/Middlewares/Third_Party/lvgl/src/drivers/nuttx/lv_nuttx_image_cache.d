@@ -3,7 +3,6 @@ Middlewares/Third_Party/lvgl/src/drivers/nuttx/lv_nuttx_image_cache.o: \
  ../Middlewares/Third_Party/lvgl/src/drivers/nuttx/lv_nuttx_image_cache.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/nuttx/../../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/nuttx/../../lv_conf_kconfig.h \
- ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/nuttx/../../core/lv_global.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/nuttx/../../core/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/nuttx/../../core/../misc/lv_types.h \
@@ -528,7 +527,6 @@ Middlewares/Third_Party/lvgl/src/drivers/nuttx/lv_nuttx_image_cache.o: \
 ../Middlewares/Third_Party/lvgl/src/drivers/nuttx/lv_nuttx_image_cache.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/nuttx/../../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/nuttx/../../lv_conf_kconfig.h:
-../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/nuttx/../../core/lv_global.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/nuttx/../../core/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/nuttx/../../core/../misc/lv_types.h:

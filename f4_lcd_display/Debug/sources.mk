@@ -23,8 +23,10 @@ C_DEPS :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
-App/lvgl_port \
 Core/Src \
+Core/Src/ui/components \
+Core/Src/ui/screens \
+Core/Src/ui \
 Core/Startup \
 Drivers/STM32F4xx_HAL_Driver/Src \
 Drivers/Touch \

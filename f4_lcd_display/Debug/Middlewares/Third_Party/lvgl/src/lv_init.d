@@ -4,7 +4,6 @@ Middlewares/Third_Party/lvgl/src/lv_init.o: \
  ../Middlewares/Third_Party/lvgl/src/misc/lv_timer.h \
  ../Middlewares/Third_Party/lvgl/src/misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/misc/../lv_conf_kconfig.h \
- ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/misc/../tick/lv_tick.h \
  ../Middlewares/Third_Party/lvgl/src/misc/../tick/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/misc/../tick/../misc/lv_types.h \
@@ -277,7 +276,6 @@ Middlewares/Third_Party/lvgl/src/lv_init.o: \
 ../Middlewares/Third_Party/lvgl/src/misc/lv_timer.h:
 ../Middlewares/Third_Party/lvgl/src/misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/misc/../lv_conf_kconfig.h:
-../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/misc/../tick/lv_tick.h:
 ../Middlewares/Third_Party/lvgl/src/misc/../tick/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/misc/../tick/../misc/lv_types.h:

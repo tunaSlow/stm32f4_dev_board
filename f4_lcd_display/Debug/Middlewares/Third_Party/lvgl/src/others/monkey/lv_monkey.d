@@ -4,7 +4,6 @@ Middlewares/Third_Party/lvgl/src/others/monkey/lv_monkey.o: \
  ../Middlewares/Third_Party/lvgl/src/others/monkey/lv_monkey.h \
  ../Middlewares/Third_Party/lvgl/src/others/monkey/../../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/others/monkey/../../lv_conf_kconfig.h \
- ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/others/monkey/../../indev/lv_indev.h \
  ../Middlewares/Third_Party/lvgl/src/others/monkey/../../indev/../core/lv_group.h \
  ../Middlewares/Third_Party/lvgl/src/others/monkey/../../indev/../core/../lv_conf_internal.h \
@@ -27,7 +26,6 @@ Middlewares/Third_Party/lvgl/src/others/monkey/lv_monkey.o: \
 ../Middlewares/Third_Party/lvgl/src/others/monkey/lv_monkey.h:
 ../Middlewares/Third_Party/lvgl/src/others/monkey/../../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/others/monkey/../../lv_conf_kconfig.h:
-../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/others/monkey/../../indev/lv_indev.h:
 ../Middlewares/Third_Party/lvgl/src/others/monkey/../../indev/../core/lv_group.h:
 ../Middlewares/Third_Party/lvgl/src/others/monkey/../../indev/../core/../lv_conf_internal.h:

@@ -4,7 +4,6 @@ Middlewares/Third_Party/lvgl/src/widgets/checkbox/lv_checkbox.o: \
  ../Middlewares/Third_Party/lvgl/src/widgets/checkbox/lv_checkbox.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/checkbox/../../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/checkbox/../../lv_conf_kconfig.h \
- ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/checkbox/../../core/lv_obj.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/checkbox/../../core/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/checkbox/../../core/../misc/lv_types.h \
@@ -133,7 +132,6 @@ Middlewares/Third_Party/lvgl/src/widgets/checkbox/lv_checkbox.o: \
 ../Middlewares/Third_Party/lvgl/src/widgets/checkbox/lv_checkbox.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/checkbox/../../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/checkbox/../../lv_conf_kconfig.h:
-../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/checkbox/../../core/lv_obj.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/checkbox/../../core/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/checkbox/../../core/../misc/lv_types.h:

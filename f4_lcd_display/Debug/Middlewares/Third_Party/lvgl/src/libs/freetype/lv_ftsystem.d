@@ -5,7 +5,6 @@ Middlewares/Third_Party/lvgl/src/libs/freetype/lv_ftsystem.o: \
  ../Middlewares/Third_Party/lvgl/src/libs/freetype/../../../src/lv_init.h \
  ../Middlewares/Third_Party/lvgl/src/libs/freetype/../../../src/lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/libs/freetype/../../../src/lv_conf_kconfig.h \
- ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/libs/freetype/../../../src/misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/libs/freetype/../../../src/misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/libs/freetype/../../../src/stdlib/lv_mem.h \
@@ -444,7 +443,6 @@ Middlewares/Third_Party/lvgl/src/libs/freetype/lv_ftsystem.o: \
 ../Middlewares/Third_Party/lvgl/src/libs/freetype/../../../src/lv_init.h:
 ../Middlewares/Third_Party/lvgl/src/libs/freetype/../../../src/lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/libs/freetype/../../../src/lv_conf_kconfig.h:
-../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/libs/freetype/../../../src/misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/libs/freetype/../../../src/misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/libs/freetype/../../../src/stdlib/lv_mem.h:

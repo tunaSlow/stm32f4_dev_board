@@ -6,7 +6,6 @@ Middlewares/Third_Party/lvgl/src/draw/vg_lite/lv_draw_vg_lite_label.o: \
  ../Middlewares/Third_Party/lvgl/src/draw/vg_lite/../../../src/lv_init.h \
  ../Middlewares/Third_Party/lvgl/src/draw/vg_lite/../../../src/lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/draw/vg_lite/../../../src/lv_conf_kconfig.h \
- ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/draw/vg_lite/../../../src/misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/draw/vg_lite/../../../src/misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/draw/vg_lite/../../../src/stdlib/lv_mem.h \
@@ -447,7 +446,6 @@ Middlewares/Third_Party/lvgl/src/draw/vg_lite/lv_draw_vg_lite_label.o: \
 ../Middlewares/Third_Party/lvgl/src/draw/vg_lite/../../../src/lv_init.h:
 ../Middlewares/Third_Party/lvgl/src/draw/vg_lite/../../../src/lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/draw/vg_lite/../../../src/lv_conf_kconfig.h:
-../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/draw/vg_lite/../../../src/misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/draw/vg_lite/../../../src/misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/draw/vg_lite/../../../src/stdlib/lv_mem.h:

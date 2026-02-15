@@ -23,5 +23,5 @@
 ../Middlewares/Third_Party/lvgl/src/core/lv_obj_tree.c:654:13:obj_indev_reset	16	static
 ../Middlewares/Third_Party/lvgl/src/core/lv_obj_tree.c:668:13:obj_delete_core	64	static
 ../Middlewares/Third_Party/lvgl/src/core/lv_obj_tree.c:757:31:walk_core	40	static
-../Middlewares/Third_Party/lvgl/src/core/lv_obj_tree.c:787:13:dump_tree_core	48	static
+../Middlewares/Third_Party/lvgl/src/core/lv_obj_tree.c:787:13:dump_tree_core	24	static
 ../Middlewares/Third_Party/lvgl/src/core/lv_obj_tree.c:811:19:lv_obj_get_first_not_deleting_child	24	static

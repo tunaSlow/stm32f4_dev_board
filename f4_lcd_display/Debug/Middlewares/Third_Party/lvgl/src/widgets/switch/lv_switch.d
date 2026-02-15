@@ -4,7 +4,6 @@ Middlewares/Third_Party/lvgl/src/widgets/switch/lv_switch.o: \
  ../Middlewares/Third_Party/lvgl/src/widgets/switch/lv_switch.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/switch/../../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/switch/../../lv_conf_kconfig.h \
- ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/switch/../../core/lv_obj.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/switch/../../core/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/switch/../../core/../misc/lv_types.h \
@@ -130,7 +129,6 @@ Middlewares/Third_Party/lvgl/src/widgets/switch/lv_switch.o: \
 ../Middlewares/Third_Party/lvgl/src/widgets/switch/lv_switch.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/switch/../../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/switch/../../lv_conf_kconfig.h:
-../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/switch/../../core/lv_obj.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/switch/../../core/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/switch/../../core/../misc/lv_types.h:

@@ -4,7 +4,6 @@ Middlewares/Third_Party/lvgl/src/misc/lv_fs.o: \
  ../Middlewares/Third_Party/lvgl/src/misc/lv_fs.h \
  ../Middlewares/Third_Party/lvgl/src/misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/misc/../lv_conf_kconfig.h \
- ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/misc/../misc/lv_assert.h \
  ../Middlewares/Third_Party/lvgl/src/misc/../misc/../lv_conf_internal.h \
@@ -218,7 +217,6 @@ Middlewares/Third_Party/lvgl/src/misc/lv_fs.o: \
 ../Middlewares/Third_Party/lvgl/src/misc/lv_fs.h:
 ../Middlewares/Third_Party/lvgl/src/misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/misc/../lv_conf_kconfig.h:
-../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/misc/../misc/lv_assert.h:
 ../Middlewares/Third_Party/lvgl/src/misc/../misc/../lv_conf_internal.h:

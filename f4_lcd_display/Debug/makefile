@@ -166,8 +166,10 @@ RM := rm -rf
 -include Drivers/Touch/subdir.mk
 -include Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk
 -include Core/Startup/subdir.mk
+-include Core/Src/ui/screens/subdir.mk
+-include Core/Src/ui/components/subdir.mk
+-include Core/Src/ui/subdir.mk
 -include Core/Src/subdir.mk
--include App/lvgl_port/subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -219,8 +221,8 @@ all: main-build
 main-build: YT32B2_DEMO.elf secondary-outputs
 
 # Tool invocations
-YT32B2_DEMO.elf YT32B2_DEMO.map: $(OBJS) $(USER_OBJS) /home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/f4_lcd_display/STM32F407ZGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "YT32B2_DEMO.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/f4_lcd_display/STM32F407ZGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="YT32B2_DEMO.map" -Wl,--gc-sections -static -Wl,-z,noexecstack --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+YT32B2_DEMO.elf YT32B2_DEMO.map: $(OBJS) $(USER_OBJS) C:\Users\user\Documents\GitHub\stm32f4_dev_board\f4_lcd_display\STM32F407ZGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "YT32B2_DEMO.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\user\Documents\GitHub\stm32f4_dev_board\f4_lcd_display\STM32F407ZGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="YT32B2_DEMO.map" -Wl,--gc-sections -static -Wl,-z,noexecstack --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

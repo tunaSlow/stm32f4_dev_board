@@ -2,7 +2,6 @@ Middlewares/Third_Party/lvgl/src/stdlib/builtin/lv_tlsf.o: \
  ../Middlewares/Third_Party/lvgl/src/stdlib/builtin/lv_tlsf.c \
  ../Middlewares/Third_Party/lvgl/src/stdlib/builtin/../../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/stdlib/builtin/../../lv_conf_kconfig.h \
- ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/stdlib/builtin/lv_tlsf_private.h \
  ../Middlewares/Third_Party/lvgl/src/stdlib/builtin/lv_tlsf.h \
  ../Middlewares/Third_Party/lvgl/src/stdlib/builtin/../../misc/lv_ll.h \
@@ -26,7 +25,6 @@ Middlewares/Third_Party/lvgl/src/stdlib/builtin/lv_tlsf.o: \
  ../Middlewares/Third_Party/lvgl/src/stdlib/builtin/../../misc/../stdlib/../misc/lv_types.h
 ../Middlewares/Third_Party/lvgl/src/stdlib/builtin/../../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/stdlib/builtin/../../lv_conf_kconfig.h:
-../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/stdlib/builtin/lv_tlsf_private.h:
 ../Middlewares/Third_Party/lvgl/src/stdlib/builtin/lv_tlsf.h:
 ../Middlewares/Third_Party/lvgl/src/stdlib/builtin/../../misc/lv_ll.h:

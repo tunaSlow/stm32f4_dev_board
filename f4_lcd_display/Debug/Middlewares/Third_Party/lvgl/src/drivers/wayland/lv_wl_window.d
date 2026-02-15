@@ -5,7 +5,6 @@ Middlewares/Third_Party/lvgl/src/drivers/wayland/lv_wl_window.o: \
  ../Middlewares/Third_Party/lvgl/src/drivers/wayland/../../display/../misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/wayland/../../display/../misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/wayland/../../display/../misc/../lv_conf_kconfig.h \
- ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/wayland/../../display/../misc/lv_timer.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/wayland/../../display/../misc/../tick/lv_tick.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/wayland/../../display/../misc/../tick/../lv_conf_internal.h \
@@ -31,7 +30,6 @@ Middlewares/Third_Party/lvgl/src/drivers/wayland/lv_wl_window.o: \
 ../Middlewares/Third_Party/lvgl/src/drivers/wayland/../../display/../misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/wayland/../../display/../misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/wayland/../../display/../misc/../lv_conf_kconfig.h:
-../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/wayland/../../display/../misc/lv_timer.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/wayland/../../display/../misc/../tick/lv_tick.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/wayland/../../display/../misc/../tick/../lv_conf_internal.h:

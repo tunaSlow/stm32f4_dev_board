@@ -4,7 +4,6 @@ Middlewares/Third_Party/lvgl/src/others/gridnav/lv_gridnav.o: \
  ../Middlewares/Third_Party/lvgl/src/others/gridnav/../../core/lv_obj.h \
  ../Middlewares/Third_Party/lvgl/src/others/gridnav/../../core/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/others/gridnav/../../core/../lv_conf_kconfig.h \
- ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/others/gridnav/../../core/../misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/others/gridnav/../../core/../misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/others/gridnav/../../core/../misc/lv_style.h \
@@ -119,7 +118,6 @@ Middlewares/Third_Party/lvgl/src/others/gridnav/lv_gridnav.o: \
 ../Middlewares/Third_Party/lvgl/src/others/gridnav/../../core/lv_obj.h:
 ../Middlewares/Third_Party/lvgl/src/others/gridnav/../../core/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/others/gridnav/../../core/../lv_conf_kconfig.h:
-../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/others/gridnav/../../core/../misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/others/gridnav/../../core/../misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/others/gridnav/../../core/../misc/lv_style.h:

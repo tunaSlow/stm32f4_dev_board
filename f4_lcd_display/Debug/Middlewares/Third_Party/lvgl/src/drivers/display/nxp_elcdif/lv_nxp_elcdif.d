@@ -7,7 +7,6 @@ Middlewares/Third_Party/lvgl/src/drivers/display/nxp_elcdif/lv_nxp_elcdif.o: \
  ../Middlewares/Third_Party/lvgl/src/drivers/display/nxp_elcdif/../../../../src/lv_init.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/display/nxp_elcdif/../../../../src/lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/display/nxp_elcdif/../../../../src/lv_conf_kconfig.h \
- ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/display/nxp_elcdif/../../../../src/misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/display/nxp_elcdif/../../../../src/misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/display/nxp_elcdif/../../../../src/stdlib/lv_mem.h \
@@ -450,7 +449,6 @@ Middlewares/Third_Party/lvgl/src/drivers/display/nxp_elcdif/lv_nxp_elcdif.o: \
 ../Middlewares/Third_Party/lvgl/src/drivers/display/nxp_elcdif/../../../../src/lv_init.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/display/nxp_elcdif/../../../../src/lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/display/nxp_elcdif/../../../../src/lv_conf_kconfig.h:
-../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/display/nxp_elcdif/../../../../src/misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/display/nxp_elcdif/../../../../src/misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/display/nxp_elcdif/../../../../src/stdlib/lv_mem.h:

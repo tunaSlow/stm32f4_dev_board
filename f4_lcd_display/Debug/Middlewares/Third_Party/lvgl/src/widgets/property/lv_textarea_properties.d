@@ -4,7 +4,6 @@ Middlewares/Third_Party/lvgl/src/widgets/property/lv_textarea_properties.o: \
  ../Middlewares/Third_Party/lvgl/src/widgets/property/../textarea/../label/lv_label.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/property/../textarea/../label/../../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/property/../textarea/../label/../../lv_conf_kconfig.h \
- ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/property/../textarea/../label/../../misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/property/../textarea/../label/../../misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/widgets/property/../textarea/../label/../../core/lv_obj.h \
@@ -129,7 +128,6 @@ Middlewares/Third_Party/lvgl/src/widgets/property/lv_textarea_properties.o: \
 ../Middlewares/Third_Party/lvgl/src/widgets/property/../textarea/../label/lv_label.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/property/../textarea/../label/../../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/property/../textarea/../label/../../lv_conf_kconfig.h:
-../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/property/../textarea/../label/../../misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/property/../textarea/../label/../../misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/widgets/property/../textarea/../label/../../core/lv_obj.h:

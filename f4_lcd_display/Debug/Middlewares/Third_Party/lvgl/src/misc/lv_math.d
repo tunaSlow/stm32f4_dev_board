@@ -3,7 +3,6 @@ Middlewares/Third_Party/lvgl/src/misc/lv_math.o: \
  ../Middlewares/Third_Party/lvgl/src/misc/lv_math.h \
  ../Middlewares/Third_Party/lvgl/src/misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/misc/../lv_conf_kconfig.h \
- ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/misc/../core/lv_global.h \
  ../Middlewares/Third_Party/lvgl/src/misc/../core/../lv_conf_internal.h \
@@ -210,7 +209,6 @@ Middlewares/Third_Party/lvgl/src/misc/lv_math.o: \
 ../Middlewares/Third_Party/lvgl/src/misc/lv_math.h:
 ../Middlewares/Third_Party/lvgl/src/misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/misc/../lv_conf_kconfig.h:
-../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/misc/../core/lv_global.h:
 ../Middlewares/Third_Party/lvgl/src/misc/../core/../lv_conf_internal.h:

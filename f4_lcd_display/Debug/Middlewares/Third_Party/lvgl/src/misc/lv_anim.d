@@ -4,7 +4,6 @@ Middlewares/Third_Party/lvgl/src/misc/lv_anim.o: \
  ../Middlewares/Third_Party/lvgl/src/misc/lv_anim.h \
  ../Middlewares/Third_Party/lvgl/src/misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/misc/../lv_conf_kconfig.h \
- ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/misc/lv_math.h \
  ../Middlewares/Third_Party/lvgl/src/misc/lv_timer.h \
@@ -214,7 +213,6 @@ Middlewares/Third_Party/lvgl/src/misc/lv_anim.o: \
 ../Middlewares/Third_Party/lvgl/src/misc/lv_anim.h:
 ../Middlewares/Third_Party/lvgl/src/misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/misc/../lv_conf_kconfig.h:
-../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/misc/lv_math.h:
 ../Middlewares/Third_Party/lvgl/src/misc/lv_timer.h:

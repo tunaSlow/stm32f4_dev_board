@@ -6,7 +6,6 @@ Middlewares/Third_Party/lvgl/src/drivers/display/nv3007/lv_nv3007.o: \
  ../Middlewares/Third_Party/lvgl/src/drivers/display/nv3007/../lcd/../../../display/../misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/display/nv3007/../lcd/../../../display/../misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/display/nv3007/../lcd/../../../display/../misc/../lv_conf_kconfig.h \
- ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/display/nv3007/../lcd/../../../display/../misc/lv_timer.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/display/nv3007/../lcd/../../../display/../misc/../tick/lv_tick.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/display/nv3007/../lcd/../../../display/../misc/../tick/../lv_conf_internal.h \
@@ -33,7 +32,6 @@ Middlewares/Third_Party/lvgl/src/drivers/display/nv3007/lv_nv3007.o: \
 ../Middlewares/Third_Party/lvgl/src/drivers/display/nv3007/../lcd/../../../display/../misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/display/nv3007/../lcd/../../../display/../misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/display/nv3007/../lcd/../../../display/../misc/../lv_conf_kconfig.h:
-../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/display/nv3007/../lcd/../../../display/../misc/lv_timer.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/display/nv3007/../lcd/../../../display/../misc/../tick/lv_tick.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/display/nv3007/../lcd/../../../display/../misc/../tick/../lv_conf_internal.h:

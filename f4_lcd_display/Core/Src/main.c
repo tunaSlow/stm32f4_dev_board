@@ -29,6 +29,7 @@
 #include "../../icode/lcd/touch.h"
 #include "lvgl.h"
 #include "lv_app.h"
+#include "ui/ui.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -74,113 +75,6 @@ static void MX_TIM3_Init(void);
 /* USER CODE BEGIN 0 */
 
 
-// --- Small helpers ---
-static inline uint16_t RGB565(uint8_t r, uint8_t g, uint8_t b) {
-	return (uint16_t)(((r & 0xF8) << 8) | ((g & 0xFC) << 3) | (b >> 3));
-}
-
-// Fast fill of a horizontal span (y fixed) using your Rectangle_Fill
-static inline void HSpan(int16_t x0, int16_t x1, int16_t y, uint16_t color) {
-	if (y < 0 || y >= SET_Height) return;
-	if (x0 > x1) { int16_t t = x0; x0 = x1; x1 = t; }
-	if (x1 < 0 || x0 >= SET_Width) return;
-	if (x0 < 0) x0 = 0;
-	if (x1 >= SET_Width) x1 = SET_Width - 1;
-	LCD_Vector_Rectangle_Fill((uint16_t)x0, (uint16_t)y, (uint16_t)x1, (uint16_t)y, color);
-}
-
-// Filled circle using midpoint algorithm + horizontal spans
-static void FillCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color) {
-	int16_t x = 0, y = r;
-	int16_t d = 1 - r;
-	while (y >= x) {
-		HSpan(x0 - x, x0 + x, y0 + y, color);
-		HSpan(x0 - x, x0 + x, y0 - y, color);
-		HSpan(x0 - y, x0 + y, y0 + x, color);
-		HSpan(x0 - y, x0 + y, y0 - x, color);
-		x++;
-		if (d < 0) d += (x << 1) + 1;
-		else { y--; d += ((x - y) << 1) + 1; }
-	}
-}
-
-// --- Simple apple composed of filled circles + stem + leaf ---
-static void DrawApple(int16_t cx, int16_t cy, int16_t baseR) {
-	// Colors
-	const uint16_t RED   = RGB565(220, 30, 30);
-	const uint16_t LEAF  = RGB565(30, 180, 70);
-	const uint16_t STEM  = RGB565(120, 70, 20);
-	const uint16_t BG    = White; // assuming you've cleared to White
-
-	// 1) Body: two lobes + bottom bulge
-	FillCircle(cx - (baseR * 0.33f), cy - (baseR * 0.35f), (int16_t)(baseR * 0.70f), RED); // left lobe
-	FillCircle(cx + (baseR * 0.33f), cy - (baseR * 0.35f), (int16_t)(baseR * 0.70f), RED); // right lobe
-	FillCircle(cx,                          cy + (baseR * 0.15f), (int16_t)(baseR * 0.95f), RED); // bottom/body
-
-	// 2) Top notch (indent) – carve with background
-	FillCircle(cx, cy - (baseR * 0.65f), (int16_t)(baseR * 0.28f), BG);
-
-	// 3) Stem (small vertical rectangle)
-	// width ~ 0.16R, height ~ 0.45R
-	int16_t stemW = (int16_t)(baseR * 0.16f);
-	int16_t stemH = (int16_t)(baseR * 0.45f);
-	int16_t sx0 = cx - stemW/2;
-	int16_t sy0 = cy - (baseR + stemH*0.2f);
-	int16_t sx1 = cx + stemW/2;
-	int16_t sy1 = sy0 + stemH;
-	LCD_Vector_Rectangle_Fill(sx0, sy0, sx1, sy1, STEM);
-
-	// 4) Leaf (lens shape made from two green circles + trims)
-	// Base leaf circle then trim with BG to make points
-	int16_t leafR = (int16_t)(baseR * 0.38f);
-	int16_t lx    = cx + (int16_t)(baseR * 0.65f);
-	int16_t ly    = cy - (int16_t)(baseR * 0.85f);
-	FillCircle(lx, ly, leafR, LEAF);
-	// trim right side to a point
-	FillCircle(lx + (int16_t)(leafR * 0.70f), ly + (int16_t)(leafR * 0.10f), (int16_t)(leafR * 0.85f), BG);
-	// trim top/bottom slightly to sharpen the shape
-	FillCircle(lx, ly - (int16_t)(leafR * 0.90f), (int16_t)(leafR * 0.75f), BG);
-	FillCircle(lx, ly + (int16_t)(leafR * 0.90f), (int16_t)(leafR * 0.75f), BG);
-
-	// 5) Specular highlight on the body
-	FillCircle(cx - (int16_t)(baseR * 0.50f), cy, (int16_t)(baseR * 0.18f), RGB565(255, 255, 255));
-}
-
-
-/* Prototypes from the port files */
-void lv_port_disp_init(void);
-void lv_port_indev_init(void);
-
-// main.c or lv_app.c
-extern void lvgl_port_indev_init(void); // Step 2
-extern void lvgl_port_indev_trace_enable(void); // optional
-
-void app_init(void)
-{
-    lv_init();
-    // (your display port init here) -> get width/height you passed to lv_display_create()
-
-    lvgl_port_indev_init();
-
-    // Touch init: set mapping to match your LCD orientation
-    // Example: no swap, no inversion, rotation 0:
-    touch_driver_init(800, 480, false, false, false, 0);
-
-    // Optional: enable indev logs
-    lvgl_port_indev_trace_enable();
-}
-
-
-// from your ports:
-void lvgl_port_disp_init(void);       // your display init (buffers, flush)
-void lvgl_port_indev_init(void);      // Step 2
-void lvgl_port_indev_trace_enable(void); // optional
-
-// from touch driver:
-void touch_driver_init(uint16_t disp_w, uint16_t disp_h,
-                       bool swap_xy, bool invert_x, bool invert_y, uint8_t rotation90);
-void touch_driver_poll(void);
-
 /* USER CODE END 0 */
 
 /**
@@ -222,69 +116,50 @@ int main(void)
 	__HAL_TIM_SetCompare(&htim3,TIM_CHANNEL_2,499);//����ռ�ձȺ���������3��PWM��ֵ����Χ0~ARR�������ڣ�
 
 
-	LCD_Init();
-	LCD_CLEAR(White);
-	TOUCH_Init();
-
-//	/* HAL/clocks/MX_* init ... */
+	/* Hardware Init */
+	    LCD_Init();
+	    TOUCH_Init(); // Important: Init Touch Hardware
 //
+//	    /* LVGL Init */
+	    lv_init();
+//
+//	    /* --- DISPLAY SETUP --- */
+	    lv_display_t * disp = lv_display_create(800, 480);
+	    lv_display_set_flush_cb(disp, my_disp_flush);
+//
+//	    // Buffer size: 1/40th screen to save RAM (approx 19KB)
+	    #define MY_BUF_SIZE (800 * 480 / 40)
+	    static uint16_t buf[MY_BUF_SIZE];
+	    lv_display_set_buffers(disp, buf, NULL, sizeof(buf), LV_DISPLAY_RENDER_MODE_PARTIAL);
+//
+//	    /* --- INPUT SETUP --- */
+	    lv_indev_t * indev = lv_indev_create();
+	    lv_indev_set_type(indev, LV_INDEV_TYPE_POINTER);
+	    lv_indev_set_read_cb(indev, my_touch_read);
+//
+//	    /* --- WIDGET SETUP --- */
+//	    // Create Button
+//	    lv_obj_t * btn = lv_btn_create(lv_screen_active());
+//	    lv_obj_set_pos(btn, 300, 200); // Position roughly in center
+//	    lv_obj_set_size(btn, 150, 60);
+//	    lv_obj_add_event_cb(btn, btn_event_cb, LV_EVENT_ALL, NULL); // Assign callback
+//
+//	    // Create Label on Button
+//	    lv_obj_t * label = lv_label_create(btn);
+//	    lv_label_set_text(label, "Click Me!");
+//	    lv_obj_center(label);
 //	lv_init();
-////	lv_port_disp_init();      // Make sure display is registered BEFORE indev
-////	lv_port_indev_init();     // Register pointer indev (v9 style)
-////	lv_log_register_print_cb(my_log_cb);
-////
-//
-//	    // Create a label for debug output
-//	    lv_obj_t * debug_label = lv_label_create(lv_screen_active());
-//	    lv_obj_align(debug_label, LV_ALIGN_TOP_LEFT, 10, 10);
-//	    lv_label_set_text(debug_label, "Waiting for touch...");
+	ui_init(); // This loads your SquareLine design
+	// TEST: Change background to RED to verify LVGL is working
+//	lv_obj_set_style_bg_color(ui_Screen1, lv_color_hex(0xFF0000), LV_PART_MAIN | LV_STATE_DEFAULT);
 
-
-
-
-    lv_init();
-	lv_port_disp_init();      // Make sure display is registered BEFORE indev
-    lv_port_indev_init();
-//    lvgl_port_disp_init();          // must set display size correctly (e.g., 800x480)
-//    lvgl_port_indev_init();         // registers the pointer indev
-
-    // Initialize touch mapping (adjust flags later if needed)
-    touch_driver_init(800, 480, false, false, false, 0);
-
-    // Create a simple UI to confirm rendering
-    lv_app_create_test_ui();
-
-#if LV_USE_LOG
-    lvgl_port_indev_trace_enable(); // optional touch logs
-#endif
 
 	/* Infinite loop */
 	/* USER CODE BEGIN WHILE */
 	while (1)
 	{
 
-//		TOUCH_Read(Landscape); // or Portrait based on your LCD orientation
-//		if (TOUCH_STA & 0x0F) {
-//		    char buf[64];
-//		    snprintf(buf, sizeof(buf), "Touch: X=%d Y=%d", TOUCH_X[0], TOUCH_Y[0]);
-//		    lv_label_set_text(debug_label, buf);
-//		} else {
-//		    lv_label_set_text(debug_label, "No touch");
-//		}
 
-
-//			  TOUCH_Read(Landscape);//¶Á³öÊÖÖžÊýÁ¿ºÍX¡¢YÖá×ø±ê£š²ÎÊýÊÇÆÁÄ»·œÏòPortrait×ÝÏò£¬LandscapeºáÏò£©
-//
-//			  	if(TOUCH_STA&0x90){//ÅÐ¶ÏÓÐÃ»ÓÐŽ¥ÃþÆÁŽ¥·¢
-//			  		if((TOUCH_STA&0x0F) == 1)LCD_CLEAR(White);////ÅÐ¶ÏŽ¥ÃþÊÖÖžÊýÁ¿£¬ÇåÆÁ£šµ¥É«±³Ÿ°£©
-//			  		else if((TOUCH_STA&0x0F) == 2)LCD_CLEAR(Purple);
-//			  		else if((TOUCH_STA&0x0F) == 3)LCD_CLEAR(Red);
-//			  		else if((TOUCH_STA&0x0F) == 4)LCD_CLEAR(Green);
-//			  		else if((TOUCH_STA&0x0F) == 5)LCD_CLEAR(Yellow);
-//			  		else LCD_CLEAR(Red);//ÇåÆÁ£šµ¥É«±³Ÿ°£©
-//			  	}
-//			  	TOUCH_STA=0;//±êÖŸÎ»Çå0
-		touch_driver_poll();   // fast, non-blocking
 		lv_timer_handler();      /* still valid in v9 */
 		HAL_Delay(5);
 

@@ -7,4 +7,4 @@
 ../Middlewares/Third_Party/lvgl/src/misc/cache/instance/lv_image_header_cache.c:118:38:image_cache_common_compare	9
 ../Middlewares/Third_Party/lvgl/src/misc/cache/instance/lv_image_header_cache.c:138:31:image_header_cache_compare_cb	1
 ../Middlewares/Third_Party/lvgl/src/misc/cache/instance/lv_image_header_cache.c:145:13:image_header_cache_free_cb	2
-../Middlewares/Third_Party/lvgl/src/misc/cache/instance/lv_image_header_cache.c:152:13:iter_inspect_cb	3
+../Middlewares/Third_Party/lvgl/src/misc/cache/instance/lv_image_header_cache.c:152:13:iter_inspect_cb	2

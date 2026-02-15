@@ -6,7 +6,6 @@ Middlewares/Third_Party/lvgl/src/drivers/sdl/lv_sdl_mouse.o: \
  ../Middlewares/Third_Party/lvgl/src/drivers/sdl/../../display/../misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/sdl/../../display/../misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/sdl/../../display/../misc/../lv_conf_kconfig.h \
- ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/sdl/../../display/../misc/lv_timer.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/sdl/../../display/../misc/../tick/lv_tick.h \
  ../Middlewares/Third_Party/lvgl/src/drivers/sdl/../../display/../misc/../tick/../lv_conf_internal.h \
@@ -41,7 +40,6 @@ Middlewares/Third_Party/lvgl/src/drivers/sdl/lv_sdl_mouse.o: \
 ../Middlewares/Third_Party/lvgl/src/drivers/sdl/../../display/../misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/sdl/../../display/../misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/sdl/../../display/../misc/../lv_conf_kconfig.h:
-../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/sdl/../../display/../misc/lv_timer.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/sdl/../../display/../misc/../tick/lv_tick.h:
 ../Middlewares/Third_Party/lvgl/src/drivers/sdl/../../display/../misc/../tick/../lv_conf_internal.h:

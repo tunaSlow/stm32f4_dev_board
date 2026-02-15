@@ -5,7 +5,6 @@ Middlewares/Third_Party/lvgl/src/indev/lv_indev_gesture.o: \
  ../Middlewares/Third_Party/lvgl/src/indev/../core/lv_group.h \
  ../Middlewares/Third_Party/lvgl/src/indev/../core/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/indev/../core/../lv_conf_kconfig.h \
- ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/indev/../core/../misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/indev/../core/../misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/indev/../core/../misc/lv_ll.h \
@@ -124,7 +123,6 @@ Middlewares/Third_Party/lvgl/src/indev/lv_indev_gesture.o: \
 ../Middlewares/Third_Party/lvgl/src/indev/../core/lv_group.h:
 ../Middlewares/Third_Party/lvgl/src/indev/../core/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/indev/../core/../lv_conf_kconfig.h:
-../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/indev/../core/../misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/indev/../core/../misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/indev/../core/../misc/lv_ll.h:

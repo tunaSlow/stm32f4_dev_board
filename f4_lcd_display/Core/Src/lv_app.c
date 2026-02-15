@@ -1,44 +1,101 @@
 #include "lvgl.h"
 #include <stdio.h>
+#include "../../icode/lcd/lcd.h"
+#include "../../icode/lcd/touch.h"
+#include "lvgl.h"
+#include "lv_app.h"
 
-#if LV_USE_LOG
-static void my_log_cb(const char *buf){ printf("%s", buf); }
-#endif
-static void on_btn_event(lv_event_t *e)
-{
-    lv_event_code_t code = lv_event_get_code(e);
-    if(code == LV_EVENT_PRESSED)  LV_LOG_INFO("EV: PRESSED\n");
-    if(code == LV_EVENT_PRESSING) LV_LOG_INFO("EV: PRESSING\n");
-    if(code == LV_EVENT_RELEASED) LV_LOG_INFO("EV: RELEASED\n");
-    if(code == LV_EVENT_CLICKED)  LV_LOG_INFO("EV: CLICKED\n");
+// Add this function to lcd.c or main.c
+// It sets the active window for drawing
+void LCD_SetWindow(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2) {
+    if(LCD_ID == LCD_ID_OTM8009) {
+        // Based on your existing LCD_Write_Cursor logic
+        LCD_Write_REG(SET_X, x1 >> 8);
+        LCD_Write_REG(SET_X + 1, x1 & 0xFF);
+        LCD_Write_REG(SET_X + 2, x2 >> 8);
+        LCD_Write_REG(SET_X + 3, x2 & 0xFF);
+
+        LCD_Write_REG(SET_Y, y1 >> 8);
+        LCD_Write_REG(SET_Y + 1, y1 & 0xFF);
+        LCD_Write_REG(SET_Y + 2, y2 >> 8);
+        LCD_Write_REG(SET_Y + 3, y2 & 0xFF);
+    } else {
+        // For NT35510 / RM68120 (Standard commands usually 0x2A/0x2B)
+        // Assuming SET_X and SET_Y map to Column/Page Address Set
+        LCD_Write_REG(SET_X, x1 >> 8);
+        LCD_Write_REG(SET_X + 1, x1 & 0xFF);
+        LCD_Write_REG(SET_X + 2, x2 >> 8);
+        LCD_Write_REG(SET_X + 3, x2 & 0xFF);
+
+        LCD_Write_REG(SET_Y, y1 >> 8);
+        LCD_Write_REG(SET_Y + 1, y1 & 0xFF);
+        LCD_Write_REG(SET_Y + 2, y2 >> 8);
+        LCD_Write_REG(SET_Y + 3, y2 & 0xFF);
+    }
+    // Prepare to write data (command 0x2C is standard for Write Memory)
+    LCD_Write_COM(0x2C00);
 }
 
-void lv_app_create_test_ui(void)
+/* -----------------------------------------------------------------------------
+   1. FLUSH CALLBACK (Display Driver)
+   ----------------------------------------------------------------------------- */
+void my_disp_flush(lv_display_t * disp, const lv_area_t * area, uint8_t * px_map)
 {
-#if LV_USE_LOG
-    lv_log_register_print_cb(my_log_cb);  // ensure logs go to printf
-#endif
+    LCD_SetWindow(area->x1, area->y1, area->x2, area->y2);
 
-    lv_obj_t *scr = lv_screen_active();
+    uint32_t w = (area->x2 - area->x1 + 1);
+    uint32_t h = (area->y2 - area->y1 + 1);
+    uint32_t px_count = w * h;
 
-    // Solid background to verify flush
-    lv_obj_set_style_bg_color(scr, lv_color_hex(0x202530), 0);
-    lv_obj_set_style_bg_opa(scr, LV_OPA_100, 0);
+    uint16_t * color_p = (uint16_t *)px_map;
 
-    // Big button near top-left (easy target)
-    lv_obj_t *btn = lv_button_create(scr);
-    lv_obj_set_size(btn, 200, 100);
-    lv_obj_set_pos(btn, 10, 10);
-    lv_obj_add_event_cb(btn, on_btn_event, LV_EVENT_ALL, NULL);
+    for(uint32_t i = 0; i < px_count; i++) {
+        LCD_Write_DAT(color_p[i]);
+    }
 
-    // Label on the button
-    lv_obj_t *lbl = lv_label_create(btn);
-    lv_label_set_text(lbl, "Touch me");
-    lv_obj_center(lbl);
+    lv_display_flush_ready(disp);
+}
 
-    // Another visual element (to confirm rendering)
-    lv_obj_t *box = lv_obj_create(scr);
-    lv_obj_set_size(box, 100, 100);
-    lv_obj_set_style_bg_color(box, lv_color_hex(0x2ecc71), 0);
-    lv_obj_set_pos(box, 250, 10);
+/* -----------------------------------------------------------------------------
+   2. INPUT READ CALLBACK (Touch Driver)
+   ----------------------------------------------------------------------------- */
+void my_touch_read(lv_indev_t * indev, lv_indev_data_t * data)
+{
+    // 1. Scan the hardware
+    // Argument '1' usually stands for Landscape in these drivers.
+    // If coordinates are swapped/inverted, try 0, 1, 2, or 3.
+    // Ideally use the defined constant from touch.h like 'Landscape'
+    TOUCH_Read(1);
+
+    // 2. Check touch status
+    // Your driver updates the global TOUCH_STA variable.
+    // BIT7=1 means data ready, BIT0-3 = number of touch points.
+    bool is_touched = (TOUCH_STA & 0x80) && ((TOUCH_STA & 0x0F) > 0);
+
+    if(is_touched) {
+        data->state = LV_INDEV_STATE_PRESSED;
+
+        // 3. Get coordinates from global arrays
+        data->point.x = TOUCH_X[0];
+        data->point.y = TOUCH_Y[0];
+    } else {
+        data->state = LV_INDEV_STATE_RELEASED;
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   3. EVENT CALLBACK (Button Logic)
+   ----------------------------------------------------------------------------- */
+void btn_event_cb(lv_event_t * e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    lv_obj_t * btn = lv_event_get_target(e);
+
+    if(code == LV_EVENT_CLICKED) {
+        static uint8_t cnt = 0;
+        cnt++;
+
+        lv_obj_t * label = lv_obj_get_child(btn, 0);
+        lv_label_set_text_fmt(label, "Clicked: %d", cnt);
+    }
 }

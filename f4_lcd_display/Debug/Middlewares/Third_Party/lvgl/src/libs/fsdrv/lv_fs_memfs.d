@@ -4,7 +4,6 @@ Middlewares/Third_Party/lvgl/src/libs/fsdrv/lv_fs_memfs.o: \
  ../Middlewares/Third_Party/lvgl/src/libs/fsdrv/../../misc/lv_fs.h \
  ../Middlewares/Third_Party/lvgl/src/libs/fsdrv/../../misc/../lv_conf_internal.h \
  ../Middlewares/Third_Party/lvgl/src/libs/fsdrv/../../misc/../lv_conf_kconfig.h \
- ../Core/Inc/lv_conf.h \
  ../Middlewares/Third_Party/lvgl/src/libs/fsdrv/../../misc/lv_types.h \
  ../Middlewares/Third_Party/lvgl/src/libs/fsdrv/../../../lvgl.h \
  ../Middlewares/Third_Party/lvgl/src/libs/fsdrv/../../../lv_version.h \
@@ -446,7 +445,6 @@ Middlewares/Third_Party/lvgl/src/libs/fsdrv/lv_fs_memfs.o: \
 ../Middlewares/Third_Party/lvgl/src/libs/fsdrv/../../misc/lv_fs.h:
 ../Middlewares/Third_Party/lvgl/src/libs/fsdrv/../../misc/../lv_conf_internal.h:
 ../Middlewares/Third_Party/lvgl/src/libs/fsdrv/../../misc/../lv_conf_kconfig.h:
-../Core/Inc/lv_conf.h:
 ../Middlewares/Third_Party/lvgl/src/libs/fsdrv/../../misc/lv_types.h:
 ../Middlewares/Third_Party/lvgl/src/libs/fsdrv/../../../lvgl.h:
 ../Middlewares/Third_Party/lvgl/src/libs/fsdrv/../../../lv_version.h:
