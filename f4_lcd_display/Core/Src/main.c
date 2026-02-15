@@ -35,7 +35,6 @@
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 
-
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -74,15 +73,13 @@ static void MX_TIM3_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-
 /* USER CODE END 0 */
 
 /**
  * @brief  The application entry point.
  * @retval int
  */
-int main(void)
-{
+int main(void) {
 	/* USER CODE BEGIN 1 */
 
 	/* USER CODE END 1 */
@@ -111,56 +108,36 @@ int main(void)
 	MX_FSMC_Init();
 	MX_TIM3_Init();
 	/* USER CODE BEGIN 2 */
-	HAL_Delay(500);//��Ƭ���ϵ�����ʱ�ȴ�һ��ʱ�䣬����LCD�����빤��״̬
-	HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_2);//������ʱ��PWMͨ��
-	__HAL_TIM_SetCompare(&htim3,TIM_CHANNEL_2,499);//����ռ�ձȺ���������3��PWM��ֵ����Χ0~ARR�������ڣ�
-
 
 	/* Hardware Init */
-	    LCD_Init();
-	    TOUCH_Init(); // Important: Init Touch Hardware
-//
-//	    /* LVGL Init */
-	    lv_init();
-//
-//	    /* --- DISPLAY SETUP --- */
-	    lv_display_t * disp = lv_display_create(800, 480);
-	    lv_display_set_flush_cb(disp, my_disp_flush);
-//
-//	    // Buffer size: 1/40th screen to save RAM (approx 19KB)
-	    #define MY_BUF_SIZE (800 * 480 / 40)
-	    static uint16_t buf[MY_BUF_SIZE];
-	    lv_display_set_buffers(disp, buf, NULL, sizeof(buf), LV_DISPLAY_RENDER_MODE_PARTIAL);
-//
-//	    /* --- INPUT SETUP --- */
-	    lv_indev_t * indev = lv_indev_create();
-	    lv_indev_set_type(indev, LV_INDEV_TYPE_POINTER);
-	    lv_indev_set_read_cb(indev, my_touch_read);
-//
-//	    /* --- WIDGET SETUP --- */
-//	    // Create Button
-//	    lv_obj_t * btn = lv_btn_create(lv_screen_active());
-//	    lv_obj_set_pos(btn, 300, 200); // Position roughly in center
-//	    lv_obj_set_size(btn, 150, 60);
-//	    lv_obj_add_event_cb(btn, btn_event_cb, LV_EVENT_ALL, NULL); // Assign callback
-//
-//	    // Create Label on Button
-//	    lv_obj_t * label = lv_label_create(btn);
-//	    lv_label_set_text(label, "Click Me!");
-//	    lv_obj_center(label);
-//	lv_init();
-	ui_init(); // This loads your SquareLine design
-	// TEST: Change background to RED to verify LVGL is working
-//	lv_obj_set_style_bg_color(ui_Screen1, lv_color_hex(0xFF0000), LV_PART_MAIN | LV_STATE_DEFAULT);
+	LCD_Init();
+	TOUCH_Init(); // Important: Init Touch Hardware
 
+	//	    /* LVGL Init */
+	lv_init();
+
+	//	    /* --- DISPLAY SETUP --- */
+	lv_display_t *disp = lv_display_create(800, 480);
+	lv_display_set_flush_cb(disp, my_disp_flush);
+
+	//	    // Buffer size: 1/40th screen to save RAM (approx 19KB)
+#define MY_BUF_SIZE (800 * 480 / 40)
+	static uint16_t buf[MY_BUF_SIZE];
+	lv_display_set_buffers(disp, buf, NULL, sizeof(buf),
+			LV_DISPLAY_RENDER_MODE_PARTIAL);
+
+	//	    /* --- INPUT SETUP --- */
+	lv_indev_t *indev = lv_indev_create();
+	lv_indev_set_type(indev, LV_INDEV_TYPE_POINTER);
+	lv_indev_set_read_cb(indev, my_touch_read);
+
+	ui_init(); // This loads your SquareLine design
 
 	/* Infinite loop */
 	/* USER CODE BEGIN WHILE */
-	while (1)
-	{
+	while (1) {
 
-
-		lv_timer_handler();      /* still valid in v9 */
+		lv_timer_handler(); /* still valid in v9 */
 		HAL_Delay(5);
 
 		/* USER CODE END WHILE */
@@ -174,10 +151,9 @@ int main(void)
  * @brief System Clock Configuration
  * @retval None
  */
-void SystemClock_Config(void)
-{
-	RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-	RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+void SystemClock_Config(void) {
+	RCC_OscInitTypeDef RCC_OscInitStruct = { 0 };
+	RCC_ClkInitTypeDef RCC_ClkInitStruct = { 0 };
 
 	/** Configure the main internal regulator output voltage
 	 */
@@ -194,21 +170,19 @@ void SystemClock_Config(void)
 	RCC_OscInitStruct.PLL.PLLN = 72;
 	RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
 	RCC_OscInitStruct.PLL.PLLQ = 4;
-	if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-	{
+	if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {
 		Error_Handler();
 	}
 	/** Initializes the CPU, AHB and APB buses clocks
 	 */
-	RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-			|RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+	RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK
+			| RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
 	RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
 	RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
 	RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
 	RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
-	{
+	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK) {
 		Error_Handler();
 	}
 }
@@ -218,8 +192,7 @@ void SystemClock_Config(void)
  * @param None
  * @retval None
  */
-static void MX_I2C2_Init(void)
-{
+static void MX_I2C2_Init(void) {
 
 	/* USER CODE BEGIN I2C2_Init 0 */
 
@@ -237,8 +210,7 @@ static void MX_I2C2_Init(void)
 	hi2c2.Init.OwnAddress2 = 0;
 	hi2c2.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
 	hi2c2.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
-	if (HAL_I2C_Init(&hi2c2) != HAL_OK)
-	{
+	if (HAL_I2C_Init(&hi2c2) != HAL_OK) {
 		Error_Handler();
 	}
 	/* USER CODE BEGIN I2C2_Init 2 */
@@ -252,16 +224,15 @@ static void MX_I2C2_Init(void)
  * @param None
  * @retval None
  */
-static void MX_TIM3_Init(void)
-{
+static void MX_TIM3_Init(void) {
 
 	/* USER CODE BEGIN TIM3_Init 0 */
 
 	/* USER CODE END TIM3_Init 0 */
 
-	TIM_ClockConfigTypeDef sClockSourceConfig = {0};
-	TIM_MasterConfigTypeDef sMasterConfig = {0};
-	TIM_OC_InitTypeDef sConfigOC = {0};
+	TIM_ClockConfigTypeDef sClockSourceConfig = { 0 };
+	TIM_MasterConfigTypeDef sMasterConfig = { 0 };
+	TIM_OC_InitTypeDef sConfigOC = { 0 };
 
 	/* USER CODE BEGIN TIM3_Init 1 */
 
@@ -272,31 +243,28 @@ static void MX_TIM3_Init(void)
 	htim3.Init.Period = 499;
 	htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
 	htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
-	if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
-	{
+	if (HAL_TIM_Base_Init(&htim3) != HAL_OK) {
 		Error_Handler();
 	}
 	sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-	if (HAL_TIM_ConfigClockSource(&htim3, &sClockSourceConfig) != HAL_OK)
-	{
+	if (HAL_TIM_ConfigClockSource(&htim3, &sClockSourceConfig) != HAL_OK) {
 		Error_Handler();
 	}
-	if (HAL_TIM_PWM_Init(&htim3) != HAL_OK)
-	{
+	if (HAL_TIM_PWM_Init(&htim3) != HAL_OK) {
 		Error_Handler();
 	}
 	sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
 	sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-	if (HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig) != HAL_OK)
-	{
+	if (HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig)
+			!= HAL_OK) {
 		Error_Handler();
 	}
 	sConfigOC.OCMode = TIM_OCMODE_PWM1;
 	sConfigOC.Pulse = 0;
 	sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
 	sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-	if (HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
-	{
+	if (HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_2)
+			!= HAL_OK) {
 		Error_Handler();
 	}
 	/* USER CODE BEGIN TIM3_Init 2 */
@@ -311,8 +279,7 @@ static void MX_TIM3_Init(void)
  * @param None
  * @retval None
  */
-static void MX_USART1_UART_Init(void)
-{
+static void MX_USART1_UART_Init(void) {
 
 	/* USER CODE BEGIN USART1_Init 0 */
 
@@ -329,8 +296,7 @@ static void MX_USART1_UART_Init(void)
 	huart1.Init.Mode = UART_MODE_TX_RX;
 	huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
 	huart1.Init.OverSampling = UART_OVERSAMPLING_16;
-	if (HAL_UART_Init(&huart1) != HAL_OK)
-	{
+	if (HAL_UART_Init(&huart1) != HAL_OK) {
 		Error_Handler();
 	}
 	/* USER CODE BEGIN USART1_Init 2 */
@@ -344,9 +310,8 @@ static void MX_USART1_UART_Init(void)
  * @param None
  * @retval None
  */
-static void MX_GPIO_Init(void)
-{
-	GPIO_InitTypeDef GPIO_InitStruct = {0};
+static void MX_GPIO_Init(void) {
+	GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 
 	/* GPIO Ports Clock Enable */
 	__HAL_RCC_GPIOC_CLK_ENABLE();
@@ -368,8 +333,9 @@ static void MX_GPIO_Init(void)
 	HAL_GPIO_WritePin(LED4_GPIO_Port, LED4_Pin, GPIO_PIN_SET);
 
 	/*Configure GPIO pin Output Level */
-	HAL_GPIO_WritePin(GPIOG, RELAY1_Pin|RELAY2_Pin|LED1_Pin|LED2_Pin
-			|LED3_Pin|TOUTH_RST_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOG,
+	RELAY1_Pin | RELAY2_Pin | LED1_Pin | LED2_Pin | LED3_Pin | TOUTH_RST_Pin,
+			GPIO_PIN_SET);
 
 	/*Configure GPIO pin : SPEAKER_Pin */
 	GPIO_InitStruct.Pin = SPEAKER_Pin;
@@ -393,20 +359,20 @@ static void MX_GPIO_Init(void)
 	HAL_GPIO_Init(LED4_GPIO_Port, &GPIO_InitStruct);
 
 	/*Configure GPIO pins : KEY1_Pin KEY2_Pin KEY3_Pin KEY4_Pin */
-	GPIO_InitStruct.Pin = KEY1_Pin|KEY2_Pin|KEY3_Pin|KEY4_Pin;
+	GPIO_InitStruct.Pin = KEY1_Pin | KEY2_Pin | KEY3_Pin | KEY4_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
 	GPIO_InitStruct.Pull = GPIO_PULLUP;
 	HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
 
 	/*Configure GPIO pins : RELAY1_Pin RELAY2_Pin */
-	GPIO_InitStruct.Pin = RELAY1_Pin|RELAY2_Pin;
+	GPIO_InitStruct.Pin = RELAY1_Pin | RELAY2_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 	HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 
 	/*Configure GPIO pins : LED1_Pin LED2_Pin LED3_Pin TOUTH_RST_Pin */
-	GPIO_InitStruct.Pin = LED1_Pin|LED2_Pin|LED3_Pin|TOUTH_RST_Pin;
+	GPIO_InitStruct.Pin = LED1_Pin | LED2_Pin | LED3_Pin | TOUTH_RST_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	GPIO_InitStruct.Pull = GPIO_PULLUP;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
@@ -425,15 +391,14 @@ static void MX_GPIO_Init(void)
 }
 
 /* FSMC initialization function */
-static void MX_FSMC_Init(void)
-{
+static void MX_FSMC_Init(void) {
 
 	/* USER CODE BEGIN FSMC_Init 0 */
 
 	/* USER CODE END FSMC_Init 0 */
 
-	FSMC_NORSRAM_TimingTypeDef Timing = {0};
-	FSMC_NORSRAM_TimingTypeDef ExtTiming = {0};
+	FSMC_NORSRAM_TimingTypeDef Timing = { 0 };
+	FSMC_NORSRAM_TimingTypeDef ExtTiming = { 0 };
 
 	/* USER CODE BEGIN FSMC_Init 1 */
 
@@ -475,9 +440,8 @@ static void MX_FSMC_Init(void)
 	ExtTiming.DataLatency = 17;
 	ExtTiming.AccessMode = FSMC_ACCESS_MODE_A;
 
-	if (HAL_SRAM_Init(&hsram1, &Timing, &ExtTiming) != HAL_OK)
-	{
-		Error_Handler( );
+	if (HAL_SRAM_Init(&hsram1, &Timing, &ExtTiming) != HAL_OK) {
+		Error_Handler();
 	}
 
 	/* USER CODE BEGIN FSMC_Init 2 */
@@ -493,13 +457,11 @@ static void MX_FSMC_Init(void)
  * @brief  This function is executed in case of error occurrence.
  * @retval None
  */
-void Error_Handler(void)
-{
+void Error_Handler(void) {
 	/* USER CODE BEGIN Error_Handler_Debug */
 	/* User can add his own implementation to report the HAL error return state */
 	__disable_irq();
-	while (1)
-	{
+	while (1) {
 	}
 	/* USER CODE END Error_Handler_Debug */
 }
