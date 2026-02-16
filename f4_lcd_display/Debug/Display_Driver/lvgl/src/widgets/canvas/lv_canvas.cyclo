@@ -1,0 +1,16 @@
+../Display_Driver/lvgl/src/widgets/canvas/lv_canvas.c:422:13:lv_canvas_constructor	1
+../Display_Driver/lvgl/src/widgets/canvas/lv_canvas.c:428:13:lv_canvas_destructor	2
+../Display_Driver/lvgl/src/widgets/canvas/lv_canvas.c:59:12:lv_canvas_create	1
+../Display_Driver/lvgl/src/widgets/canvas/lv_canvas.c:71:6:lv_canvas_set_buffer	4
+../Display_Driver/lvgl/src/widgets/canvas/lv_canvas.c:90:6:lv_canvas_set_draw_buf	5
+../Display_Driver/lvgl/src/widgets/canvas/lv_canvas.c:112:6:lv_canvas_set_px	13
+../Display_Driver/lvgl/src/widgets/canvas/lv_canvas.c:186:6:lv_canvas_set_palette	2
+../Display_Driver/lvgl/src/widgets/canvas/lv_canvas.c:200:17:lv_canvas_get_draw_buf	2
+../Display_Driver/lvgl/src/widgets/canvas/lv_canvas.c:208:14:lv_canvas_get_px	8
+../Display_Driver/lvgl/src/widgets/canvas/lv_canvas.c:261:18:lv_canvas_get_image	2
+../Display_Driver/lvgl/src/widgets/canvas/lv_canvas.c:269:14:lv_canvas_get_buf	3
+../Display_Driver/lvgl/src/widgets/canvas/lv_canvas.c:284:6:lv_canvas_copy_buf	6
+../Display_Driver/lvgl/src/widgets/canvas/lv_canvas.c:298:6:lv_canvas_fill_bg	50
+../Display_Driver/lvgl/src/widgets/canvas/lv_canvas.c:377:6:lv_canvas_init_layer	4
+../Display_Driver/lvgl/src/widgets/canvas/lv_canvas.c:395:6:lv_canvas_finish_layer	4
+../Display_Driver/lvgl/src/widgets/canvas/lv_canvas.c:413:10:lv_canvas_buf_size	1

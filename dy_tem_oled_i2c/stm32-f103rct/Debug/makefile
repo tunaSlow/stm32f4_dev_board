@@ -60,8 +60,8 @@ all: main-build
 main-build: stm32-f103rct.elf secondary-outputs
 
 # Tool invocations
-stm32-f103rct.elf stm32-f103rct.map: $(OBJS) $(USER_OBJS) /home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/dy_tem_oled_i2c/stm32-f103rct/STM32F103RCTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "stm32-f103rct.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"/home/tuna/STM32CubeIDE/workspace_1.18.1/stm32f4_dev_board/dy_tem_oled_i2c/stm32-f103rct/STM32F103RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="stm32-f103rct.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+stm32-f103rct.elf stm32-f103rct.map: $(OBJS) $(USER_OBJS) /home/tuna/Documents/GitHub/stm32f4_dev_board/dy_tem_oled_i2c/stm32-f103rct/STM32F103RCTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "stm32-f103rct.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"/home/tuna/Documents/GitHub/stm32f4_dev_board/dy_tem_oled_i2c/stm32-f103rct/STM32F103RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="stm32-f103rct.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

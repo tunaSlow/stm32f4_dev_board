@@ -1,0 +1,6 @@
+../Display_Driver/lvgl/src/stdlib/builtin/lv_sprintf_builtin.c:131:20:_out_buffer	0	static
+../Display_Driver/lvgl/src/stdlib/builtin/lv_sprintf_builtin.c:139:20:_out_null	0	static
+../Display_Driver/lvgl/src/stdlib/builtin/lv_sprintf_builtin.c:194:15:_ntoa_format	48	static
+../Display_Driver/lvgl/src/stdlib/builtin/lv_sprintf_builtin.c:547:12:lv_vsnprintf_inner	136	static
+../Display_Driver/lvgl/src/stdlib/builtin/lv_sprintf_builtin.c:864:5:lv_snprintf	24	static
+../Display_Driver/lvgl/src/stdlib/builtin/lv_sprintf_builtin.c:873:5:lv_vsnprintf	16	static

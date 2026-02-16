@@ -1,0 +1,14 @@
+Display_Driver/lvgl/src/others/xml/lv_xml_load.o: \
+ ../Display_Driver/lvgl/src/others/xml/lv_xml_load.c \
+ ../Display_Driver/lvgl/src/others/xml/lv_xml_load_private.h \
+ ../Display_Driver/lvgl/src/others/xml/lv_xml_load.h \
+ ../Display_Driver/lvgl/src/others/xml/../../misc/lv_types.h \
+ ../Display_Driver/lvgl/src/others/xml/../../misc/../lv_conf_internal.h \
+ ../Display_Driver/lvgl/src/others/xml/../../misc/../lv_conf_kconfig.h \
+ ../Core/Inc/lv_conf.h
+../Display_Driver/lvgl/src/others/xml/lv_xml_load_private.h:
+../Display_Driver/lvgl/src/others/xml/lv_xml_load.h:
+../Display_Driver/lvgl/src/others/xml/../../misc/lv_types.h:
+../Display_Driver/lvgl/src/others/xml/../../misc/../lv_conf_internal.h:
+../Display_Driver/lvgl/src/others/xml/../../misc/../lv_conf_kconfig.h:
+../Core/Inc/lv_conf.h:

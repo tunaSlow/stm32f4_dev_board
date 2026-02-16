@@ -1,6 +1,0 @@
-../Middlewares/Third_Party/lvgl/src/themes/default/lv_theme_default.c:723:13:theme_apply	67
-../Middlewares/Third_Party/lvgl/src/themes/default/lv_theme_default.c:625:14:lv_theme_default_init	280
-../Middlewares/Third_Party/lvgl/src/themes/default/lv_theme_default.c:1224:13:resolution_change_event_cb	1
-../Middlewares/Third_Party/lvgl/src/themes/default/lv_theme_default.c:687:6:lv_theme_default_is_inited	2
-../Middlewares/Third_Party/lvgl/src/themes/default/lv_theme_default.c:694:14:lv_theme_default_get	2
-../Middlewares/Third_Party/lvgl/src/themes/default/lv_theme_default.c:703:6:lv_theme_default_deinit	4

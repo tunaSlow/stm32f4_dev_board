@@ -1,0 +1,3 @@
+../Display_Driver/lvgl/src/libs/frogfs/src/decomp_raw.c:32:16:seek_raw	10
+../Display_Driver/lvgl/src/libs/frogfs/src/decomp_raw.c:68:15:tell_raw	1
+../Display_Driver/lvgl/src/libs/frogfs/src/decomp_raw.c:16:16:read_raw	2

@@ -1,0 +1,10 @@
+Display_Driver/lvgl/src/libs/svg/lv_svg_parser.o: \
+ ../Display_Driver/lvgl/src/libs/svg/lv_svg_parser.c \
+ ../Display_Driver/lvgl/src/libs/svg/lv_svg_parser.h \
+ ../Display_Driver/lvgl/src/libs/svg/../../lv_conf_internal.h \
+ ../Display_Driver/lvgl/src/libs/svg/../../lv_conf_kconfig.h \
+ ../Core/Inc/lv_conf.h
+../Display_Driver/lvgl/src/libs/svg/lv_svg_parser.h:
+../Display_Driver/lvgl/src/libs/svg/../../lv_conf_internal.h:
+../Display_Driver/lvgl/src/libs/svg/../../lv_conf_kconfig.h:
+../Core/Inc/lv_conf.h:

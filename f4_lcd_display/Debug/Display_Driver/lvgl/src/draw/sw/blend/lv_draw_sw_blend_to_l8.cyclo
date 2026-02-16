@@ -1,0 +1,2 @@
+../Display_Driver/lvgl/src/draw/sw/blend/lv_draw_sw_blend_to_l8.c:189:28:lv_draw_sw_blend_color_to_l8	27
+../Display_Driver/lvgl/src/draw/sw/blend/lv_draw_sw_blend_to_l8.c:291:28:lv_draw_sw_blend_image_to_l8	366

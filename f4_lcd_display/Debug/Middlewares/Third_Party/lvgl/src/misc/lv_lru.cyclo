@@ -1,6 +1,0 @@
-../Middlewares/Third_Party/lvgl/src/misc/lv_lru.c:74:12:lv_lru_create	3
-../Middlewares/Third_Party/lvgl/src/misc/lv_lru.c:101:6:lv_lru_delete	9
-../Middlewares/Third_Party/lvgl/src/misc/lv_lru.c:188:14:lv_lru_get	12
-../Middlewares/Third_Party/lvgl/src/misc/lv_lru.c:211:14:lv_lru_remove	13
-../Middlewares/Third_Party/lvgl/src/misc/lv_lru.c:233:6:lv_lru_remove_lru_item	9
-../Middlewares/Third_Party/lvgl/src/misc/lv_lru.c:136:14:lv_lru_set	20
