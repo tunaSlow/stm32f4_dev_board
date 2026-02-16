@@ -110,6 +110,12 @@ int main(void) {
 	/* USER CODE BEGIN 2 */
 
 	/* Hardware Init */
+
+
+	/* Infinite loop */
+	/* USER CODE BEGIN WHILE */
+
+
 	LCD_Init();
 	TOUCH_Init(); // Important: Init Touch Hardware
 
@@ -133,8 +139,7 @@ int main(void) {
 
 	ui_init(); // This loads your SquareLine design
 
-	/* Infinite loop */
-	/* USER CODE BEGIN WHILE */
+
 	while (1) {
 
 		lv_timer_handler(); /* still valid in v9 */
