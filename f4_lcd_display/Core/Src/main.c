@@ -620,7 +620,14 @@ static void MX_FSMC_Init(void) {
 }
 
 /* USER CODE BEGIN 4 */
+// Dummy functions to satisfy the linker for printf floats
+__attribute__((weak)) int _kill(int pid, int sig) {
+    return -1;
+}
 
+__attribute__((weak)) int _getpid(void) {
+    return 1;
+}
 /* USER CODE END 4 */
 
 /**
