@@ -149,10 +149,10 @@ int main(void) {
 	while (1) {
 
 		// Process all UI tasks (Touch, Animations, Screen redraws)
-		    uint32_t time_until_next = lv_timer_handler();
+		uint32_t time_until_next = lv_timer_handler();
 
-		    // Optional: Sleep the CPU for a bit to save power
-		    HAL_Delay(time_until_next > 5 ? 5 : time_until_next);
+		// Optional: Sleep the CPU for a bit to save power
+		HAL_Delay(time_until_next > 5 ? 5 : time_until_next);
 
 		/* USER CODE END WHILE */
 
@@ -395,8 +395,8 @@ static void MX_GPIO_Init(void) {
 
 	/*Configure GPIO pin Output Level */
 	HAL_GPIO_WritePin(GPIOG,
-			RELAY1_Pin | RELAY2_Pin | LED1_Pin | LED2_Pin | LED3_Pin
-					| TOUTH_RST_Pin, GPIO_PIN_SET);
+	RELAY1_Pin | RELAY2_Pin | LED1_Pin | LED2_Pin | LED3_Pin | TOUTH_RST_Pin,
+			GPIO_PIN_SET);
 
 	/*Configure GPIO pin : PC13 */
 	GPIO_InitStruct.Pin = GPIO_PIN_13;
@@ -535,18 +535,18 @@ void Error_Handler(void) {
 
 #ifdef  USE_FULL_ASSERT
 /**
-  * @brief  Reports the name of the source file and the source line number
-  *         where the assert_param error has occurred.
-  * @param  file: pointer to the source file name
-  * @param  line: assert_param error line source number
-  * @retval None
-  */
+ * @brief  Reports the name of the source file and the source line number
+ *         where the assert_param error has occurred.
+ * @param  file: pointer to the source file name
+ * @param  line: assert_param error line source number
+ * @retval None
+ */
 void assert_failed(uint8_t *file, uint32_t line)
 {
-  /* USER CODE BEGIN 6 */
+	/* USER CODE BEGIN 6 */
 	/* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-  /* USER CODE END 6 */
+	/* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
 
