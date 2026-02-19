@@ -59,8 +59,6 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define SPEAKER_Pin GPIO_PIN_13
-#define SPEAKER_GPIO_Port GPIOC
 #define BEEP1_Pin GPIO_PIN_7
 #define BEEP1_GPIO_Port GPIOA
 #define LED4_Pin GPIO_PIN_1
@@ -90,9 +88,6 @@ void Error_Handler(void);
 #define TOUTH_RST_GPIO_Port GPIOG
 #define LCD_BL_Pin GPIO_PIN_5
 #define LCD_BL_GPIO_Port GPIOB
-
-
-
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

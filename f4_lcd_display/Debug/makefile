@@ -224,8 +224,8 @@ all: main-build
 main-build: YT32B2_DEMO.elf secondary-outputs
 
 # Tool invocations
-YT32B2_DEMO.elf YT32B2_DEMO.map: $(OBJS) $(USER_OBJS) /home/tuna/Documents/GitHub/stm32f4_dev_board/f4_lcd_display/STM32F407ZGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "YT32B2_DEMO.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/home/tuna/Documents/GitHub/stm32f4_dev_board/f4_lcd_display/STM32F407ZGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="YT32B2_DEMO.map" -Wl,--gc-sections -static -Wl,-z,noexecstack --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+YT32B2_DEMO.elf YT32B2_DEMO.map: $(OBJS) $(USER_OBJS) /home/tuna/Documents/GitKraken/stm32f4_dev_board/f4_lcd_display/STM32F407ZGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "YT32B2_DEMO.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/home/tuna/Documents/GitKraken/stm32f4_dev_board/f4_lcd_display/STM32F407ZGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="YT32B2_DEMO.map" -Wl,--gc-sections -static -Wl,-z,noexecstack --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
