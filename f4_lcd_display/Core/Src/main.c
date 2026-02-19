@@ -21,6 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <stdlib.h> // Needed for abs()
 #include "../../icode/delay/delay.h"
 #include "../../icode/led/led.h"
 #include "../../icode/key/key.h"
@@ -174,6 +175,10 @@ int main(void) {
 	lv_init();
 	// Tell LVGL to use HAL_GetTick to track time automatically
 	lv_tick_set_cb(HAL_GetTick);
+	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
+
+	// // //
+
 	/* USER CODE END 2 */
 
 	/* Infinite loop */
@@ -205,6 +210,8 @@ int main(void) {
 
 	uint32_t last_oled_update = 0;
 	const uint32_t OLED_REFRESH_INTERVAL = 500; // Update every 500ms (2Hz)
+	static uint32_t current_brightness = 0; // Remembers the last set value
+	const int THRESHOLD = 40; // The noise limit (adjust between 20-100)
 
 	while (1) {
 		// 1. LVGL ALWAYS runs as fast as possible for smooth touch/animations
@@ -217,6 +224,17 @@ int main(void) {
 			// Sensor Reading (No need to read these 100 times a second!)
 			float temp = LM75A_ReadTemperature_Fine();
 			uint32_t adc_val = Read_ADC_Channel();
+			// --- DEADBAND FILTER ---
+
+
+			// Only update the PWM if the pot moved by MORE than the threshold
+			if (abs((int) adc_val - (int) current_brightness) > THRESHOLD) {
+				current_brightness = adc_val; // Save the new accepted value
+
+				// Set the new brightness
+				__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2,
+						current_brightness);
+			}
 			float voltage = adc_val * 3.3f / 4095.0f;
 
 			// OLED Drawing
@@ -384,9 +402,9 @@ static void MX_TIM3_Init(void) {
 
 	/* USER CODE END TIM3_Init 1 */
 	htim3.Instance = TIM3;
-	htim3.Init.Prescaler = 71;
+	htim3.Init.Prescaler = 83;
 	htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-	htim3.Init.Period = 499;
+	htim3.Init.Period = 4095;
 	htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
 	htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
 	if (HAL_TIM_Base_Init(&htim3) != HAL_OK) {
@@ -480,8 +498,8 @@ static void MX_GPIO_Init(void) {
 
 	/*Configure GPIO pin Output Level */
 	HAL_GPIO_WritePin(GPIOG,
-	RELAY1_Pin | RELAY2_Pin | LED1_Pin | LED2_Pin | LED3_Pin | TOUTH_RST_Pin,
-			GPIO_PIN_SET);
+			RELAY1_Pin | RELAY2_Pin | LED1_Pin | LED2_Pin | LED3_Pin
+					| TOUTH_RST_Pin, GPIO_PIN_SET);
 
 	/*Configure GPIO pin : PC13 */
 	GPIO_InitStruct.Pin = GPIO_PIN_13;
@@ -620,18 +638,18 @@ void Error_Handler(void) {
 
 #ifdef  USE_FULL_ASSERT
 /**
-  * @brief  Reports the name of the source file and the source line number
-  *         where the assert_param error has occurred.
-  * @param  file: pointer to the source file name
-  * @param  line: assert_param error line source number
-  * @retval None
-  */
+ * @brief  Reports the name of the source file and the source line number
+ *         where the assert_param error has occurred.
+ * @param  file: pointer to the source file name
+ * @param  line: assert_param error line source number
+ * @retval None
+ */
 void assert_failed(uint8_t *file, uint32_t line)
 {
-  /* USER CODE BEGIN 6 */
+	/* USER CODE BEGIN 6 */
 	/* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-  /* USER CODE END 6 */
+	/* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
 
