@@ -1335,9 +1335,9 @@ int main(void) {
  8000b38:	f033 fdb6 	bl	80346a8 <lv_indev_set_display>
 	ui_init(); // This loads your SquareLine design
  8000b3c:	f000 fba4 	bl	8001288 <ui_init>
-		    uint32_t time_until_next = lv_timer_handler();
+		uint32_t time_until_next = lv_timer_handler();
  8000b40:	f03d ffe2 	bl	803eb08 <lv_timer_handler>
-		    HAL_Delay(time_until_next > 5 ? 5 : time_until_next);
+		HAL_Delay(time_until_next > 5 ? 5 : time_until_next);
  8000b44:	2805      	cmp	r0, #5
  8000b46:	bf28      	it	cs
  8000b48:	2005      	movcs	r0, #5
