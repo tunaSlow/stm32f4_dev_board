@@ -172,6 +172,7 @@ RM := rm -rf
 -include Core/Src/ui/screens/subdir.mk
 -include Core/Src/ui/components/subdir.mk
 -include Core/Src/ui/subdir.mk
+-include Core/Src/ssd1306/subdir.mk
 -include Core/Src/subdir.mk
 -include objects.mk
 

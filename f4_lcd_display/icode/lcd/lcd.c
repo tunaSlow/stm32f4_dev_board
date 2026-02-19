@@ -22,8 +22,8 @@ uint16_t SET_GRAM; //����GRAMͼ�μĴ���
 uint16_t SET_X; //����X����
 uint16_t SET_Y; //�豸Y����
 
-uint16_t ForeColor = Black;//������ɫ�Ĵ�����ȫ���ַ�/ͼ�Σ�
-uint16_t BackColor = White;//������ɫ��ȫ�֣�
+uint16_t ForeColor = LCD_Black;//������ɫ�Ĵ�����ȫ���ַ�/ͼ�Σ�
+uint16_t BackColor = LCD_White;//������ɫ��ȫ�֣�
 
 //--------------------------------------�漰HAL_SRAM�ײ㺯��-��ʼ-----------------------------------------//
 
@@ -141,7 +141,7 @@ uint8_t LCD_Init(void){ //LCD������ʼ�������в���
 		delay_us(120);//���ú��Ҫ����ʱ
 		LCD_OFF();//��ʼ������֮ǰ����ʾ����ֹ��ʾ�����룩
 		LCD_Direction(UDRL);//������ʾ����
-		LCD_CLEAR(White);//����
+		LCD_CLEAR(LCD_White);//����
 		LCD_ON();//��ʼ����ɺ����ʾ�ͱ���
 		a=1;//д���ʼ���ɹ���ֵ1
 	}
@@ -318,7 +318,7 @@ uint8_t LCD_Init(void){ //LCD������ʼ�������в���
 		delay_us(120);//���ú��Ҫ����ʱ
 		LCD_OFF();//��ʼ������֮ǰ����ʾ����ֹ��ʾ�����룩
 		LCD_Direction(UDRL);//������ʾ����
-		LCD_CLEAR(White);//����
+		LCD_CLEAR(LCD_White);//����
 		LCD_ON();//��ʼ����ɺ����ʾ�ͱ���
 		a=1;//д���ʼ���ɹ���ֵ1
 	}
@@ -426,7 +426,7 @@ uint8_t LCD_Init(void){ //LCD������ʼ�������в���
 		delay_us(120);//���ú��Ҫ����ʱ
 		LCD_OFF();//��ʼ������֮ǰ����ʾ����ֹ��ʾ�����룩
 		LCD_Direction(UDRL);//������ʾ����
-		LCD_CLEAR(White);//����
+		LCD_CLEAR(LCD_White);//����
 		LCD_ON();//��ʼ����ɺ����ʾ�ͱ���
 		a=1;//д���ʼ���ɹ���ֵ1
 	}

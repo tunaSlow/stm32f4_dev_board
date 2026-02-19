@@ -24,6 +24,7 @@ C_DEPS :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 Core/Src \
+Core/Src/ssd1306 \
 Core/Src/ui/components \
 Core/Src/ui/screens \
 Core/Src/ui \

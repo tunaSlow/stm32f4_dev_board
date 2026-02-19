@@ -30,6 +30,9 @@
 #include "lvgl.h"
 #include "lv_app.h"
 #include "ui/ui.h"
+#include "ssd1306/ssd1306.h"
+#include "ssd1306/ssd1306_fonts.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -47,7 +50,7 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-ADC_HandleTypeDef hadc2;
+ADC_HandleTypeDef hadc1;
 
 I2C_HandleTypeDef hi2c2;
 
@@ -67,8 +70,8 @@ static void MX_GPIO_Init(void);
 static void MX_I2C2_Init(void);
 static void MX_FSMC_Init(void);
 static void MX_TIM3_Init(void);
-static void MX_ADC2_Init(void);
 static void MX_USART1_UART_Init(void);
+static void MX_ADC1_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -78,9 +81,60 @@ static void MX_USART1_UART_Init(void);
 
 // In v9, we use a pointer to an lv_indev_t instead of a driver struct
 static lv_indev_t *indev;
-
 // Forward declaration
 void my_touch_read(lv_indev_t *indev, lv_indev_data_t *data);
+
+#define LM75A_ADDR  (0x4F << 1)  // Shifted for HAL (8-bit address mode)
+#define LM75A_TEMP_REG 0x00
+uint8_t lm75a_addr = 0; // Will be set after scan
+char buffer[20];
+
+uint32_t Read_ADC_Channel(void) {
+	HAL_ADC_Start(&hadc1);
+	if (HAL_ADC_PollForConversion(&hadc1, 10) == HAL_OK) {
+		return HAL_ADC_GetValue(&hadc1);
+	}
+	return 0; // Read failed
+}
+
+void I2C_ScanAndFindLM75A(void) {
+	for (uint8_t addr = 1; addr < 127; addr++) {
+		if (HAL_I2C_IsDeviceReady(&hi2c2, (addr << 1), 3, 5) == HAL_OK) {
+			if (addr == 0x4F) // Found LM75A
+					{
+				lm75a_addr = addr << 1; // Save 8-bit form for HAL
+				break;
+			}
+		}
+	}
+}
+
+float LM75A_ReadTemperature_Fine(void) {
+	uint8_t temp_data[2];
+	int16_t raw_temp;
+	float temperature;
+
+	if (HAL_I2C_Mem_Read(&hi2c2, lm75a_addr, LM75A_TEMP_REG,
+	I2C_MEMADD_SIZE_8BIT, temp_data, 2, HAL_MAX_DELAY) != HAL_OK) {
+		return -1000.0f; // Error
+	}
+
+	// Combine MSB and LSB
+	raw_temp = (temp_data[0] << 8) | temp_data[1];
+
+	// Shift right by 5 to get rid of unused bits (bits 4..0)
+	raw_temp >>= 5;
+
+	// Sign extend 11-bit signed number if needed
+	if (raw_temp & 0x400) // Check sign bit (bit 10)
+			{
+		raw_temp |= 0xF800; // Set upper bits to 1 for negative numbers
+	}
+
+	temperature = raw_temp * 0.125f;
+
+	return temperature;
+}
 
 /* USER CODE END 0 */
 
@@ -114,8 +168,8 @@ int main(void) {
 	MX_I2C2_Init();
 	MX_FSMC_Init();
 	MX_TIM3_Init();
-	MX_ADC2_Init();
 	MX_USART1_UART_Init();
+	MX_ADC1_Init();
 	/* USER CODE BEGIN 2 */
 	lv_init();
 	// Tell LVGL to use HAL_GetTick to track time automatically
@@ -146,12 +200,43 @@ int main(void) {
 
 	ui_init(); // This loads your SquareLine design
 
-	while (1) {
+	ssd1306_Init();
+	I2C_ScanAndFindLM75A();
 
-		// Process all UI tasks (Touch, Animations, Screen redraws)
+	uint32_t last_oled_update = 0;
+	const uint32_t OLED_REFRESH_INTERVAL = 500; // Update every 500ms (2Hz)
+
+	while (1) {
+		// 1. LVGL ALWAYS runs as fast as possible for smooth touch/animations
 		uint32_t time_until_next = lv_timer_handler();
 
-		// Optional: Sleep the CPU for a bit to save power
+		// 2. Only run the slow OLED/Sensor code every 500ms
+		if (HAL_GetTick() - last_oled_update >= OLED_REFRESH_INTERVAL) {
+			last_oled_update = HAL_GetTick();
+
+			// Sensor Reading (No need to read these 100 times a second!)
+			float temp = LM75A_ReadTemperature_Fine();
+			uint32_t adc_val = Read_ADC_Channel();
+			float voltage = adc_val * 3.3f / 4095.0f;
+
+			// OLED Drawing
+			ssd1306_Fill(Black);
+			ssd1306_SetCursor(2, 0);
+			snprintf(buffer, sizeof(buffer), "Temp: %d.%02d C", (int) temp,
+					(int) ((temp - (int) temp) * 100));
+			ssd1306_WriteString(buffer, Font_7x10, White);
+
+			ssd1306_SetCursor(2, 20);
+			snprintf(buffer, sizeof(buffer), "Pot: %ld (%.2fV)", adc_val,
+					voltage);
+			ssd1306_WriteString(buffer, Font_7x10, White);
+
+			// This is the heavy hitter (I2C Transfer)
+			ssd1306_UpdateScreen();
+		}
+
+		// 3. Dynamic Sleep
+		// We adjust the delay so we don't starve the OLED timer
 		HAL_Delay(time_until_next > 5 ? 5 : time_until_next);
 
 		/* USER CODE END WHILE */
@@ -202,36 +287,36 @@ void SystemClock_Config(void) {
 }
 
 /**
- * @brief ADC2 Initialization Function
+ * @brief ADC1 Initialization Function
  * @param None
  * @retval None
  */
-static void MX_ADC2_Init(void) {
+static void MX_ADC1_Init(void) {
 
-	/* USER CODE BEGIN ADC2_Init 0 */
+	/* USER CODE BEGIN ADC1_Init 0 */
 
-	/* USER CODE END ADC2_Init 0 */
+	/* USER CODE END ADC1_Init 0 */
 
 	ADC_ChannelConfTypeDef sConfig = { 0 };
 
-	/* USER CODE BEGIN ADC2_Init 1 */
+	/* USER CODE BEGIN ADC1_Init 1 */
 
-	/* USER CODE END ADC2_Init 1 */
+	/* USER CODE END ADC1_Init 1 */
 	/** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
 	 */
-	hadc2.Instance = ADC2;
-	hadc2.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
-	hadc2.Init.Resolution = ADC_RESOLUTION_12B;
-	hadc2.Init.ScanConvMode = DISABLE;
-	hadc2.Init.ContinuousConvMode = DISABLE;
-	hadc2.Init.DiscontinuousConvMode = DISABLE;
-	hadc2.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
-	hadc2.Init.ExternalTrigConv = ADC_SOFTWARE_START;
-	hadc2.Init.DataAlign = ADC_DATAALIGN_RIGHT;
-	hadc2.Init.NbrOfConversion = 1;
-	hadc2.Init.DMAContinuousRequests = DISABLE;
-	hadc2.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
-	if (HAL_ADC_Init(&hadc2) != HAL_OK) {
+	hadc1.Instance = ADC1;
+	hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
+	hadc1.Init.Resolution = ADC_RESOLUTION_12B;
+	hadc1.Init.ScanConvMode = DISABLE;
+	hadc1.Init.ContinuousConvMode = DISABLE;
+	hadc1.Init.DiscontinuousConvMode = DISABLE;
+	hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
+	hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+	hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+	hadc1.Init.NbrOfConversion = 1;
+	hadc1.Init.DMAContinuousRequests = DISABLE;
+	hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+	if (HAL_ADC_Init(&hadc1) != HAL_OK) {
 		Error_Handler();
 	}
 	/** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
@@ -239,12 +324,12 @@ static void MX_ADC2_Init(void) {
 	sConfig.Channel = ADC_CHANNEL_13;
 	sConfig.Rank = 1;
 	sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
-	if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK) {
+	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK) {
 		Error_Handler();
 	}
-	/* USER CODE BEGIN ADC2_Init 2 */
+	/* USER CODE BEGIN ADC1_Init 2 */
 
-	/* USER CODE END ADC2_Init 2 */
+	/* USER CODE END ADC1_Init 2 */
 
 }
 
@@ -535,18 +620,18 @@ void Error_Handler(void) {
 
 #ifdef  USE_FULL_ASSERT
 /**
- * @brief  Reports the name of the source file and the source line number
- *         where the assert_param error has occurred.
- * @param  file: pointer to the source file name
- * @param  line: assert_param error line source number
- * @retval None
- */
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
 void assert_failed(uint8_t *file, uint32_t line)
 {
-	/* USER CODE BEGIN 6 */
+  /* USER CODE BEGIN 6 */
 	/* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-	/* USER CODE END 6 */
+  /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
 

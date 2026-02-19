@@ -482,7 +482,10 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Core/Inc/lv_app.h ../Core/Src/ui/ui.h \
  /home/tuna/Documents/GitKraken/stm32f4_dev_board/f4_lcd_display/Display_Driver/lvgl/src/../lvgl.h \
  ../Core/Src/ui/ui_helpers.h ../Core/Src/ui/ui.h \
- ../Core/Src/ui/ui_events.h ../Core/Src/ui/screens/ui_Screen1.h
+ ../Core/Src/ui/ui_events.h ../Core/Src/ui/screens/ui_Screen1.h \
+ ../Core/Src/ssd1306/ssd1306.h \
+ ../Core/Src/ssd1306/ssd1306_conf_template.h \
+ ../Core/Src/ssd1306/ssd1306_fonts.h ../Core/Src/ssd1306/ssd1306.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -973,3 +976,7 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Core/Src/ui/ui.h:
 ../Core/Src/ui/ui_events.h:
 ../Core/Src/ui/screens/ui_Screen1.h:
+../Core/Src/ssd1306/ssd1306.h:
+../Core/Src/ssd1306/ssd1306_conf_template.h:
+../Core/Src/ssd1306/ssd1306_fonts.h:
+../Core/Src/ssd1306/ssd1306.h:
