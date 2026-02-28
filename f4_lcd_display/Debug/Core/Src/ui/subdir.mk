@@ -6,16 +6,28 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../Core/Src/ui/ui.c \
+../Core/Src/ui/ui_Screen1.c \
+../Core/Src/ui/ui_comp.c \
+../Core/Src/ui/ui_comp_button1.c \
+../Core/Src/ui/ui_comp_hook.c \
 ../Core/Src/ui/ui_events.c \
 ../Core/Src/ui/ui_helpers.c 
 
 OBJS += \
 ./Core/Src/ui/ui.o \
+./Core/Src/ui/ui_Screen1.o \
+./Core/Src/ui/ui_comp.o \
+./Core/Src/ui/ui_comp_button1.o \
+./Core/Src/ui/ui_comp_hook.o \
 ./Core/Src/ui/ui_events.o \
 ./Core/Src/ui/ui_helpers.o 
 
 C_DEPS += \
 ./Core/Src/ui/ui.d \
+./Core/Src/ui/ui_Screen1.d \
+./Core/Src/ui/ui_comp.d \
+./Core/Src/ui/ui_comp_button1.d \
+./Core/Src/ui/ui_comp_hook.d \
 ./Core/Src/ui/ui_events.d \
 ./Core/Src/ui/ui_helpers.d 
 
@@ -27,7 +39,7 @@ Core/Src/ui/%.o Core/Src/ui/%.su Core/Src/ui/%.cyclo: ../Core/Src/ui/%.c Core/Sr
 clean: clean-Core-2f-Src-2f-ui
 
 clean-Core-2f-Src-2f-ui:
-	-$(RM) ./Core/Src/ui/ui.cyclo ./Core/Src/ui/ui.d ./Core/Src/ui/ui.o ./Core/Src/ui/ui.su ./Core/Src/ui/ui_events.cyclo ./Core/Src/ui/ui_events.d ./Core/Src/ui/ui_events.o ./Core/Src/ui/ui_events.su ./Core/Src/ui/ui_helpers.cyclo ./Core/Src/ui/ui_helpers.d ./Core/Src/ui/ui_helpers.o ./Core/Src/ui/ui_helpers.su
+	-$(RM) ./Core/Src/ui/ui.cyclo ./Core/Src/ui/ui.d ./Core/Src/ui/ui.o ./Core/Src/ui/ui.su ./Core/Src/ui/ui_Screen1.cyclo ./Core/Src/ui/ui_Screen1.d ./Core/Src/ui/ui_Screen1.o ./Core/Src/ui/ui_Screen1.su ./Core/Src/ui/ui_comp.cyclo ./Core/Src/ui/ui_comp.d ./Core/Src/ui/ui_comp.o ./Core/Src/ui/ui_comp.su ./Core/Src/ui/ui_comp_button1.cyclo ./Core/Src/ui/ui_comp_button1.d ./Core/Src/ui/ui_comp_button1.o ./Core/Src/ui/ui_comp_button1.su ./Core/Src/ui/ui_comp_hook.cyclo ./Core/Src/ui/ui_comp_hook.d ./Core/Src/ui/ui_comp_hook.o ./Core/Src/ui/ui_comp_hook.su ./Core/Src/ui/ui_events.cyclo ./Core/Src/ui/ui_events.d ./Core/Src/ui/ui_events.o ./Core/Src/ui/ui_events.su ./Core/Src/ui/ui_helpers.cyclo ./Core/Src/ui/ui_helpers.d ./Core/Src/ui/ui_helpers.o ./Core/Src/ui/ui_helpers.su
 
 .PHONY: clean-Core-2f-Src-2f-ui
 

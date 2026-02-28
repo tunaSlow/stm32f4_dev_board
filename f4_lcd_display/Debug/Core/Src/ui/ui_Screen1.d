@@ -1,4 +1,4 @@
-Core/Src/ui/ui_events.o: ../Core/Src/ui/ui_events.c ../Core/Src/ui/ui.h \
+Core/Src/ui/ui_Screen1.o: ../Core/Src/ui/ui_Screen1.c ../Core/Src/ui/ui.h \
  /home/tuna/Documents/GitKraken/stm32f4_dev_board/f4_lcd_display/Display_Driver/lvgl/lvgl.h \
  /home/tuna/Documents/GitKraken/stm32f4_dev_board/f4_lcd_display/Display_Driver/lvgl/lv_version.h \
  /home/tuna/Documents/GitKraken/stm32f4_dev_board/f4_lcd_display/Display_Driver/lvgl/src/lv_init.h \

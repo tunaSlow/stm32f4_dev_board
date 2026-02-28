@@ -25,8 +25,6 @@ C_DEPS :=
 SUBDIRS := \
 Core/Src \
 Core/Src/ssd1306 \
-Core/Src/ui/components \
-Core/Src/ui/screens \
 Core/Src/ui \
 Core/Startup \
 Display_Driver/lvgl/env_support/pikascript \

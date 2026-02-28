@@ -3,14 +3,19 @@
 // LVGL version: 9.1.0
 // Project name: STM32_gui_ros
 
-#ifndef _UI_EVENTS_H
-#define _UI_EVENTS_H
+#ifndef _UI_COMP_BUTTON1_H
+#define _UI_COMP_BUTTON1_H
+
+#include "ui.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-void action_open_device_list(lv_event_t * e);
+// COMPONENT Button1
+#define UI_COMP_BUTTON1_BUTTON1 0
+#define _UI_COMP_BUTTON1_NUM 1
+lv_obj_t * ui_Button1_create(lv_obj_t * comp_parent);
 
 #ifdef __cplusplus
 } /*extern "C"*/
