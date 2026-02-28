@@ -22,6 +22,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdlib.h> // Needed for abs()
+#include <stdio.h>
+#include <string.h>
 #include "../../icode/delay/delay.h"
 #include "../../icode/led/led.h"
 #include "../../icode/key/key.h"
@@ -38,7 +40,10 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+#define RX_BUF_SIZE 64
+uint8_t rx_buffer[RX_BUF_SIZE];
+volatile uint8_t data_ready = 0;
+volatile uint16_t data_length = 0;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -58,6 +63,7 @@ I2C_HandleTypeDef hi2c2;
 TIM_HandleTypeDef htim3;
 
 UART_HandleTypeDef huart1;
+DMA_HandleTypeDef hdma_usart1_rx;
 
 SRAM_HandleTypeDef hsram1;
 
@@ -68,6 +74,7 @@ SRAM_HandleTypeDef hsram1;
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
+static void MX_DMA_Init(void);
 static void MX_I2C2_Init(void);
 static void MX_FSMC_Init(void);
 static void MX_TIM3_Init(void);
@@ -102,7 +109,7 @@ void I2C_ScanAndFindLM75A(void) {
 	for (uint8_t addr = 1; addr < 127; addr++) {
 		if (HAL_I2C_IsDeviceReady(&hi2c2, (addr << 1), 3, 5) == HAL_OK) {
 			if (addr == 0x4F) // Found LM75A
-					{
+			{
 				lm75a_addr = addr << 1; // Save 8-bit form for HAL
 				break;
 			}
@@ -116,7 +123,7 @@ float LM75A_ReadTemperature_Fine(void) {
 	float temperature;
 
 	if (HAL_I2C_Mem_Read(&hi2c2, lm75a_addr, LM75A_TEMP_REG,
-	I2C_MEMADD_SIZE_8BIT, temp_data, 2, HAL_MAX_DELAY) != HAL_OK) {
+			I2C_MEMADD_SIZE_8BIT, temp_data, 2, HAL_MAX_DELAY) != HAL_OK) {
 		return -1000.0f; // Error
 	}
 
@@ -128,7 +135,7 @@ float LM75A_ReadTemperature_Fine(void) {
 
 	// Sign extend 11-bit signed number if needed
 	if (raw_temp & 0x400) // Check sign bit (bit 10)
-			{
+	{
 		raw_temp |= 0xF800; // Set upper bits to 1 for negative numbers
 	}
 
@@ -137,13 +144,52 @@ float LM75A_ReadTemperature_Fine(void) {
 	return temperature;
 }
 
+#define MAX_LOG_LENGTH 512 // Set to your desired maximum character limit
+
+// Statically allocated buffer: +1 ensures room for the null-terminator
+static char log_buffer[MAX_LOG_LENGTH + 1] = {0};
+
+void update_sliding_log(const char* new_text) {
+    if (new_text == NULL) return;
+
+    uint32_t new_len = strlen(new_text);
+    uint32_t current_len = strlen(log_buffer);
+
+    /* Edge case guard: If the incoming string alone is bigger than our
+       entire buffer, only copy the very end of it. */
+    if (new_len > MAX_LOG_LENGTH) {
+        new_text += (new_len - MAX_LOG_LENGTH);
+        new_len = MAX_LOG_LENGTH;
+    }
+
+    /* If appending this text exceeds our max length, shift old data out */
+    if (current_len + new_len > MAX_LOG_LENGTH) {
+        uint32_t bytes_to_drop = (current_len + new_len) - MAX_LOG_LENGTH;
+
+        // Shift the array left, dropping the oldest 'bytes_to_drop' characters
+        memmove(log_buffer, log_buffer + bytes_to_drop, current_len - bytes_to_drop);
+
+        current_len -= bytes_to_drop; // Update our working length
+    }
+
+    /* Copy the new text into the remaining space at the end */
+    strcpy(log_buffer + current_len, new_text);
+
+    /* Update the LVGL widget in one clean sweep */
+    lv_textarea_set_text(ui_TextArea1, log_buffer);
+
+    /* Move the cursor to the end so it auto-scrolls to the newest data */
+    lv_textarea_set_cursor_pos(ui_TextArea1, LV_TEXTAREA_CURSOR_LAST);
+}
+
 /* USER CODE END 0 */
 
 /**
  * @brief  The application entry point.
  * @retval int
  */
-int main(void) {
+int main(void)
+{
 	/* USER CODE BEGIN 1 */
 
 	/* USER CODE END 1 */
@@ -166,6 +212,7 @@ int main(void) {
 
 	/* Initialize all configured peripherals */
 	MX_GPIO_Init();
+	MX_DMA_Init();
 	MX_I2C2_Init();
 	MX_FSMC_Init();
 	MX_TIM3_Init();
@@ -173,7 +220,7 @@ int main(void) {
 	MX_ADC1_Init();
 	/* USER CODE BEGIN 2 */
 	lv_init();
-	// Tell LVGL to use HAL_GetTick to track time automatically
+	// Tell LVGL to use HAL_GetTick to track time automatically  **************///*************
 	lv_tick_set_cb(HAL_GetTick);
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
 
@@ -213,48 +260,72 @@ int main(void) {
 	static uint32_t current_brightness = 0; // Remembers the last set value
 	const int THRESHOLD = 40; // The noise limit (adjust between 20-100)
 
+	// Start listening for UART data on USART1 via DMA until the line goes IDLE
+	HAL_UARTEx_ReceiveToIdle_DMA(&huart1, rx_buffer, RX_BUF_SIZE);
+    #define MAX_LOG_LENGTH 500
+
 	while (1) {
-		// 1. LVGL ALWAYS runs as fast as possible for smooth touch/animations
+		// ==========================================================
+		// 1. FAST PATH: Process Asynchronous UART Data from ROS 2
+		// ==========================================================
+		if (data_ready) {
+		    data_ready = 0;
+
+		    // 1. Null-terminate
+		    rx_buffer[data_length] = '\0';
+
+		    // 2. Pass to our static sliding buffer handler
+		    update_sliding_log((char*)rx_buffer);
+		}
+
+		// ==========================================================
+		// 2. LVGL TASK HANDLER (Must run frequently for smooth UI)
+		// ==========================================================
 		uint32_t time_until_next = lv_timer_handler();
 
-		// 2. Only run the slow OLED/Sensor code every 500ms
+		// ==========================================================
+		// 3. SLOW PATH: Sensor Polling & I2C OLED (Runs every 500ms)
+		// ==========================================================
 		if (HAL_GetTick() - last_oled_update >= OLED_REFRESH_INTERVAL) {
 			last_oled_update = HAL_GetTick();
 
-			// Sensor Reading (No need to read these 100 times a second!)
+			// Sensor Reading
 			float temp = LM75A_ReadTemperature_Fine();
 			uint32_t adc_val = Read_ADC_Channel();
+
 			// --- DEADBAND FILTER ---
-
-
 			// Only update the PWM if the pot moved by MORE than the threshold
 			if (abs((int) adc_val - (int) current_brightness) > THRESHOLD) {
 				current_brightness = adc_val; // Save the new accepted value
 
 				// Set the new brightness
-				__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2,
-						current_brightness);
+				__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, current_brightness);
 			}
 			float voltage = adc_val * 3.3f / 4095.0f;
 
 			// OLED Drawing
 			ssd1306_Fill(Black);
 			ssd1306_SetCursor(2, 0);
-			snprintf(buffer, sizeof(buffer), "Temp: %d.%02d C", (int) temp,
-					(int) ((temp - (int) temp) * 100));
+
+			// Note: You used manual float extraction here, which is safe.
+			snprintf(buffer, sizeof(buffer), "Temp: %d.%02d C",
+					(int) temp, (int) ((temp - (int) temp) * 100));
 			ssd1306_WriteString(buffer, Font_7x10, White);
 
 			ssd1306_SetCursor(2, 20);
-			snprintf(buffer, sizeof(buffer), "Pot: %ld (%.2fV)", adc_val,
-					voltage);
+
+			// Note: You used %.2f here. Ensure "Use float with printf" is enabled!
+			snprintf(buffer, sizeof(buffer), "Pot: %ld (%.2fV)", adc_val, voltage);
 			ssd1306_WriteString(buffer, Font_7x10, White);
 
 			// This is the heavy hitter (I2C Transfer)
 			ssd1306_UpdateScreen();
 		}
 
-		// 3. Dynamic Sleep
-		// We adjust the delay so we don't starve the OLED timer
+		// ==========================================================
+		// 4. DYNAMIC SLEEP
+		// ==========================================================
+		// Adjust delay so we don't starve the LVGL timer
 		HAL_Delay(time_until_next > 5 ? 5 : time_until_next);
 
 		/* USER CODE END WHILE */
@@ -268,9 +339,10 @@ int main(void) {
  * @brief System Clock Configuration
  * @retval None
  */
-void SystemClock_Config(void) {
-	RCC_OscInitTypeDef RCC_OscInitStruct = { 0 };
-	RCC_ClkInitTypeDef RCC_ClkInitStruct = { 0 };
+void SystemClock_Config(void)
+{
+	RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+	RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
 	/** Configure the main internal regulator output voltage
 	 */
@@ -287,19 +359,21 @@ void SystemClock_Config(void) {
 	RCC_OscInitStruct.PLL.PLLN = 168;
 	RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
 	RCC_OscInitStruct.PLL.PLLQ = 7;
-	if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {
+	if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+	{
 		Error_Handler();
 	}
 	/** Initializes the CPU, AHB and APB buses clocks
 	 */
-	RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK
-			| RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
+	RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+			|RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
 	RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
 	RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
 	RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
 	RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
 
-	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5) != HAL_OK) {
+	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5) != HAL_OK)
+	{
 		Error_Handler();
 	}
 }
@@ -309,13 +383,14 @@ void SystemClock_Config(void) {
  * @param None
  * @retval None
  */
-static void MX_ADC1_Init(void) {
+static void MX_ADC1_Init(void)
+{
 
 	/* USER CODE BEGIN ADC1_Init 0 */
 
 	/* USER CODE END ADC1_Init 0 */
 
-	ADC_ChannelConfTypeDef sConfig = { 0 };
+	ADC_ChannelConfTypeDef sConfig = {0};
 
 	/* USER CODE BEGIN ADC1_Init 1 */
 
@@ -334,7 +409,8 @@ static void MX_ADC1_Init(void) {
 	hadc1.Init.NbrOfConversion = 1;
 	hadc1.Init.DMAContinuousRequests = DISABLE;
 	hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
-	if (HAL_ADC_Init(&hadc1) != HAL_OK) {
+	if (HAL_ADC_Init(&hadc1) != HAL_OK)
+	{
 		Error_Handler();
 	}
 	/** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
@@ -342,7 +418,8 @@ static void MX_ADC1_Init(void) {
 	sConfig.Channel = ADC_CHANNEL_13;
 	sConfig.Rank = 1;
 	sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
-	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK) {
+	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+	{
 		Error_Handler();
 	}
 	/* USER CODE BEGIN ADC1_Init 2 */
@@ -356,7 +433,8 @@ static void MX_ADC1_Init(void) {
  * @param None
  * @retval None
  */
-static void MX_I2C2_Init(void) {
+static void MX_I2C2_Init(void)
+{
 
 	/* USER CODE BEGIN I2C2_Init 0 */
 
@@ -374,7 +452,8 @@ static void MX_I2C2_Init(void) {
 	hi2c2.Init.OwnAddress2 = 0;
 	hi2c2.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
 	hi2c2.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
-	if (HAL_I2C_Init(&hi2c2) != HAL_OK) {
+	if (HAL_I2C_Init(&hi2c2) != HAL_OK)
+	{
 		Error_Handler();
 	}
 	/* USER CODE BEGIN I2C2_Init 2 */
@@ -388,15 +467,16 @@ static void MX_I2C2_Init(void) {
  * @param None
  * @retval None
  */
-static void MX_TIM3_Init(void) {
+static void MX_TIM3_Init(void)
+{
 
 	/* USER CODE BEGIN TIM3_Init 0 */
 
 	/* USER CODE END TIM3_Init 0 */
 
-	TIM_ClockConfigTypeDef sClockSourceConfig = { 0 };
-	TIM_MasterConfigTypeDef sMasterConfig = { 0 };
-	TIM_OC_InitTypeDef sConfigOC = { 0 };
+	TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+	TIM_MasterConfigTypeDef sMasterConfig = {0};
+	TIM_OC_InitTypeDef sConfigOC = {0};
 
 	/* USER CODE BEGIN TIM3_Init 1 */
 
@@ -407,28 +487,31 @@ static void MX_TIM3_Init(void) {
 	htim3.Init.Period = 4095;
 	htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
 	htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
-	if (HAL_TIM_Base_Init(&htim3) != HAL_OK) {
+	if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
+	{
 		Error_Handler();
 	}
 	sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-	if (HAL_TIM_ConfigClockSource(&htim3, &sClockSourceConfig) != HAL_OK) {
+	if (HAL_TIM_ConfigClockSource(&htim3, &sClockSourceConfig) != HAL_OK)
+	{
 		Error_Handler();
 	}
-	if (HAL_TIM_PWM_Init(&htim3) != HAL_OK) {
+	if (HAL_TIM_PWM_Init(&htim3) != HAL_OK)
+	{
 		Error_Handler();
 	}
 	sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
 	sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-	if (HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig)
-			!= HAL_OK) {
+	if (HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig) != HAL_OK)
+	{
 		Error_Handler();
 	}
 	sConfigOC.OCMode = TIM_OCMODE_PWM1;
 	sConfigOC.Pulse = 0;
 	sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
 	sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-	if (HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_2)
-			!= HAL_OK) {
+	if (HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
+	{
 		Error_Handler();
 	}
 	/* USER CODE BEGIN TIM3_Init 2 */
@@ -443,7 +526,8 @@ static void MX_TIM3_Init(void) {
  * @param None
  * @retval None
  */
-static void MX_USART1_UART_Init(void) {
+static void MX_USART1_UART_Init(void)
+{
 
 	/* USER CODE BEGIN USART1_Init 0 */
 
@@ -460,7 +544,8 @@ static void MX_USART1_UART_Init(void) {
 	huart1.Init.Mode = UART_MODE_TX_RX;
 	huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
 	huart1.Init.OverSampling = UART_OVERSAMPLING_16;
-	if (HAL_UART_Init(&huart1) != HAL_OK) {
+	if (HAL_UART_Init(&huart1) != HAL_OK)
+	{
 		Error_Handler();
 	}
 	/* USER CODE BEGIN USART1_Init 2 */
@@ -470,12 +555,29 @@ static void MX_USART1_UART_Init(void) {
 }
 
 /**
+ * Enable DMA controller clock
+ */
+static void MX_DMA_Init(void)
+{
+
+	/* DMA controller clock enable */
+	__HAL_RCC_DMA2_CLK_ENABLE();
+
+	/* DMA interrupt init */
+	/* DMA2_Stream2_IRQn interrupt configuration */
+	HAL_NVIC_SetPriority(DMA2_Stream2_IRQn, 0, 0);
+	HAL_NVIC_EnableIRQ(DMA2_Stream2_IRQn);
+
+}
+
+/**
  * @brief GPIO Initialization Function
  * @param None
  * @retval None
  */
-static void MX_GPIO_Init(void) {
-	GPIO_InitTypeDef GPIO_InitStruct = { 0 };
+static void MX_GPIO_Init(void)
+{
+	GPIO_InitTypeDef GPIO_InitStruct = {0};
 
 	/* GPIO Ports Clock Enable */
 	__HAL_RCC_GPIOC_CLK_ENABLE();
@@ -497,9 +599,8 @@ static void MX_GPIO_Init(void) {
 	HAL_GPIO_WritePin(LED4_GPIO_Port, LED4_Pin, GPIO_PIN_SET);
 
 	/*Configure GPIO pin Output Level */
-	HAL_GPIO_WritePin(GPIOG,
-			RELAY1_Pin | RELAY2_Pin | LED1_Pin | LED2_Pin | LED3_Pin
-					| TOUTH_RST_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOG, RELAY1_Pin|RELAY2_Pin|LED1_Pin|LED2_Pin
+			|LED3_Pin|TOUTH_RST_Pin, GPIO_PIN_SET);
 
 	/*Configure GPIO pin : PC13 */
 	GPIO_InitStruct.Pin = GPIO_PIN_13;
@@ -529,20 +630,20 @@ static void MX_GPIO_Init(void) {
 	HAL_GPIO_Init(KEY1_GPIO_Port, &GPIO_InitStruct);
 
 	/*Configure GPIO pins : KEY2_Pin KEY3_Pin KEY4_Pin */
-	GPIO_InitStruct.Pin = KEY2_Pin | KEY3_Pin | KEY4_Pin;
+	GPIO_InitStruct.Pin = KEY2_Pin|KEY3_Pin|KEY4_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
 	GPIO_InitStruct.Pull = GPIO_PULLUP;
 	HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
 
 	/*Configure GPIO pins : RELAY1_Pin RELAY2_Pin */
-	GPIO_InitStruct.Pin = RELAY1_Pin | RELAY2_Pin;
+	GPIO_InitStruct.Pin = RELAY1_Pin|RELAY2_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 	HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 
 	/*Configure GPIO pins : LED1_Pin LED2_Pin LED3_Pin TOUTH_RST_Pin */
-	GPIO_InitStruct.Pin = LED1_Pin | LED2_Pin | LED3_Pin | TOUTH_RST_Pin;
+	GPIO_InitStruct.Pin = LED1_Pin|LED2_Pin|LED3_Pin|TOUTH_RST_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	GPIO_InitStruct.Pull = GPIO_PULLUP;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
@@ -561,14 +662,15 @@ static void MX_GPIO_Init(void) {
 }
 
 /* FSMC initialization function */
-static void MX_FSMC_Init(void) {
+static void MX_FSMC_Init(void)
+{
 
 	/* USER CODE BEGIN FSMC_Init 0 */
 
 	/* USER CODE END FSMC_Init 0 */
 
-	FSMC_NORSRAM_TimingTypeDef Timing = { 0 };
-	FSMC_NORSRAM_TimingTypeDef ExtTiming = { 0 };
+	FSMC_NORSRAM_TimingTypeDef Timing = {0};
+	FSMC_NORSRAM_TimingTypeDef ExtTiming = {0};
 
 	/* USER CODE BEGIN FSMC_Init 1 */
 
@@ -610,8 +712,9 @@ static void MX_FSMC_Init(void) {
 	ExtTiming.DataLatency = 17;
 	ExtTiming.AccessMode = FSMC_ACCESS_MODE_A;
 
-	if (HAL_SRAM_Init(&hsram1, &Timing, &ExtTiming) != HAL_OK) {
-		Error_Handler();
+	if (HAL_SRAM_Init(&hsram1, &Timing, &ExtTiming) != HAL_OK)
+	{
+		Error_Handler( );
 	}
 
 	/* USER CODE BEGIN FSMC_Init 2 */
@@ -622,19 +725,56 @@ static void MX_FSMC_Init(void) {
 /* USER CODE BEGIN 4 */
 // Dummy functions to satisfy the linker for printf floats
 __attribute__((weak)) int _kill(int pid, int sig) {
-    return -1;
+	return -1;
 }
 
 __attribute__((weak)) int _getpid(void) {
-    return 1;
+	return 1;
 }
+
+
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
+{
+	// Ensure we are processing the interrupt for USART1
+	if (huart->Instance == USART1)
+	{
+		// Toggle the LED on PG2 to physically verify the interrupt fired
+		HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
+
+		data_ready = 1;
+		data_length = Size;
+
+		// Restart the DMA reception for USART1
+		HAL_UARTEx_ReceiveToIdle_DMA(&huart1, rx_buffer, RX_BUF_SIZE);
+	}
+}
+
+void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
+{
+	if (huart->Instance == USART1)
+	{
+		// 1. Clear the error flags (the HAL usually does this, but we ensure it)
+		__HAL_UART_CLEAR_OREFLAG(huart);
+		__HAL_UART_CLEAR_FEFLAG(huart);
+		__HAL_UART_CLEAR_NEFLAG(huart);
+
+		// 2. Abort any broken ongoing transfers
+		HAL_UART_AbortReceive(huart);
+
+		// 3. Restart the DMA reception
+		HAL_UARTEx_ReceiveToIdle_DMA(&huart1, rx_buffer, RX_BUF_SIZE);
+	}
+}
+
+
 /* USER CODE END 4 */
 
 /**
  * @brief  This function is executed in case of error occurrence.
  * @retval None
  */
-void Error_Handler(void) {
+void Error_Handler(void)
+{
 	/* USER CODE BEGIN Error_Handler_Debug */
 	/* User can add his own implementation to report the HAL error return state */
 	__disable_irq();

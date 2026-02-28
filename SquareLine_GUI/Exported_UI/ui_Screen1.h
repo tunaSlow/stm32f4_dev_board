@@ -14,12 +14,14 @@ extern "C" {
 extern void ui_Screen1_screen_init(void);
 extern void ui_Screen1_screen_destroy(void);
 extern lv_obj_t * ui_Screen1;
-extern lv_obj_t * ui_TextArea1;
-extern lv_obj_t * ui_Label1;
+extern lv_obj_t * ui_TabView1;
+extern lv_obj_t * ui_TabPage1;
 extern void ui_event_ButtonScan(lv_event_t * e);
 extern lv_obj_t * ui_ButtonScan;
-extern lv_obj_t * ui_DropdownSTM32;
 extern lv_obj_t * ui_Label2;
+extern lv_obj_t * ui_TabPage2;
+extern lv_obj_t * ui_TextArea1;
+extern lv_obj_t * ui_Label1;
 // CUSTOM VARIABLES
 
 #ifdef __cplusplus

@@ -6,11 +6,13 @@
 #include "ui.h"
 
 lv_obj_t * ui_Screen1 = NULL;
+lv_obj_t * ui_TabView1 = NULL;
+lv_obj_t * ui_TabPage1 = NULL;
+lv_obj_t * ui_ButtonScan = NULL;
+lv_obj_t * ui_Label2 = NULL;
+lv_obj_t * ui_TabPage2 = NULL;
 lv_obj_t * ui_TextArea1 = NULL;
 lv_obj_t * ui_Label1 = NULL;
-lv_obj_t * ui_ButtonScan = NULL;
-lv_obj_t * ui_DropdownSTM32 = NULL;
-lv_obj_t * ui_Label2 = NULL;
 // event funtions
 void ui_event_ButtonScan(lv_event_t * e)
 {
@@ -28,49 +30,61 @@ void ui_Screen1_screen_init(void)
     ui_Screen1 = lv_obj_create(NULL);
     lv_obj_remove_flag(ui_Screen1, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
-    ui_TextArea1 = lv_textarea_create(ui_Screen1);
-    lv_obj_set_width(ui_TextArea1, 282);
-    lv_obj_set_height(ui_TextArea1, 277);
-    lv_obj_set_x(ui_TextArea1, 205);
-    lv_obj_set_y(ui_TextArea1, -39);
-    lv_obj_set_align(ui_TextArea1, LV_ALIGN_CENTER);
-    lv_textarea_set_placeholder_text(ui_TextArea1, "Placeholder...");
-    lv_obj_set_style_text_font(ui_TextArea1, &lv_font_montserrat_18, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_TabView1 = lv_tabview_create(ui_Screen1);
+    lv_tabview_set_tab_bar_size(ui_TabView1, 35);
+    lv_obj_set_width(ui_TabView1, 791);
+    lv_obj_set_height(ui_TabView1, 157);
+    lv_obj_set_x(ui_TabView1, 0);
+    lv_obj_set_y(ui_TabView1, -159);
+    lv_obj_set_align(ui_TabView1, LV_ALIGN_CENTER);
+    lv_obj_remove_flag(ui_TabView1, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_TabView1, lv_color_hex(0xBEF7E8), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_TabView1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Label1 = lv_label_create(ui_Screen1);
-    lv_obj_set_width(ui_Label1, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_Label1, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_Label1, 123);
-    lv_obj_set_y(ui_Label1, -205);
-    lv_obj_set_align(ui_Label1, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_Label1, "Information");
-    lv_obj_set_style_text_font(ui_Label1, &lv_font_montserrat_18, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_TabPage1 = lv_tabview_add_tab(ui_TabView1, "CMD_VEL");
+    lv_obj_set_style_bg_color(ui_TabPage1, lv_color_hex(0xCFE6F9), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_TabPage1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_ButtonScan = lv_button_create(ui_Screen1);
-    lv_obj_set_width(ui_ButtonScan, 168);
+    ui_ButtonScan = lv_button_create(ui_TabPage1);
+    lv_obj_set_width(ui_ButtonScan, 122);
     lv_obj_set_height(ui_ButtonScan, 50);
-    lv_obj_set_x(ui_ButtonScan, -274);
-    lv_obj_set_y(ui_ButtonScan, -151);
+    lv_obj_set_x(ui_ButtonScan, -311);
+    lv_obj_set_y(ui_ButtonScan, -3);
     lv_obj_set_align(ui_ButtonScan, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_ButtonScan, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_remove_flag(ui_ButtonScan, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
-    ui_DropdownSTM32 = lv_dropdown_create(ui_Screen1);
-    lv_dropdown_set_options(ui_DropdownSTM32, "Option 1\nOption 2\nOption 3");
-    lv_obj_set_width(ui_DropdownSTM32, 150);
-    lv_obj_set_height(ui_DropdownSTM32, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_DropdownSTM32, -78);
-    lv_obj_set_y(ui_DropdownSTM32, -150);
-    lv_obj_set_align(ui_DropdownSTM32, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_DropdownSTM32, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
-
-    ui_Label2 = lv_label_create(ui_Screen1);
+    ui_Label2 = lv_label_create(ui_ButtonScan);
     lv_obj_set_width(ui_Label2, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_Label2, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_Label2, -276);
-    lv_obj_set_y(ui_Label2, -149);
+    lv_obj_set_x(ui_Label2, -1);
+    lv_obj_set_y(ui_Label2, 0);
     lv_obj_set_align(ui_Label2, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Label2, "Device Scan");
+
+    ui_TabPage2 = lv_tabview_add_tab(ui_TabView1, "ODOM");
+    lv_obj_set_style_bg_color(ui_TabPage2, lv_color_hex(0xF6BCD3), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_TabPage2, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_TextArea1 = lv_textarea_create(ui_Screen1);
+    lv_obj_set_width(ui_TextArea1, 309);
+    lv_obj_set_height(ui_TextArea1, 262);
+    lv_obj_set_x(ui_TextArea1, 221);
+    lv_obj_set_y(ui_TextArea1, 95);
+    lv_obj_set_align(ui_TextArea1, LV_ALIGN_CENTER);
+    lv_textarea_set_placeholder_text(ui_TextArea1, "Placeholder...");
+    lv_obj_set_style_text_font(ui_TextArea1, &lv_font_montserrat_18, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_TextArea1, lv_color_hex(0xEEEBEB), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_TextArea1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_Label1 = lv_label_create(ui_Screen1);
+    lv_obj_set_width(ui_Label1, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Label1, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_Label1, 93);
+    lv_obj_set_y(ui_Label1, -55);
+    lv_obj_set_align(ui_Label1, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Label1, "Log");
+    lv_obj_set_style_text_font(ui_Label1, &lv_font_montserrat_18, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     lv_obj_add_event_cb(ui_ButtonScan, ui_event_ButtonScan, LV_EVENT_ALL, NULL);
 
@@ -82,10 +96,12 @@ void ui_Screen1_screen_destroy(void)
 
     // NULL screen variables
     ui_Screen1 = NULL;
+    ui_TabView1 = NULL;
+    ui_TabPage1 = NULL;
+    ui_ButtonScan = NULL;
+    ui_Label2 = NULL;
+    ui_TabPage2 = NULL;
     ui_TextArea1 = NULL;
     ui_Label1 = NULL;
-    ui_ButtonScan = NULL;
-    ui_DropdownSTM32 = NULL;
-    ui_Label2 = NULL;
 
 }

@@ -7,5 +7,5 @@
 
 void action_open_device_list(lv_event_t * e)
 {
-	// Your code here
+
 }
